@@ -1,5 +1,3 @@
-# MCPlayer Changelog
-
 ## Update 0.0.5 [5]
 #### Miscellaneous
  - Major UI and UX changes
