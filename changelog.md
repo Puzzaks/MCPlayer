@@ -18,7 +18,7 @@
 Settings > [About MCPlayer] > [Send feedback]
 
 ## Update 0.0.4 [4]
-####Miscellanrous
+#### Miscellaneous
 - Minor changes to Search and Home pages
 - App theme was reworked to be darker in dark mode
 #### New Page: Login
@@ -39,6 +39,8 @@ Settings > [About MCPlayer] > [Send feedback]
 #### Miscellaneous
  - Fixed critical issue with network connection
 
+
+ 
 ## Init 0.0.1 [1]
 #### New Page: Main
 
