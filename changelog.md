@@ -50,8 +50,7 @@ Settings > [About MCPlayer] > [Send feedback]
 
 ---
 
-Pro tip: You can always find changelog in Settings:
-
-Settings > [About MCPlayer] > [Changelog]
+> Pro tip: You can always find changelog in Settings:
+> Settings > [About MCPlayer] > [Changelog]
 
 
