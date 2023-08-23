@@ -1,3 +1,8 @@
+## Update 0.0.6 [6]
+#### Miscellaneous
+ - Added changelog card
+ - Added Changelog in Settings
+
 ## Update 0.0.5 [5]
 #### Miscellaneous
  - Major UI and UX changes
