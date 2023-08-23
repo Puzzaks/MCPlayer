@@ -39,8 +39,6 @@ Settings > [About MCPlayer] > [Send feedback]
 #### Miscellaneous
  - Fixed critical issue with network connection
 
-
- 
 ## Init 0.0.1 [1]
 #### New Page: Main
 
@@ -49,3 +47,8 @@ Settings > [About MCPlayer] > [Send feedback]
 #### New Page: User info
 
 > This later became Settings and was like account settings but read-only
+
+---
+
+Pro tip: You can always find changelog in Settings:
+Settings > [About MCPlayer] > [Changelog]
