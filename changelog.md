@@ -2,6 +2,10 @@
 #### Miscellaneous
  - Added changelog card
  - Added Changelog in Settings
+ - Added long tap menu for songs:
+   - You can now add songs to playlists
+   - You can now share links to the release
+   - You can now open release from menu
 
 ## Update 0.0.5 [5]
 #### Miscellaneous
