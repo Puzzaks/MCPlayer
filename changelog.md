@@ -1,3 +1,14 @@
+## Update 0.0.7 [7]
+#### Miscellaneous
+ - Limited adaptivity for wider screens
+   - Playlist, Mood, Album view
+   - Search
+   - Home
+   - Login & welcome
+   - Track options on long tap
+ - Removed coloring from navigation
+ - Navigation is now on the side of the screen when in album mode
+
 ## Update 0.0.6 [6]
 #### Miscellaneous
  - Added changelog card
