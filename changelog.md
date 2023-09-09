@@ -1,6 +1,7 @@
 ## Update 0.0.7 [7]
 #### Miscellaneous
  - Limited adaptivity for wider screens
+   ([Example](https://youtu.be/wm6-9Ss0-8M))
    - Playlist, Mood, Album view
    - Search
    - Home
