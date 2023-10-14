@@ -7,6 +7,8 @@
    - To enable this, open *App info* > *Open by default* > *Add link*
 #### Miscellaneous
  - Releases, Playlists, Moods are being opened in separate bottom sheets now.
+#### Known issues
+ - Sometimes lanscape orientation may not behave as vertical. Vertical orientation is being developed first, then adapted to the album one. 
 
 ## Update 0.0.7 [7]
 #### Miscellaneous
