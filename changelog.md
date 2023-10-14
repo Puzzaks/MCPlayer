@@ -1,3 +1,13 @@
+## Update 0.0.8 [8]
+#### Music playback
+ - You can now listen to music, though adding tracks to queue is still WiP.
+#### Link handling
+ - App can open URLs for Monstercat Player.
+   - You can share links for other MCPlayer to open
+   - To enable this, open *App info* > *Open by default* > *Add link*
+#### Miscellaneous
+ - Releases, Playlists, Moods are being opened in separate bottom sheets now.
+
 ## Update 0.0.7 [7]
 #### Miscellaneous
  - Limited adaptivity for wider screens
