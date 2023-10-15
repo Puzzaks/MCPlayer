@@ -278,394 +278,426 @@ class mcTrackOptions extends StatelessWidget {
   }
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(10.0),
-                    child: CachedNetworkImage(
-                      imageUrl: 'https://cdx.monstercat.com/?width=256&encoding=webp&url=https%3A%2F%2Fwww.monstercat.com%2Frelease%2F${data["Release"]["CatalogId"]}%2Fcover',
-                      width: 70, // Set the desired width
-                      height: 70, // Set the desired height
-                      placeholder: (context, url) => const CircularProgressIndicator(
-                        color: Colors.teal,
-                        backgroundColor: Colors.transparent,
-                      ),
-                      errorWidget: (context, url, error) => const Icon(Icons.error),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+    return LayoutBuilder(builder: (BuildContext context, BoxConstraints constraints) {
+      double scaffoldHeight = constraints.maxHeight;
+      double scaffoldWidth = constraints.maxWidth;
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  width: scaffoldWidth < 500 ? scaffoldWidth - 84 : 500,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text(
-                        data["Title"],
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 2,
-                        style: const TextStyle(fontFamily: 'Comfortaa', fontWeight: FontWeight.bold, fontSize: 22, height: 1.25),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(10.0),
+                        child: CachedNetworkImage(
+                          imageUrl: 'https://cdx.monstercat.com/?width=256&encoding=webp&url=https%3A%2F%2Fwww.monstercat.com%2Frelease%2F${data["Release"]["CatalogId"]}%2Fcover',
+                          width: 70, // Set the desired width
+                          height: 70, // Set the desired height
+                          placeholder: (context, url) => const CircularProgressIndicator(
+                            color: Colors.teal,
+                            backgroundColor: Colors.transparent,
+                          ),
+                          errorWidget: (context, url, error) => const Icon(Icons.error),
+                        ),
                       ),
-                      Row(
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            data["ArtistsTitle"],
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 2,
-                            style: const TextStyle(
-                              fontFamily: 'Comfortaa',
-                              fontSize: 18,
-                              height: 1.25,
+                          Container(
+                            width: scaffoldWidth < 500 ? scaffoldWidth - 164 : 500,
+                            child: Text(
+                              data["Title"],
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                              style: const TextStyle(fontFamily: 'Comfortaa', fontWeight: FontWeight.bold, fontSize: 22, height: 1.25),
                             ),
                           ),
+                          Row(
+                            children: [
+                              Container(
+                                width: scaffoldWidth < 500 ? scaffoldWidth - 164 : 500,
+                                child: Text(
+                                  data["ArtistsTitle"],
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                  style: const TextStyle(
+                                    fontFamily: 'Comfortaa',
+                                    fontSize: 18,
+                                    height: 1.25,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ],
-                      ),
+                      )
                     ],
-                  )
-                ],
-              ),
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: (){
+                    Provider.of<musicPlayer>(context, listen: false).play(data);
+                  },
+                  onLongPress: (){
+                    Fluttertoast.showToast(
+                      msg: 'Tap to play',
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.BOTTOM,
+                    );
+                  },
+                  child: Icon(
+                    Icons.play_arrow_rounded,
+                    size: 32,
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.teal,
+                    shadowColor: Colors.transparent,
+                    shape: CircleBorder(),
+                    padding: EdgeInsets.all(10),
+                  ),
+                )
+              ],
+            ),
+
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
               ElevatedButton(
                 onPressed: (){
-                  Provider.of<musicPlayer>(context, listen: false).play(data);
-                },
-                onLongPress: (){
                   Fluttertoast.showToast(
-                    msg: 'Tap to play',
+                    msg: 'Not implemented yet',
                     toastLength: Toast.LENGTH_SHORT,
                     gravity: ToastGravity.BOTTOM,
                   );
                 },
-                child: Icon(
-                  Icons.play_arrow_rounded,
-                  size: 32,
+                onLongPress: (){
+                  Fluttertoast.showToast(
+                    msg: 'Tap to play next',
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                  );
+                },
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.playlist_play_rounded,
+                      color: MediaQuery.of(context).platformBrightness == Brightness.dark
+                          ? null
+                          : Colors.black,
+                      size: 28,
+                    ),
+                    SizedBox(width: 10,),
+                    Text(
+                      "Play next",
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                      style: TextStyle(
+                        color: MediaQuery.of(context).platformBrightness == Brightness.dark
+                            ? null
+                            : Colors.black,
+                        fontFamily: 'Comfortaa',
+                        fontSize: 22,
+                        height: 1.25,
+                      ),
+                    )
+                  ],
                 ),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.teal,
+                  backgroundColor: Colors.transparent,
                   shadowColor: Colors.transparent,
-                  shape: CircleBorder(),
+                  shape: RoundedRectangleBorder(),
                   padding: EdgeInsets.all(10),
                 ),
-              )
+              ),
+              ElevatedButton(
+                onPressed: (){
+                  Fluttertoast.showToast(
+                    msg: 'Not implemented yet',
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                  );
+                },
+                onLongPress: (){
+                  Fluttertoast.showToast(
+                    msg: 'Tap to add to queue',
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                  );
+                },
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.playlist_add_rounded,
+                      color: MediaQuery.of(context).platformBrightness == Brightness.dark
+                          ? null
+                          : Colors.black,
+                      size: 28,
+                    ),
+                    SizedBox(width: 10,),
+                    Text(
+                      "Add to queue",
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                      style: TextStyle(
+                        fontFamily: 'Comfortaa',
+                        color: MediaQuery.of(context).platformBrightness == Brightness.dark
+                            ? null
+                            : Colors.black,
+                        fontSize: 22,
+                        height: 1.25,
+                      ),
+                    )
+                  ],
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.transparent,
+                  shadowColor: Colors.transparent,
+                  shape: RoundedRectangleBorder(),
+                  padding: EdgeInsets.all(10),
+                ),
+              ),
+              ElevatedButton(
+                onPressed: (){
+                  Fluttertoast.showToast(
+                    msg: 'Not implemented yet',
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                  );
+                },
+                onLongPress: (){
+                  Fluttertoast.showToast(
+                    msg: 'Tap to add to downloads',
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                  );
+                },
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.download_rounded,
+                      color: MediaQuery.of(context).platformBrightness == Brightness.dark
+                          ? null
+                          : Colors.black,
+                      size: 28,
+                    ),
+                    SizedBox(width: 10,),
+                    Text(
+                      "Download",
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                      style: TextStyle(
+                        fontFamily: 'Comfortaa',
+                        color: MediaQuery.of(context).platformBrightness == Brightness.dark
+                            ? null
+                            : Colors.black,
+                        fontSize: 22,
+                        height: 1.25,
+                      ),
+                    )
+                  ],
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.transparent,
+                  shadowColor: Colors.transparent,
+                  shape: RoundedRectangleBorder(),
+                  padding: EdgeInsets.all(10),
+                ),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Share.share('https://player.monstercat.app/release/${data["Release"]["CatalogId"]}');
+                },
+                onLongPress: (){
+                  Fluttertoast.showToast(
+                    msg: 'Tap to share release link',
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                  );
+                },
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.share_rounded,
+                      color: MediaQuery.of(context).platformBrightness == Brightness.dark
+                          ? null
+                          : Colors.black,
+                      size: 28,
+                    ),
+                    SizedBox(width: 10,),
+                    Text(
+                      "Share",
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                      style: TextStyle(
+                        fontFamily: 'Comfortaa',
+                        color: MediaQuery.of(context).platformBrightness == Brightness.dark
+                            ? null
+                            : Colors.black,
+                        fontSize: 22,
+                        height: 1.25,
+                      ),
+                    )
+                  ],
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.transparent,
+                  shadowColor: Colors.transparent,
+                  shape: RoundedRectangleBorder(),
+                  padding: EdgeInsets.all(10),
+                ),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  showModalBottomSheet(
+                    context: context,
+                    useRootNavigator: false,
+                    isScrollControlled: true,
+                    constraints: BoxConstraints(maxWidth: scaffoldWidth < 500 ? scaffoldWidth : 500),
+                    enableDrag: true,
+                    showDragHandle: true,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
+                    ),
+                    useSafeArea: true,
+                    backgroundColor: MediaQuery.of(context).platformBrightness == Brightness.dark ? Color(0xFF040707) : ThemeData.light().scaffoldBackgroundColor,
+                    builder: (BuildContext context) {
+                      return albumView(
+                        release: data["Release"]["CatalogId"],
+                      );
+                    },
+                  );
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //       fullscreenDialog: true,
+                  //       allowSnapshotting: true,
+                  //       maintainState: true,
+                  //       builder: (context) => albumView(
+                  //         release: data["Release"]["CatalogId"],
+                  //       )),
+                  // );
+                },
+                onLongPress: (){
+                  Fluttertoast.showToast(
+                    msg: 'Tap to open album',
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                  );
+                },
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.album_rounded,
+                      color: MediaQuery.of(context).platformBrightness == Brightness.dark
+                          ? null
+                          : Colors.black,
+                      size: 28,
+                    ),
+                    SizedBox(width: 10,),
+                    Text(
+                      "Open release",
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                      style: TextStyle(
+                        fontFamily: 'Comfortaa',
+                        color: MediaQuery.of(context).platformBrightness == Brightness.dark
+                            ? null
+                            : Colors.black,
+                        fontSize: 22,
+                        height: 1.25,
+                      ),
+                    )
+                  ],
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.transparent,
+                  shadowColor: Colors.transparent,
+                  shape: RoundedRectangleBorder(),
+                  padding: EdgeInsets.all(10),
+                ),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  showModalBottomSheet(
+                    context: context,
+                    useRootNavigator: true,
+                    isScrollControlled: true,
+                    constraints: BoxConstraints(
+                        maxHeight: 400,
+                        maxWidth: 500
+                    ),
+                    enableDrag: true,
+                    showDragHandle: false,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
+                    ),
+                    useSafeArea: true,
+                    backgroundColor: MediaQuery.of(context).platformBrightness == Brightness.dark
+                        ? Color(0xFF202020)
+                        : ThemeData.light().scaffoldBackgroundColor,
+                    builder: (BuildContext context) {
+                      return mcSongToPlaylistSelector(
+                          data: data
+                      );
+                    },
+                  );
+                },
+                onLongPress: (){
+                  Fluttertoast.showToast(
+                    msg: 'Tap to add to playlist',
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                  );
+                },
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.add_rounded,
+                      color: MediaQuery.of(context).platformBrightness == Brightness.dark
+                          ? null
+                          : Colors.black,
+                      size: 28,
+                    ),
+                    SizedBox(width: 10,),
+                    Text(
+                      "Add to playlist",
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                      style: TextStyle(
+                        fontFamily: 'Comfortaa',
+                        color: MediaQuery.of(context).platformBrightness == Brightness.dark
+                            ? null
+                            : Colors.black,
+                        fontSize: 22,
+                        height: 1.25,
+                      ),
+                    )
+                  ],
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.transparent,
+                  shadowColor: Colors.transparent,
+                  shape: RoundedRectangleBorder(),
+                  padding: EdgeInsets.all(10),
+                ),
+              ),
             ],
           ),
+        ],
+      );
+    });
 
-        ),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            ElevatedButton(
-              onPressed: (){
-                Fluttertoast.showToast(
-                  msg: 'Not implemented yet',
-                  toastLength: Toast.LENGTH_SHORT,
-                  gravity: ToastGravity.BOTTOM,
-                );
-              },
-              onLongPress: (){
-                Fluttertoast.showToast(
-                  msg: 'Tap to play next',
-                  toastLength: Toast.LENGTH_SHORT,
-                  gravity: ToastGravity.BOTTOM,
-                );
-              },
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.playlist_play_rounded,
-                    color: MediaQuery.of(context).platformBrightness == Brightness.dark
-                        ? null
-                        : Colors.black,
-                    size: 28,
-                  ),
-                  SizedBox(width: 10,),
-                  Text(
-                    "Play next",
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
-                    style: TextStyle(
-                      color: MediaQuery.of(context).platformBrightness == Brightness.dark
-                          ? null
-                          : Colors.black,
-                      fontFamily: 'Comfortaa',
-                      fontSize: 22,
-                      height: 1.25,
-                    ),
-                  )
-                ],
-              ),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.transparent,
-                shadowColor: Colors.transparent,
-                shape: RoundedRectangleBorder(),
-                padding: EdgeInsets.all(10),
-              ),
-            ),
-            ElevatedButton(
-              onPressed: (){
-                Fluttertoast.showToast(
-                  msg: 'Not implemented yet',
-                  toastLength: Toast.LENGTH_SHORT,
-                  gravity: ToastGravity.BOTTOM,
-                );
-              },
-              onLongPress: (){
-                Fluttertoast.showToast(
-                  msg: 'Tap to add to queue',
-                  toastLength: Toast.LENGTH_SHORT,
-                  gravity: ToastGravity.BOTTOM,
-                );
-              },
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.playlist_add_rounded,
-                    color: MediaQuery.of(context).platformBrightness == Brightness.dark
-                        ? null
-                        : Colors.black,
-                    size: 28,
-                  ),
-                  SizedBox(width: 10,),
-                  Text(
-                    "Add to queue",
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
-                    style: TextStyle(
-                      fontFamily: 'Comfortaa',
-                      color: MediaQuery.of(context).platformBrightness == Brightness.dark
-                          ? null
-                          : Colors.black,
-                      fontSize: 22,
-                      height: 1.25,
-                    ),
-                  )
-                ],
-              ),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.transparent,
-                shadowColor: Colors.transparent,
-                shape: RoundedRectangleBorder(),
-                padding: EdgeInsets.all(10),
-              ),
-            ),
-            ElevatedButton(
-              onPressed: (){
-                Fluttertoast.showToast(
-                  msg: 'Not implemented yet',
-                  toastLength: Toast.LENGTH_SHORT,
-                  gravity: ToastGravity.BOTTOM,
-                );
-              },
-              onLongPress: (){
-                Fluttertoast.showToast(
-                  msg: 'Tap to add to downloads',
-                  toastLength: Toast.LENGTH_SHORT,
-                  gravity: ToastGravity.BOTTOM,
-                );
-              },
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.download_rounded,
-                    color: MediaQuery.of(context).platformBrightness == Brightness.dark
-                        ? null
-                        : Colors.black,
-                    size: 28,
-                  ),
-                  SizedBox(width: 10,),
-                  Text(
-                    "Download",
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
-                    style: TextStyle(
-                      fontFamily: 'Comfortaa',
-                      color: MediaQuery.of(context).platformBrightness == Brightness.dark
-                          ? null
-                          : Colors.black,
-                      fontSize: 22,
-                      height: 1.25,
-                    ),
-                  )
-                ],
-              ),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.transparent,
-                shadowColor: Colors.transparent,
-                shape: RoundedRectangleBorder(),
-                padding: EdgeInsets.all(10),
-              ),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Share.share('https://player.monstercat.app/release/${data["Release"]["CatalogId"]}');
-              },
-              onLongPress: (){
-                Fluttertoast.showToast(
-                  msg: 'Tap to share release link',
-                  toastLength: Toast.LENGTH_SHORT,
-                  gravity: ToastGravity.BOTTOM,
-                );
-              },
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.share_rounded,
-                    color: MediaQuery.of(context).platformBrightness == Brightness.dark
-                        ? null
-                        : Colors.black,
-                    size: 28,
-                  ),
-                  SizedBox(width: 10,),
-                  Text(
-                    "Share",
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
-                    style: TextStyle(
-                      fontFamily: 'Comfortaa',
-                      color: MediaQuery.of(context).platformBrightness == Brightness.dark
-                          ? null
-                          : Colors.black,
-                      fontSize: 22,
-                      height: 1.25,
-                    ),
-                  )
-                ],
-              ),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.transparent,
-                shadowColor: Colors.transparent,
-                shape: RoundedRectangleBorder(),
-                padding: EdgeInsets.all(10),
-              ),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      fullscreenDialog: true,
-                      allowSnapshotting: true,
-                      maintainState: true,
-                      builder: (context) => albumView(
-                        release: data["Release"]["CatalogId"],
-                      )),
-                );
-              },
-              onLongPress: (){
-                Fluttertoast.showToast(
-                  msg: 'Tap to open album',
-                  toastLength: Toast.LENGTH_SHORT,
-                  gravity: ToastGravity.BOTTOM,
-                );
-              },
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.album_rounded,
-                    color: MediaQuery.of(context).platformBrightness == Brightness.dark
-                        ? null
-                        : Colors.black,
-                    size: 28,
-                  ),
-                  SizedBox(width: 10,),
-                  Text(
-                    "Open release",
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
-                    style: TextStyle(
-                      fontFamily: 'Comfortaa',
-                      color: MediaQuery.of(context).platformBrightness == Brightness.dark
-                          ? null
-                          : Colors.black,
-                      fontSize: 22,
-                      height: 1.25,
-                    ),
-                  )
-                ],
-              ),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.transparent,
-                shadowColor: Colors.transparent,
-                shape: RoundedRectangleBorder(),
-                padding: EdgeInsets.all(10),
-              ),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                showModalBottomSheet(
-                  context: context,
-                  useRootNavigator: true,
-                  isScrollControlled: true,
-                  constraints: BoxConstraints(
-                      maxHeight: 400,
-                      maxWidth: 500
-                  ),
-                  enableDrag: true,
-                  showDragHandle: false,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
-                  ),
-                  useSafeArea: true,
-                  backgroundColor: MediaQuery.of(context).platformBrightness == Brightness.dark
-                      ? Color(0xFF202020)
-                      : ThemeData.light().scaffoldBackgroundColor,
-                  builder: (BuildContext context) {
-                    return mcSongToPlaylistSelector(
-                        data: data
-                    );
-                  },
-                );
-              },
-              onLongPress: (){
-                Fluttertoast.showToast(
-                  msg: 'Tap to add to playlist',
-                  toastLength: Toast.LENGTH_SHORT,
-                  gravity: ToastGravity.BOTTOM,
-                );
-              },
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.add_rounded,
-                    color: MediaQuery.of(context).platformBrightness == Brightness.dark
-                        ? null
-                        : Colors.black,
-                    size: 28,
-                  ),
-                  SizedBox(width: 10,),
-                  Text(
-                    "Add to playlist",
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
-                    style: TextStyle(
-                      fontFamily: 'Comfortaa',
-                      color: MediaQuery.of(context).platformBrightness == Brightness.dark
-                          ? null
-                          : Colors.black,
-                      fontSize: 22,
-                      height: 1.25,
-                    ),
-                  )
-                ],
-              ),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.transparent,
-                shadowColor: Colors.transparent,
-                shape: RoundedRectangleBorder(),
-                padding: EdgeInsets.all(10),
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
   }
 
 }

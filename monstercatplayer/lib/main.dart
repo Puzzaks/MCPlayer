@@ -1,5 +1,7 @@
 import 'dart:isolate';
-
+import 'package:monstercatplayer/view.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:uni_links/uni_links.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +28,8 @@ class MyApp extends StatefulWidget {
 }
 
 class MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
+  int lastLinkShown = 0;
+  double scaffoldWidth = 0;
   late TabController tabController;
   bool isLoggedIn = false;
   final ReceivePort receivePort = ReceivePort();
@@ -34,6 +38,66 @@ class MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
     tabController = TabController(length: 3, vsync: this);
     super.initState();
   }
+  Future<void> initDeepLinks(context) async {
+    Map<Permission, PermissionStatus> statuses = await [
+      Permission.notification,
+    ].request();
+    final initialLink = await getInitialLink();
+    // _handleDeepLink(initialLink);
+
+    uriLinkStream.listen((Uri? uri) {
+      if (uri != null) {
+        _handleDeepLink(uri.toString(), context);
+      }
+    });
+  }
+
+  void _handleDeepLink(String? link, BuildContext context) {
+    if (link != null && (DateTime.now().millisecondsSinceEpoch - lastLinkShown) > 100) {
+      if (link.startsWith('https://player.monstercat.app/release/')) {
+        showModalBottomSheet(
+          context: context,
+          useRootNavigator: false,
+          isScrollControlled: true,
+          constraints: BoxConstraints(maxWidth: scaffoldWidth < 500 ? scaffoldWidth : 500),
+          enableDrag: true,
+          showDragHandle: true,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
+          ),
+          useSafeArea: true,
+          backgroundColor: MediaQuery.of(context).platformBrightness == Brightness.dark ? Color(0xFF040707) : ThemeData.light().scaffoldBackgroundColor,
+          builder: (BuildContext context) {
+            return albumView(
+              release: link.replaceAll("https://player.monstercat.app/release/", ""),
+            );
+          },
+        );
+      }
+      if (link.startsWith('https://player.monstercat.app/playlist/')) {
+        showModalBottomSheet(
+          context: context,
+          useRootNavigator: false,
+          isScrollControlled: true,
+          constraints: BoxConstraints(maxWidth: scaffoldWidth < 500 ? scaffoldWidth : 500),
+          enableDrag: true,
+          showDragHandle: true,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
+          ),
+          useSafeArea: true,
+          backgroundColor: MediaQuery.of(context).platformBrightness == Brightness.dark ? Color(0xFF040707) : ThemeData.light().scaffoldBackgroundColor,
+          builder: (BuildContext context) {
+            return playistView(
+              playlist: link.replaceAll("https://player.monstercat.app/playlist/", ""),
+            );
+          },
+        );
+      }
+    }
+    lastLinkShown = DateTime.now().millisecondsSinceEpoch;
+  }
+
   void setLogin(value) {
     setState(() {
       isLoggedIn = value;
@@ -44,6 +108,9 @@ class MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext ultraTopContext) {
     return MaterialApp(
+      routes: {
+
+      },
       theme: ThemeData(),
       darkTheme: ThemeData.dark().copyWith(
         navigationBarTheme: NavigationBarThemeData(
@@ -81,8 +148,9 @@ class MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
         isLoggedIn = login.data;
         return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
+        initDeepLinks(context);
         double scaffoldHeight = constraints.maxHeight;
-        double scaffoldWidth = constraints.maxWidth;
+        scaffoldWidth = constraints.maxWidth;
         return Scaffold(
           bottomNavigationBar: isLoggedIn
               ? MediaQuery.of(context).orientation == Orientation.portrait
@@ -90,28 +158,11 @@ class MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
             builder: (context, playerData, child) {
               return Container(
                 color: backgroundColor,
-                height: playerData.queue.length > 0 ? 175 : 60,
+                height: playerData.queue.length > 0 ? 130 : 60,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    playerData.queue.length > 0 ? Padding(
-                      padding: EdgeInsets.all(10),
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.playlist_play_rounded
-                          ),
-                          Text(
-                            playerData.queueData["Title"],
-                            style: TextStyle(
-                              fontFamily: "Comfortaa",
-                              fontSize: 18,
-                            ),
-                          )
-                        ],
-                      ),
-                    ) : Container(),
                     playerData.queue.length > 0 ? Padding(
                         padding: EdgeInsets.all(10),
                         child: Row(
@@ -143,6 +194,8 @@ class MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
                                     children: [
                                       Text(
                                         playerData.nowPlaying!["Title"],
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
                                           fontFamily: "Comfortaa",
                                           fontSize: 24,
@@ -151,6 +204,8 @@ class MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
                                       ),
                                       Text(
                                         playerData.nowPlaying!["ArtistsTitle"],
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
                                             fontFamily: "Comfortaa",
                                             fontSize: 18,

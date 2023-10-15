@@ -45,6 +45,7 @@ class ScrollablePageState extends State<homePage> {
     };
     return output;
   }
+
   @override
   void dispose() {
     super.dispose();
@@ -54,7 +55,7 @@ class ScrollablePageState extends State<homePage> {
   Widget build(BuildContext topContext) {
     return MaterialApp(
       theme: ThemeData(
-          iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: IconThemeData(color: Colors.black),
       ),
       darkTheme: ThemeData.dark().copyWith(
         cardColor: Color(0xFF202020),
@@ -132,7 +133,7 @@ class ScrollablePageState extends State<homePage> {
                                                 child: Padding(
                                                   padding: EdgeInsets.symmetric(horizontal: 15),
                                                   child: Icon(
-                                                    Icons.settings_outlined ,
+                                                    Icons.settings_outlined,
                                                     size: 32,
                                                   ),
                                                 ),
@@ -181,8 +182,7 @@ class ScrollablePageState extends State<homePage> {
                                       ],
                                     ),
                                   );
-                                }
-                            ), // Hello and controls
+                                }), // Hello and controls
                             FutureBuilder(
                                 future: getAppData(),
                                 builder: (BuildContext context, AsyncSnapshot appData) {
@@ -205,8 +205,8 @@ class ScrollablePageState extends State<homePage> {
                                                             MaterialPageRoute(builder: (context) => changelogPage()),
                                                           );
                                                         },
-                                                        child: mcNotificationCard(title: "Update ${appData.data["version"]} [${appData.data["build"]}]",
-                                                            subtitle: "MCPlayer has been updated!\nTap here to read what's new!", icon: Icons.info_outline_rounded),
+                                                        child:
+                                                            mcNotificationCard(title: "Update ${appData.data["version"]} [${appData.data["build"]}]", subtitle: "MCPlayer has been updated!\nTap here to read what's new!", icon: Icons.info_outline_rounded),
                                                       ),
                                                     ),
                                                   ),
@@ -283,20 +283,16 @@ class ScrollablePageState extends State<homePage> {
                                             onTap: () {
                                               showModalBottomSheet(
                                                 context: context,
-                                                useRootNavigator: true,
-                                                isScrollControlled: true,
-                                                constraints: BoxConstraints(
-                                                    maxWidth: scaffoldWidth < 500 ? scaffoldWidth : 500
-                                                ),
+                                                useRootNavigator: false,
+                                                isScrollControlled: false,
+                                                constraints: BoxConstraints(maxWidth: scaffoldWidth < 500 ? scaffoldWidth : 500),
                                                 enableDrag: true,
                                                 showDragHandle: true,
                                                 shape: RoundedRectangleBorder(
                                                   borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
                                                 ),
                                                 useSafeArea: true,
-                                                backgroundColor: MediaQuery.of(context).platformBrightness == Brightness.dark
-                                                    ? Color(0xFF040707)
-                                                    : ThemeData.light().scaffoldBackgroundColor,
+                                                backgroundColor: MediaQuery.of(context).platformBrightness == Brightness.dark ? Color(0xFF040707) : ThemeData.light().scaffoldBackgroundColor,
                                                 builder: (BuildContext context) {
                                                   return albumView(
                                                     release: recents.data["Data"][0]["Release"]["CatalogId"],
@@ -324,7 +320,7 @@ class ScrollablePageState extends State<homePage> {
                                                     borderRadius: BorderRadius.circular(15.0),
                                                     child: CachedNetworkImage(
                                                       imageUrl:
-                                                      'https://cdx.monstercat.com/?width=${appSettings["albumArtPreviewRes"] ?? "256"}&encoding=webp&url=https%3A%2F%2Fwww.monstercat.com%2Frelease%2F${recents.data["Data"][0]["Release"]["CatalogId"]}%2Fcover',
+                                                          'https://cdx.monstercat.com/?width=${appSettings["albumArtPreviewRes"] ?? "256"}&encoding=webp&url=https%3A%2F%2Fwww.monstercat.com%2Frelease%2F${recents.data["Data"][0]["Release"]["CatalogId"]}%2Fcover',
                                                       width: 100, // Set the desired width
                                                       height: 100, // Set the desired height
                                                       placeholder: (context, url) => Container(color: Colors.transparent),
@@ -520,16 +516,34 @@ class ScrollablePageState extends State<homePage> {
                                         ),
                                         GestureDetector(
                                           onTap: () {
-                                            Navigator.push(
-                                              topContext,
-                                              MaterialPageRoute(
-                                                  fullscreenDialog: true,
-                                                  allowSnapshotting: true,
-                                                  maintainState: true,
-                                                  builder: (context) => albumView(
-                                                    release: recents.data["Data"][1]["Release"]["CatalogId"],
-                                                  )),
+                                            showModalBottomSheet(
+                                              context: context,
+                                              useRootNavigator: false,
+                                              isScrollControlled: false,
+                                              constraints: BoxConstraints(maxWidth: scaffoldWidth < 500 ? scaffoldWidth - 20 : 500),
+                                              enableDrag: true,
+                                              showDragHandle: true,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
+                                              ),
+                                              useSafeArea: true,
+                                              backgroundColor: MediaQuery.of(context).platformBrightness == Brightness.dark ? Color(0xFF040707) : ThemeData.light().scaffoldBackgroundColor,
+                                              builder: (BuildContext context) {
+                                                return albumView(
+                                                  release: recents.data["Data"][1]["Release"]["CatalogId"],
+                                                );
+                                              },
                                             );
+                                            // Navigator.push(
+                                            //   topContext,
+                                            //   MaterialPageRoute(
+                                            //       fullscreenDialog: true,
+                                            //       allowSnapshotting: true,
+                                            //       maintainState: true,
+                                            //       builder: (context) => albumView(
+                                            //             release: recents.data["Data"][1]["Release"]["CatalogId"],
+                                            //           )),
+                                            // );
                                           },
                                           child: mcRecentAlbum(
                                             data: recents.data["Data"][1],
@@ -539,16 +553,34 @@ class ScrollablePageState extends State<homePage> {
                                         ),
                                         GestureDetector(
                                           onTap: () {
-                                            Navigator.push(
-                                              topContext,
-                                              MaterialPageRoute(
-                                                  fullscreenDialog: true,
-                                                  allowSnapshotting: true,
-                                                  maintainState: true,
-                                                  builder: (context) => albumView(
-                                                    release: recents.data["Data"][2]["Release"]["CatalogId"],
-                                                  )),
+                                            showModalBottomSheet(
+                                              context: context,
+                                              useRootNavigator: false,
+                                              isScrollControlled: false,
+                                              constraints: BoxConstraints(maxWidth: scaffoldWidth < 500 ? scaffoldWidth - 20 : 500),
+                                              enableDrag: true,
+                                              showDragHandle: true,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
+                                              ),
+                                              useSafeArea: true,
+                                              backgroundColor: MediaQuery.of(context).platformBrightness == Brightness.dark ? Color(0xFF040707) : ThemeData.light().scaffoldBackgroundColor,
+                                              builder: (BuildContext context) {
+                                                return albumView(
+                                                  release: recents.data["Data"][2]["Release"]["CatalogId"],
+                                                );
+                                              },
                                             );
+                                            // Navigator.push(
+                                            //   topContext,
+                                            //   MaterialPageRoute(
+                                            //       fullscreenDialog: true,
+                                            //       allowSnapshotting: true,
+                                            //       maintainState: true,
+                                            //       builder: (context) => albumView(
+                                            //             release: recents.data["Data"][2]["Release"]["CatalogId"],
+                                            //           )),
+                                            // );
                                           },
                                           child: mcRecentAlbum(
                                             data: recents.data["Data"][2],
@@ -558,16 +590,34 @@ class ScrollablePageState extends State<homePage> {
                                         ),
                                         GestureDetector(
                                           onTap: () {
-                                            Navigator.push(
-                                              topContext,
-                                              MaterialPageRoute(
-                                                  fullscreenDialog: true,
-                                                  allowSnapshotting: true,
-                                                  maintainState: true,
-                                                  builder: (context) => albumView(
-                                                    release: recents.data["Data"][3]["Release"]["CatalogId"],
-                                                  )),
+                                            showModalBottomSheet(
+                                              context: context,
+                                              useRootNavigator: false,
+                                              isScrollControlled: false,
+                                              constraints: BoxConstraints(maxWidth: scaffoldWidth < 500 ? scaffoldWidth - 20 : 500),
+                                              enableDrag: true,
+                                              showDragHandle: true,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
+                                              ),
+                                              useSafeArea: true,
+                                              backgroundColor: MediaQuery.of(context).platformBrightness == Brightness.dark ? Color(0xFF040707) : ThemeData.light().scaffoldBackgroundColor,
+                                              builder: (BuildContext context) {
+                                                return albumView(
+                                                  release: recents.data["Data"][3]["Release"]["CatalogId"],
+                                                );
+                                              },
                                             );
+                                            // Navigator.push(
+                                            //   topContext,
+                                            //   MaterialPageRoute(
+                                            //       fullscreenDialog: true,
+                                            //       allowSnapshotting: true,
+                                            //       maintainState: true,
+                                            //       builder: (context) => albumView(
+                                            //             release: recents.data["Data"][3]["Release"]["CatalogId"],
+                                            //           )),
+                                            // );
                                           },
                                           child: mcRecentAlbum(
                                             data: recents.data["Data"][3],
@@ -577,16 +627,34 @@ class ScrollablePageState extends State<homePage> {
                                         ),
                                         GestureDetector(
                                           onTap: () {
-                                            Navigator.push(
-                                              topContext,
-                                              MaterialPageRoute(
-                                                  fullscreenDialog: true,
-                                                  allowSnapshotting: true,
-                                                  maintainState: true,
-                                                  builder: (context) => albumView(
-                                                    release: recents.data["Data"][4]["Release"]["CatalogId"],
-                                                  )),
+                                            showModalBottomSheet(
+                                              context: context,
+                                              useRootNavigator: false,
+                                              isScrollControlled: false,
+                                              constraints: BoxConstraints(maxWidth: scaffoldWidth < 500 ? scaffoldWidth - 20 : 500),
+                                              enableDrag: true,
+                                              showDragHandle: true,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
+                                              ),
+                                              useSafeArea: true,
+                                              backgroundColor: MediaQuery.of(context).platformBrightness == Brightness.dark ? Color(0xFF040707) : ThemeData.light().scaffoldBackgroundColor,
+                                              builder: (BuildContext context) {
+                                                return albumView(
+                                                  release: recents.data["Data"][4]["Release"]["CatalogId"],
+                                                );
+                                              },
                                             );
+                                            // Navigator.push(
+                                            //   topContext,
+                                            //   MaterialPageRoute(
+                                            //       fullscreenDialog: true,
+                                            //       allowSnapshotting: true,
+                                            //       maintainState: true,
+                                            //       builder: (context) => albumView(
+                                            //             release: recents.data["Data"][4]["Release"]["CatalogId"],
+                                            //           )),
+                                            // );
                                           },
                                           child: mcRecentAlbum(
                                             data: recents.data["Data"][4],
@@ -671,14 +739,30 @@ class ScrollablePageState extends State<homePage> {
                                                         final isLastItem = index == playlists.data["Menu"]["Sections"][0]["Items"].length - 1;
                                                         return GestureDetector(
                                                           onTap: () {
-                                                            Navigator.push(
-                                                              topContext,
-                                                              MaterialPageRoute(
-                                                                  fullscreenDialog: true,
-                                                                  allowSnapshotting: true,
-                                                                  maintainState: true,
-                                                                  builder: (context) => playistView(playlist: playlists.data["Menu"]["Sections"][0]["Items"][index]["Link"].replaceAll('mcat://playlist:', ''))),
+                                                            showModalBottomSheet(
+                                                              context: context,
+                                                              useRootNavigator: false,
+                                                              isScrollControlled: true,
+                                                              constraints: BoxConstraints(maxWidth: scaffoldWidth < 500 ? scaffoldWidth - 20 : 500),
+                                                              enableDrag: true,
+                                                              showDragHandle: true,
+                                                              shape: RoundedRectangleBorder(
+                                                                borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
+                                                              ),
+                                                              useSafeArea: true,
+                                                              backgroundColor: MediaQuery.of(context).platformBrightness == Brightness.dark ? Color(0xFF040707) : ThemeData.light().scaffoldBackgroundColor,
+                                                              builder: (BuildContext context) {
+                                                                return playistView(playlist: playlists.data["Menu"]["Sections"][0]["Items"][index]["Link"].replaceAll('mcat://playlist:', ''));
+                                                              },
                                                             );
+                                                            // Navigator.push(
+                                                            //   topContext,
+                                                            //   MaterialPageRoute(
+                                                            //       fullscreenDialog: true,
+                                                            //       allowSnapshotting: true,
+                                                            //       maintainState: true,
+                                                            //       builder: (context) => playistView(playlist: playlists.data["Menu"]["Sections"][0]["Items"][index]["Link"].replaceAll('mcat://playlist:', ''))),
+                                                            // );
                                                           },
                                                           child: Padding(
                                                               padding: EdgeInsets.only(
@@ -773,10 +857,26 @@ class ScrollablePageState extends State<homePage> {
                                                           ),
                                                           child: GestureDetector(
                                                             onTap: () {
-                                                              Navigator.push(
-                                                                topContext,
-                                                                MaterialPageRoute(fullscreenDialog: true, allowSnapshotting: true, maintainState: true, builder: (context) => moodView(mood: moods.data["Moods"]["Data"][index]["Uri"])),
+                                                              showModalBottomSheet(
+                                                                context: context,
+                                                                useRootNavigator: false,
+                                                                isScrollControlled: true,
+                                                                constraints: BoxConstraints(maxWidth: scaffoldWidth < 500 ? scaffoldWidth - 20 : 500),
+                                                                enableDrag: true,
+                                                                showDragHandle: true,
+                                                                shape: RoundedRectangleBorder(
+                                                                  borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
+                                                                ),
+                                                                useSafeArea: true,
+                                                                backgroundColor: MediaQuery.of(context).platformBrightness == Brightness.dark ? Color(0xFF040707) : ThemeData.light().scaffoldBackgroundColor,
+                                                                builder: (BuildContext context) {
+                                                                  return moodView(mood: moods.data["Moods"]["Data"][index]["Uri"]);
+                                                                },
                                                               );
+                                                              // Navigator.push(
+                                                              //   topContext,
+                                                              //   MaterialPageRoute(fullscreenDialog: true, allowSnapshotting: true, maintainState: true, builder: (context) => moodView(mood: moods.data["Moods"]["Data"][index]["Uri"])),
+                                                              // );
                                                             },
                                                             child: ClipRRect(
                                                               borderRadius: BorderRadius.circular(15.0),
@@ -847,7 +947,7 @@ class ScrollablePageState extends State<homePage> {
                 }
                 return SingleChildScrollView(
                   child: Padding(
-                      padding: EdgeInsets.only(left: 15,right: 45),
+                      padding: EdgeInsets.only(left: 15, right: 45),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -887,7 +987,7 @@ class ScrollablePageState extends State<homePage> {
                                               child: Padding(
                                                 padding: EdgeInsets.symmetric(horizontal: 15),
                                                 child: Icon(
-                                                  Icons.settings_outlined ,
+                                                  Icons.settings_outlined,
                                                   size: 32,
                                                 ),
                                               ),
@@ -936,8 +1036,7 @@ class ScrollablePageState extends State<homePage> {
                                     ],
                                   ),
                                 );
-                              }
-                          ), // Hello and controls
+                              }), // Hello and controls
                           FutureBuilder(
                               future: getAppData(),
                               builder: (BuildContext context, AsyncSnapshot appData) {
@@ -960,8 +1059,7 @@ class ScrollablePageState extends State<homePage> {
                                                           MaterialPageRoute(builder: (context) => changelogPage()),
                                                         );
                                                       },
-                                                      child: mcNotificationCard(title: "Update ${appData.data["version"]} [${appData.data["build"]}]",
-                                                          subtitle: "MCPlayer has been updated!\nTap here to read what's new!", icon: Icons.info_outline_rounded),
+                                                      child: mcNotificationCard(title: "Update ${appData.data["version"]} [${appData.data["build"]}]", subtitle: "MCPlayer has been updated!\nTap here to read what's new!", icon: Icons.info_outline_rounded),
                                                     ),
                                                   ),
                                                 ),
@@ -1040,18 +1138,14 @@ class ScrollablePageState extends State<homePage> {
                                               context: context,
                                               useRootNavigator: true,
                                               isScrollControlled: false,
-                                              constraints: BoxConstraints(
-                                                  maxWidth: scaffoldWidth < 500 ? scaffoldWidth - 20 : 500
-                                              ),
+                                              constraints: BoxConstraints(maxWidth: scaffoldWidth < 500 ? scaffoldWidth - 20 : 500),
                                               enableDrag: true,
                                               showDragHandle: true,
                                               shape: RoundedRectangleBorder(
                                                 borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
                                               ),
                                               useSafeArea: true,
-                                              backgroundColor: MediaQuery.of(context).platformBrightness == Brightness.dark
-                                                  ? Color(0xFF040707)
-                                                  : ThemeData.light().scaffoldBackgroundColor,
+                                              backgroundColor: MediaQuery.of(context).platformBrightness == Brightness.dark ? Color(0xFF040707) : ThemeData.light().scaffoldBackgroundColor,
                                               builder: (BuildContext context) {
                                                 return albumView(
                                                   release: recents.data["Data"][0]["Release"]["CatalogId"],
@@ -1079,7 +1173,7 @@ class ScrollablePageState extends State<homePage> {
                                                   borderRadius: BorderRadius.circular(15.0),
                                                   child: CachedNetworkImage(
                                                     imageUrl:
-                                                    'https://cdx.monstercat.com/?width=${appSettings["albumArtPreviewRes"] ?? "256"}&encoding=webp&url=https%3A%2F%2Fwww.monstercat.com%2Frelease%2F${recents.data["Data"][0]["Release"]["CatalogId"]}%2Fcover',
+                                                        'https://cdx.monstercat.com/?width=${appSettings["albumArtPreviewRes"] ?? "256"}&encoding=webp&url=https%3A%2F%2Fwww.monstercat.com%2Frelease%2F${recents.data["Data"][0]["Release"]["CatalogId"]}%2Fcover',
                                                     width: 100, // Set the desired width
                                                     height: 100, // Set the desired height
                                                     placeholder: (context, url) => Container(color: Colors.transparent),
@@ -1281,16 +1375,34 @@ class ScrollablePageState extends State<homePage> {
                                               children: [
                                                 GestureDetector(
                                                   onTap: () {
-                                                    Navigator.push(
-                                                      topContext,
-                                                      MaterialPageRoute(
-                                                          fullscreenDialog: true,
-                                                          allowSnapshotting: true,
-                                                          maintainState: true,
-                                                          builder: (context) => albumView(
-                                                            release: recents.data["Data"][1]["Release"]["CatalogId"],
-                                                          )),
+                                                    showModalBottomSheet(
+                                                      context: context,
+                                                      useRootNavigator: true,
+                                                      isScrollControlled: false,
+                                                      constraints: BoxConstraints(maxWidth: scaffoldWidth < 500 ? scaffoldWidth - 20 : 500),
+                                                      enableDrag: true,
+                                                      showDragHandle: true,
+                                                      shape: RoundedRectangleBorder(
+                                                        borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
+                                                      ),
+                                                      useSafeArea: true,
+                                                      backgroundColor: MediaQuery.of(context).platformBrightness == Brightness.dark ? Color(0xFF040707) : ThemeData.light().scaffoldBackgroundColor,
+                                                      builder: (BuildContext context) {
+                                                        return albumView(
+                                                          release: recents.data["Data"][1]["Release"]["CatalogId"],
+                                                        );
+                                                      },
                                                     );
+                                                    // Navigator.push(
+                                                    //   topContext,
+                                                    //   MaterialPageRoute(
+                                                    //       fullscreenDialog: true,
+                                                    //       allowSnapshotting: true,
+                                                    //       maintainState: true,
+                                                    //       builder: (context) => albumView(
+                                                    //         release: recents.data["Data"][1]["Release"]["CatalogId"],
+                                                    //       )),
+                                                    // );
                                                   },
                                                   child: mcRecentAlbum(
                                                     data: recents.data["Data"][1],
@@ -1307,8 +1419,8 @@ class ScrollablePageState extends State<homePage> {
                                                           allowSnapshotting: true,
                                                           maintainState: true,
                                                           builder: (context) => albumView(
-                                                            release: recents.data["Data"][2]["Release"]["CatalogId"],
-                                                          )),
+                                                                release: recents.data["Data"][2]["Release"]["CatalogId"],
+                                                              )),
                                                     );
                                                   },
                                                   child: mcRecentAlbum(
@@ -1326,8 +1438,8 @@ class ScrollablePageState extends State<homePage> {
                                                           allowSnapshotting: true,
                                                           maintainState: true,
                                                           builder: (context) => albumView(
-                                                            release: recents.data["Data"][3]["Release"]["CatalogId"],
-                                                          )),
+                                                                release: recents.data["Data"][3]["Release"]["CatalogId"],
+                                                              )),
                                                     );
                                                   },
                                                   child: mcRecentAlbum(
@@ -1345,8 +1457,8 @@ class ScrollablePageState extends State<homePage> {
                                                           allowSnapshotting: true,
                                                           maintainState: true,
                                                           builder: (context) => albumView(
-                                                            release: recents.data["Data"][4]["Release"]["CatalogId"],
-                                                          )),
+                                                                release: recents.data["Data"][4]["Release"]["CatalogId"],
+                                                              )),
                                                     );
                                                   },
                                                   child: mcRecentAlbum(
@@ -1371,8 +1483,8 @@ class ScrollablePageState extends State<homePage> {
                                                           allowSnapshotting: true,
                                                           maintainState: true,
                                                           builder: (context) => albumView(
-                                                            release: recents.data["Data"][5]["Release"]["CatalogId"],
-                                                          )),
+                                                                release: recents.data["Data"][5]["Release"]["CatalogId"],
+                                                              )),
                                                     );
                                                   },
                                                   child: mcRecentAlbum(
@@ -1390,8 +1502,8 @@ class ScrollablePageState extends State<homePage> {
                                                           allowSnapshotting: true,
                                                           maintainState: true,
                                                           builder: (context) => albumView(
-                                                            release: recents.data["Data"][6]["Release"]["CatalogId"],
-                                                          )),
+                                                                release: recents.data["Data"][6]["Release"]["CatalogId"],
+                                                              )),
                                                     );
                                                   },
                                                   child: mcRecentAlbum(
@@ -1409,8 +1521,8 @@ class ScrollablePageState extends State<homePage> {
                                                           allowSnapshotting: true,
                                                           maintainState: true,
                                                           builder: (context) => albumView(
-                                                            release: recents.data["Data"][8]["Release"]["CatalogId"],
-                                                          )),
+                                                                release: recents.data["Data"][8]["Release"]["CatalogId"],
+                                                              )),
                                                     );
                                                   },
                                                   child: mcRecentAlbum(
@@ -1428,8 +1540,8 @@ class ScrollablePageState extends State<homePage> {
                                                           allowSnapshotting: true,
                                                           maintainState: true,
                                                           builder: (context) => albumView(
-                                                            release: recents.data["Data"][9]["Release"]["CatalogId"],
-                                                          )),
+                                                                release: recents.data["Data"][9]["Release"]["CatalogId"],
+                                                              )),
                                                     );
                                                   },
                                                   child: mcRecentAlbum(
@@ -1734,7 +1846,6 @@ class finishSetupPageState extends State<finishSetupPage> {
 
   @override
   Widget build(BuildContext context) {
-
     final appBarColor = MediaQuery.of(context).platformBrightness == Brightness.dark ? const Color(0xFF040707) : ThemeData.light().scaffoldBackgroundColor;
 
     SystemChrome.setSystemUIOverlayStyle(
@@ -1917,15 +2028,6 @@ class finishSetupPageState extends State<finishSetupPage> {
                       //     )
                       //   ],
                       // ),
-                      const Text(
-                        "TIPS",
-                        style: TextStyle(
-                          height: 4,
-                          fontSize: 14,
-                          fontFamily: "Comfortaa",
-                          color: Colors.teal,
-                        ),
-                      ),
                       Row(
                         children: [
                           Expanded(
@@ -1952,7 +2054,7 @@ class finishSetupPageState extends State<finishSetupPage> {
                                           height: 10,
                                         ),
                                         const Text(
-                                          "Provide more info about yourself later in Settings. Big brother needs more data.",
+                                          "You can customize this app to your liking and change your account settings in Settings anytime.",
                                           style: TextStyle(
                                             fontSize: 14,
                                             fontFamily: "Comfortaa",
@@ -1993,7 +2095,7 @@ class finishSetupPageState extends State<finishSetupPage> {
                                           height: 10,
                                         ),
                                         const Text(
-                                          "Read our privacy policy once again, why not?",
+                                          "Click here to read our privacy policy",
                                           style: TextStyle(
                                             fontSize: 14,
                                             fontFamily: "Comfortaa",
@@ -2024,7 +2126,48 @@ class finishSetupPageState extends State<finishSetupPage> {
                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
                                             const Text(
-                                              "Something else?",
+                                              "2FA",
+                                              style: TextStyle(fontSize: 20, fontFamily: "Comfortaa", fontWeight: FontWeight.bold),
+                                            ),
+                                            const Icon(Icons.phonelink_lock_rounded)
+                                          ],
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        const Text(
+                                          "Always enable 2FA if you can. Monstercat allows you to do so and you can login in this app with 2FA. There is no such thing as \"too much security\".",
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            fontFamily: "Comfortaa",
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  )),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: GestureDetector(
+                              onTap: null,
+                              child: Card(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(15),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            const Text(
+                                              "Open links in app",
                                               style: TextStyle(fontSize: 20, fontFamily: "Comfortaa", fontWeight: FontWeight.bold),
                                             ),
                                             const Icon(Icons.info_outline_rounded)
@@ -2034,7 +2177,7 @@ class finishSetupPageState extends State<finishSetupPage> {
                                           height: 10,
                                         ),
                                         const Text(
-                                          "You can always edit your preferences and read more info in Settings. See ya there!",
+                                          "Since 0.0.8, MCPlayer can open links from monstercat web player. To allow it, open Android settings for this app, tap on \"Open by default\", and select all available options in \"Add link\".",
                                           style: TextStyle(
                                             fontSize: 14,
                                             fontFamily: "Comfortaa",
@@ -2148,8 +2291,7 @@ class changelogPageState extends State<changelogPage> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         // resizeToAvoidBottomInset: false,
-        body: LayoutBuilder(
-            builder: (BuildContext context, BoxConstraints constraints) {
+        body: LayoutBuilder(builder: (BuildContext context, BoxConstraints constraints) {
           double scaffoldHeight = constraints.maxHeight;
           double scaffoldWidth = constraints.maxWidth;
           if (MediaQuery.of(context).platformBrightness == Brightness.dark) {
@@ -2169,79 +2311,75 @@ class changelogPageState extends State<changelogPage> {
           );
           return SafeArea(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10),
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.transparent,
-                        shadowColor: Colors.transparent,
-                        padding: EdgeInsets.all(10),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15.0),
-                          side: const BorderSide(color: Colors.transparent, width: 1),
-                        ),
-                      ),
-                      onPressed: () {
-                        Navigator.pop(topContext);
-                      },
-                      child: Row(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(right: 10),
-                            child: Icon(
-                              Icons.arrow_back_rounded,
-                              color: MediaQuery.of(context).platformBrightness == Brightness.dark ? Colors.white : Colors.black,
-                              size: 32,
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(left: 10),
-                            child: Text(
-                              "Changelog",
-                              style: TextStyle(
-                                fontSize: 32,
-                                color: MediaQuery.of(context).platformBrightness == Brightness.dark ? Colors.white : Colors.black,
-                                height: 1,
-                                fontFamily: "Comfortaa",
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.transparent,
+                    shadowColor: Colors.transparent,
+                    padding: EdgeInsets.all(10),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                      side: const BorderSide(color: Colors.transparent, width: 1),
                     ),
                   ),
-                  Container(
-                    height: scaffoldHeight - 94,
-                    child: FutureBuilder(
-                        future: getChangelog(),
-                        builder: (BuildContext context, AsyncSnapshot changelog) {
-                          if (changelog.hasData) {
-                            if (changelog.data == "Error") {
-                              return Center(child: Text("Error while loading"));
-                            }
-                            return Markdown(
-                              data: changelog.data,
-                              styleSheet: MarkdownStyleSheet(
-                                blockquoteDecoration: BoxDecoration(
-                                    color: Color(0x66009688)
-                                ),
-                              )
-                            );
-                          }
-                          return Center(
-                            child: LinearProgressIndicator(
-                              color: Colors.teal,
-                              backgroundColor: Colors.transparent,
-                            ),
-                          );
-                        }),
-                  )
-                ],
+                  onPressed: () {
+                    Navigator.pop(topContext);
+                  },
+                  child: Row(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(right: 10),
+                        child: Icon(
+                          Icons.arrow_back_rounded,
+                          color: MediaQuery.of(context).platformBrightness == Brightness.dark ? Colors.white : Colors.black,
+                          size: 32,
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 10),
+                        child: Text(
+                          "Changelog",
+                          style: TextStyle(
+                            fontSize: 32,
+                            color: MediaQuery.of(context).platformBrightness == Brightness.dark ? Colors.white : Colors.black,
+                            height: 1,
+                            fontFamily: "Comfortaa",
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Container(
+                height: scaffoldHeight - 94,
+                child: FutureBuilder(
+                    future: getChangelog(),
+                    builder: (BuildContext context, AsyncSnapshot changelog) {
+                      if (changelog.hasData) {
+                        if (changelog.data == "Error") {
+                          return Center(child: Text("Error while loading"));
+                        }
+                        return Markdown(
+                            data: changelog.data,
+                            styleSheet: MarkdownStyleSheet(
+                              blockquoteDecoration: BoxDecoration(color: Color(0x66009688)),
+                            ));
+                      }
+                      return Center(
+                        child: LinearProgressIndicator(
+                          color: Colors.teal,
+                          backgroundColor: Colors.transparent,
+                        ),
+                      );
+                    }),
               )
-          );
+            ],
+          ));
         }),
       ),
     );

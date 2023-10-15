@@ -351,17 +351,35 @@ class libraryPageState extends State<libraryPage> {
                           if(playlists.data != "False"){
                             return GestureDetector(
                               onTap: (){
-                                Navigator.push(
-                                  topContext,
-                                  MaterialPageRoute(
-                                      fullscreenDialog: true,
-                                      allowSnapshotting: true,
-                                      maintainState: true,
-                                      builder: (context) => playistView(
-                                          playlist: playlists.data["Playlists"]["Data"][0]["Id"]
-                                      )
+                                showModalBottomSheet(
+                                  context: context,
+                                  useRootNavigator: false,
+                                  isScrollControlled: true,
+                                  constraints: BoxConstraints(maxWidth: scaffoldWidth < 500 ? scaffoldWidth - 20 : 500),
+                                  enableDrag: true,
+                                  showDragHandle: true,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
                                   ),
+                                  useSafeArea: true,
+                                  backgroundColor: MediaQuery.of(context).platformBrightness == Brightness.dark ? Color(0xFF040707) : ThemeData.light().scaffoldBackgroundColor,
+                                  builder: (BuildContext context) {
+                                    return playistView(
+                                        playlist: playlists.data["Playlists"]["Data"][0]["Id"]
+                                    );
+                                  },
                                 );
+                                // Navigator.push(
+                                //   topContext,
+                                //   MaterialPageRoute(
+                                //       fullscreenDialog: true,
+                                //       allowSnapshotting: true,
+                                //       maintainState: true,
+                                //       builder: (context) => playistView(
+                                //           playlist: playlists.data["Playlists"]["Data"][0]["Id"]
+                                //       )
+                                //   ),
+                                // );
                               },
                               child: Card(
                                 margin: EdgeInsets.only(top:15),
@@ -477,14 +495,30 @@ class libraryPageState extends State<libraryPage> {
                                       if(!option["MyLibrary"]) {
                                         return GestureDetector(
                                           onTap: (){
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  fullscreenDialog: false,
-                                                  allowSnapshotting: false,
-                                                  maintainState: false,
-                                                  builder: (context) => playistView(playlist: option["Id"])),
+                                            showModalBottomSheet(
+                                              context: context,
+                                              useRootNavigator: false,
+                                              isScrollControlled: true,
+                                              constraints: BoxConstraints(maxWidth: scaffoldWidth < 500 ? scaffoldWidth - 20 : 500),
+                                              enableDrag: true,
+                                              showDragHandle: true,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
+                                              ),
+                                              useSafeArea: true,
+                                              backgroundColor: MediaQuery.of(context).platformBrightness == Brightness.dark ? Color(0xFF040707) : ThemeData.light().scaffoldBackgroundColor,
+                                              builder: (BuildContext context) {
+                                                return playistView(playlist: option["Id"]);
+                                              },
                                             );
+                                            // Navigator.push(
+                                            //   context,
+                                            //   MaterialPageRoute(
+                                            //       fullscreenDialog: false,
+                                            //       allowSnapshotting: false,
+                                            //       maintainState: false,
+                                            //       builder: (context) => playistView(playlist: option["Id"])),
+                                            // );
                                           },
                                           child: mcPlaylistLine(topContext, option, scaffoldWidth),
                                         );

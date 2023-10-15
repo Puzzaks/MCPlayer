@@ -649,14 +649,11 @@ class loginEntryPageState extends State<loginEntryPage> {
                                         showCursor: false,
                                         focusedBorderColor: Colors.teal,
                                         showFieldAsBox: true,
-                                        onCodeChanged: (String code) {
-                                          OTPcode = code;
-                                        },
                                         onSubmit: (String verificationCode) {
                                           setState(() {
                                             isSending = true;
                                           });
-                                          send2FA(OTPcode, email, password).then((value) async {
+                                          send2FA(verificationCode, email, password).then((value) async {
                                             if (value) {
                                               setState(() {
                                                 isSending = false;
@@ -803,7 +800,70 @@ class loginEntryPageState extends State<loginEntryPage> {
                                           )
                                         ],
                                       )
-                                          : Container(),
+                                          : Row(
+                                        children: [
+                                          Expanded(
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(),
+                                              child: ElevatedButton(
+                                                style: ElevatedButton.styleFrom(
+                                                  shadowColor: Colors.transparent,
+                                                  backgroundColor: Colors.transparent,
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius: BorderRadius.circular(20.0),
+                                                    side: const BorderSide(color: Colors.transparent, width: 2),
+                                                  ),
+                                                ),
+                                                onPressed: () async {
+                                                  FlutterClipboard.paste().then((value) {
+                                                    if (RegExp(r'^[0-9]{6}$').hasMatch(value)) {
+                                                      setState(() {
+                                                        isSending = true;
+                                                      });
+                                                      OTPcode = value;
+                                                      send2FA(OTPcode, email, password).then((value) async {
+                                                        if (value) {
+                                                          setState(() {
+                                                            isSending = false;
+                                                          });
+                                                          getUser().then((value) async {
+                                                            await setString("UID", value["User"]["Id"]);
+                                                            await setBool("signed in", true);
+                                                            Restart.restartApp();
+                                                          });
+                                                        } else {
+                                                          setState(() {
+                                                            isSending = false;
+                                                          });
+                                                          Fluttertoast.showToast(
+                                                            msg: 'Wrong OTP',
+                                                            toastLength: Toast.LENGTH_SHORT,
+                                                            gravity: ToastGravity.BOTTOM,
+                                                          );
+                                                        }
+                                                      });
+                                                    } else {
+                                                      Fluttertoast.showToast(
+                                                        msg: 'Doesn\'t look like OTP code',
+                                                        toastLength: Toast.LENGTH_SHORT,
+                                                        gravity: ToastGravity.BOTTOM,
+                                                      );
+                                                    }
+                                                  });
+                                                },
+                                                child: Text(
+                                                  "Copy from clipboard",
+                                                  style: TextStyle(
+                                                    fontFamily: "Comfortaa",
+                                                    fontWeight: FontWeight.bold,
+                                                    color: MediaQuery.of(context).platformBrightness == Brightness.dark ? Colors.white : Colors.black,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ],
                                   ),
                                 )
@@ -1095,8 +1155,7 @@ class loginEntryPageState extends State<loginEntryPage> {
                                                           for (int s = 0; s < jsonDecode(value)["AuthData"].length; s++) {
                                                             if (jsonDecode(value)["AuthData"].keys.toList()[s] == "Email") {
                                                               isEmail2FA = true;
-                                                            }
-                                                            if (jsonDecode(value)["AuthData"].keys.toList()[s] == "TOTP") {
+                                                            }else if (jsonDecode(value)["AuthData"].keys.toList()[s] == "TOTP") {
                                                               isOTP2FA = true;
                                                             }
                                                           }
@@ -1485,14 +1544,11 @@ class loginEntryPageState extends State<loginEntryPage> {
                                           showCursor: false,
                                           focusedBorderColor: Colors.teal,
                                           showFieldAsBox: true,
-                                          onCodeChanged: (String code) {
-                                            OTPcode = code;
-                                          },
                                           onSubmit: (String verificationCode) {
                                             setState(() {
                                               isSending = true;
                                             });
-                                            send2FA(OTPcode, email, password).then((value) async {
+                                            send2FA(verificationCode, email, password).then((value) async {
                                               if (value) {
                                                 setState(() {
                                                   isSending = false;
@@ -1639,7 +1695,70 @@ class loginEntryPageState extends State<loginEntryPage> {
                                             )
                                           ],
                                         )
-                                            : Container(),
+                                            : Row(
+                                          children: [
+                                            Expanded(
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(),
+                                                child: ElevatedButton(
+                                                  style: ElevatedButton.styleFrom(
+                                                    shadowColor: Colors.transparent,
+                                                    backgroundColor: Colors.transparent,
+                                                    shape: RoundedRectangleBorder(
+                                                      borderRadius: BorderRadius.circular(20.0),
+                                                      side: const BorderSide(color: Colors.transparent, width: 2),
+                                                    ),
+                                                  ),
+                                                  onPressed: () async {
+                                                    FlutterClipboard.paste().then((value) {
+                                                      if (RegExp(r'^[0-9]{6}$').hasMatch(value)) {
+                                                        setState(() {
+                                                          isSending = true;
+                                                        });
+                                                        OTPcode = value;
+                                                        send2FA(OTPcode, email, password).then((value) async {
+                                                          if (value) {
+                                                            setState(() {
+                                                              isSending = false;
+                                                            });
+                                                            getUser().then((value) async {
+                                                              await setString("UID", value["User"]["Id"]);
+                                                              await setBool("signed in", true);
+                                                              Restart.restartApp();
+                                                            });
+                                                          } else {
+                                                            setState(() {
+                                                              isSending = false;
+                                                            });
+                                                            Fluttertoast.showToast(
+                                                              msg: 'Wrong OTP',
+                                                              toastLength: Toast.LENGTH_SHORT,
+                                                              gravity: ToastGravity.BOTTOM,
+                                                            );
+                                                          }
+                                                        });
+                                                      } else {
+                                                        Fluttertoast.showToast(
+                                                          msg: 'Doesn\'t look like OTP code',
+                                                          toastLength: Toast.LENGTH_SHORT,
+                                                          gravity: ToastGravity.BOTTOM,
+                                                        );
+                                                      }
+                                                    });
+                                                  },
+                                                  child: Text(
+                                                    "Copy from clipboard",
+                                                    style: TextStyle(
+                                                      fontFamily: "Comfortaa",
+                                                      fontWeight: FontWeight.bold,
+                                                      color: MediaQuery.of(context).platformBrightness == Brightness.dark ? Colors.white : Colors.black,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
                                       ],
                                     ),
                                   )
