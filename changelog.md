@@ -7,6 +7,9 @@
    - To enable this, open *App info* > *Open by default* > *Add link*
 #### Miscellaneous
  - Releases, Playlists, Moods are being opened in separate bottom sheets now.
+#### Fixes
+ - Fixed that "Copy from clipboard" button wasn't showing in some cases.
+ - Fixed that OTP Code field wasn't working in some cases
 #### Known issues
  - Sometimes lanscape orientation may not behave as vertical. Vertical orientation is being developed first, then adapted to the album one. 
 
