@@ -1,3 +1,18 @@
+## Update 0.0.8 [8]
+#### Music playback
+ - You can now listen to music, though adding tracks to queue is still WiP.
+#### Link handling
+ - App can open URLs for Monstercat Player.
+   - You can share links for other MCPlayer to open
+   - To enable this, open *App info* > *Open by default* > *Add link*
+#### Miscellaneous
+ - Releases, Playlists, Moods are being opened in separate bottom sheets now.
+#### Fixes
+ - Fixed that "Copy from clipboard" button wasn't showing in some cases.
+ - Fixed that OTP Code field wasn't working in some cases
+#### Known issues
+ - Sometimes lanscape orientation may not behave as vertical. Vertical orientation is being developed first, then adapted to the album one. 
+
 ## Update 0.0.7 [7]
 #### Miscellaneous
  - Limited adaptivity for wider screens
