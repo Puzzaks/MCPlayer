@@ -25,6 +25,7 @@ class musicPlayer with ChangeNotifier {
     final duration = await player.setUrl("https://player.monstercat.app/api/release/${trackInfo["Release"]["Id"]}/track-stream/${trackInfo["Id"]}");
     isPlaying = true;
     nowPlaying = trackInfo;
+    queueAdd(trackInfo);
     resume();
     notifyListeners(); // Notify listeners to update UI
   }

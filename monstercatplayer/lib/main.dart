@@ -1,4 +1,5 @@
 import 'dart:isolate';
+import 'dart:ui';
 import 'package:monstercatplayer/view.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:uni_links/uni_links.dart';
@@ -33,6 +34,7 @@ class MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
   late TabController tabController;
   bool isLoggedIn = false;
   final ReceivePort receivePort = ReceivePort();
+  bool playerOpened = false;
   @override
   void initState() {
     tabController = TabController(length: 3, vsync: this);
@@ -151,150 +153,457 @@ class MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
         initDeepLinks(context);
         double scaffoldHeight = constraints.maxHeight;
         scaffoldWidth = constraints.maxWidth;
+        bool tooWide = constraints.maxWidth <= scaffoldHeight ~/ 2;
         return Scaffold(
           bottomNavigationBar: isLoggedIn
               ? MediaQuery.of(context).orientation == Orientation.portrait
               ? Consumer<musicPlayer>(
             builder: (context, playerData, child) {
+              String formatDuration(int seconds) {
+                String hoursString = (seconds ~/ 3600).toString().padLeft(2, '0');
+                String minutesString = ((seconds % 3600) ~/ 60).toString().padLeft(2, '0');
+                String secondsString = (seconds % 60).toString().padLeft(2, '0');
+                if (seconds / 3600 >= 1){
+                  return '$hoursString:$minutesString:$secondsString';
+                }
+                return '$minutesString:$secondsString';
+              }
               return Container(
                 color: backgroundColor,
-                height: playerData.queue.length > 0 ? 130 : 60,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    playerData.queue.length > 0 ? Padding(
-                        padding: EdgeInsets.all(10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Row(
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  child: CachedNetworkImage(
-                                    imageUrl: 'https://cdx.monstercat.com/?width=256&encoding=webp&url=https%3A%2F%2Fwww.monstercat.com%2Frelease%2F${playerData.nowPlaying!["Release"]["CatalogId"]}%2Fcover',
-                                    width: 50, // Set the desired width
-                                    height: 50, // Set the desired height
-                                    placeholder: (context, url) => const CircularProgressIndicator(
-                                      color: Colors.teal,
-                                      backgroundColor: Colors.transparent,
+                height: playerOpened ? scaffoldHeight: playerData.queue.length > 0 ? 130 : 60,
+                child: !playerOpened ? GestureDetector(
+                  onTap:(){
+                    setState(() {
+                      playerOpened = true;
+                    });
+                  },
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      playerData.queue.length > 0 ? Padding(
+                          padding: EdgeInsets.all(10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Row(
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    child: CachedNetworkImage(
+                                      imageUrl: 'https://cdx.monstercat.com/?width=256&encoding=webp&url=https%3A%2F%2Fwww.monstercat.com%2Frelease%2F${playerData.nowPlaying!["Release"]["CatalogId"]}%2Fcover',
+                                      width: 50, // Set the desired width
+                                      height: 50, // Set the desired height
+                                      placeholder: (context, url) => const CircularProgressIndicator(
+                                        color: Colors.teal,
+                                        backgroundColor: Colors.transparent,
+                                      ),
+                                      errorWidget: (context, url, error) => const Icon(Icons.error),
                                     ),
-                                    errorWidget: (context, url, error) => const Icon(Icons.error),
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Container(
+                                    width: scaffoldWidth - 144,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          playerData.nowPlaying!["Title"],
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                            fontFamily: "Comfortaa",
+                                            fontSize: 24,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        Text(
+                                          playerData.nowPlaying!["ArtistsTitle"],
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                              fontFamily: "Comfortaa",
+                                              fontSize: 18,
+                                              color: Colors.grey
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                              Padding(
+                                padding: EdgeInsets.all(0),
+                                child: ElevatedButton(
+                                  onPressed: (){
+                                    playerData.isPlaying
+                                        ? Provider.of<musicPlayer>(context, listen: false).pause()
+                                        : Provider.of<musicPlayer>(context, listen: false).resume();
+                                  },
+                                  onLongPress: (){
+                                    Fluttertoast.showToast(
+                                      msg: 'Tap to play',
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      gravity: ToastGravity.BOTTOM,
+                                    );
+                                  },
+                                  child: Icon(
+                                    playerData.isPlaying?Icons.pause:Icons.play_arrow_rounded,
+                                    size: 32,
+                                  ),
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.transparent,
+                                    shadowColor: Colors.transparent,
+                                    shape: CircleBorder(),
+                                    padding: EdgeInsets.all(6),
                                   ),
                                 ),
-                                SizedBox(
-                                  width: 10,
+                              )
+                            ],
+                          )
+                      ) : Container(),
+                      playerData.queue.length > 0 ? Stack(
+                        children: [
+                          LinearProgressIndicator(
+                            value: playerData.buffered / playerData.nowPlaying["Duration"],
+                            backgroundColor: Colors.transparent,
+                            color: Colors.grey,
+                            minHeight: 2,
+                          ),
+                          LinearProgressIndicator(
+                            value: playerData.position / playerData.nowPlaying["Duration"],
+                            backgroundColor: Colors.transparent,
+                            color: Colors.teal,
+                            minHeight: 2,
+                          ),
+                        ],
+                      ) : Container(),
+                      ColoredBox(
+                        color: backgroundColor,
+                        child: TabBar(
+                          controller: tabController,
+                          labelColor: Colors.teal,
+                          indicatorColor: Colors.transparent,
+                          unselectedLabelColor: Colors.grey,
+                          labelPadding: EdgeInsets.symmetric(
+                              vertical: 5,
+                              horizontal: 10
+                          ),
+                          tabs: [
+                            Tab(
+                                icon: Icon(
+                                  Icons.home_rounded,
+                                  size: 28,
+                                )
+                            ),
+                            Tab(
+                                icon: Icon(
+                                  Icons.search_rounded,
+                                  size: 28,
+                                )
+                            ),
+                            Tab(
+                                icon: Icon(
+                                  Icons.library_music_outlined,
+                                  size: 28,
+                                )
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                ) : Stack(
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(25.0),
+                        child: CachedNetworkImage(
+                          imageUrl: 'https://cdx.monstercat.com/?width=1024&encoding=webp&url=https%3A%2F%2Fwww.monstercat.com%2Frelease%2F${playerData.nowPlaying!["Release"]["CatalogId"]}%2Fcover',
+                          width: scaffoldWidth, // Set the desired width
+                          height: scaffoldHeight, // Set the desired height
+                          fit: BoxFit.cover,
+                          placeholder: (context, url) => const CircularProgressIndicator(
+                            color: Colors.teal,
+                            backgroundColor: Colors.transparent,
+                          ),
+                          errorWidget: (context, url, error) => const Icon(Icons.error),
+                        ),
+                      ),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(25.0),
+                        child: BackdropFilter(
+                            filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15), // Adjust blur intensity
+                            child: Container(
+                              color: Colors.black.withOpacity(0.25), // Adjust opacity
+                              // Your content goes here, e.g., text or other widgets
+                            )),
+                      ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(left:25, top:30),
+                              child: GestureDetector(
+                                onTap:(){
+                                  setState(() {
+                                    playerOpened = false;
+                                  });
+                                },
+                                child: Icon(
+                                  Icons.keyboard_arrow_down_rounded,
+                                  size: 32,
                                 ),
-                                Container(
-                                  width: scaffoldWidth - 144,
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        playerData.nowPlaying!["Title"],
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(top:30),
+                              child: Container(
+                                width: scaffoldWidth - 155,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                        "NOW PLAYING",
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
                                           fontFamily: "Comfortaa",
-                                          fontSize: 24,
-                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20,
+                                        )
+                                    ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                            "from ",
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                                fontFamily: "Comfortaa",
+                                                height: 1.5,
+                                                fontSize: 18,
+                                                color: Colors.grey
+                                            )
                                         ),
-                                      ),
-                                      Text(
-                                        playerData.nowPlaying!["ArtistsTitle"],
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                            fontFamily: "Comfortaa",
-                                            fontSize: 18,
-                                            color: Colors.grey
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                )
-                              ],
+                                        Text(
+                                            playerData.queueData["Title"],
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                                fontFamily: "Comfortaa",
+                                                fontSize: 18,
+                                                height: 1.5,
+                                                color: Colors.teal
+                                            )
+                                        )
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              )
                             ),
                             Padding(
-                              padding: EdgeInsets.all(0),
-                              child: ElevatedButton(
-                                onPressed: (){
-                                  playerData.isPlaying
-                                      ? Provider.of<musicPlayer>(context, listen: false).pause()
-                                      : Provider.of<musicPlayer>(context, listen: false).resume();
-                                },
-                                onLongPress: (){
-                                  Fluttertoast.showToast(
-                                    msg: 'Tap to play',
-                                    toastLength: Toast.LENGTH_SHORT,
-                                    gravity: ToastGravity.BOTTOM,
-                                  );
-                                },
+                              padding: EdgeInsets.only(right: 25, top:30),
+                              child: GestureDetector(
+                                onTap:(){},
                                 child: Icon(
-                                  playerData.isPlaying?Icons.pause:Icons.play_arrow_rounded,
+                                  Icons.more_vert_rounded,
                                   size: 32,
                                 ),
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.transparent,
-                                  shadowColor: Colors.transparent,
-                                  shape: CircleBorder(),
-                                  padding: EdgeInsets.all(6),
+                              ),
+                            ),
+                          ],
+                        ), // controls + nowplaying
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 25),
+                          child: ClipRRect(
+                          borderRadius: BorderRadius.circular(50.0),
+                          child: CachedNetworkImage(
+                            imageUrl: 'https://cdx.monstercat.com/?width=1024&encoding=webp&url=https%3A%2F%2Fwww.monstercat.com%2Frelease%2F${playerData.nowPlaying!["Release"]["CatalogId"]}%2Fcover',
+                            width: tooWide ? scaffoldWidth - 50 : scaffoldHeight / 2 - 50, // Set the desired width
+                            height: tooWide ? scaffoldWidth - 50 : scaffoldHeight / 2 - 50, // Set the desired height
+                            placeholder: (context, url) => const CircularProgressIndicator(
+                              color: Colors.teal,
+                              backgroundColor: Colors.transparent,
+                            ),
+                            errorWidget: (context, url, error) => const Icon(Icons.error),
+                          ),
+                        )
+                        ), // thumbnail
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 25),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                width: scaffoldWidth,
+                              ),
+                              Text(
+                                playerData.nowPlaying!["Title"],
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontFamily: "Comfortaa",
+                                  fontSize: 28,
+                                  fontWeight: FontWeight.bold,
                                 ),
+                              ),
+                              Text(
+                                playerData.nowPlaying!["ArtistsTitle"],
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                    height: 1.5,
+                                    fontFamily: "Comfortaa",
+                                    fontSize: 20,
+                                    color: Colors.grey
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 25),
+                          child: Stack(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  top: 25
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      formatDuration(playerData.position),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        fontFamily: "Comfortaa",
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                    Text(
+                                      formatDuration(playerData.nowPlaying["Duration"]),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        fontFamily: "Comfortaa",
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              LinearProgressIndicator(
+                                value: 100,
+                                backgroundColor: Colors.grey.withAlpha(64),
+                                color: Colors.transparent,
+                                minHeight: 10,
+                                borderRadius: BorderRadius.all(Radius.circular(5)),
+                              ),
+                              LinearProgressIndicator(
+                                value: playerData.buffered / playerData.nowPlaying["Duration"],
+                                backgroundColor: Colors.transparent,
+                                color: Colors.grey.withAlpha(128),
+                                minHeight: 10,
+                                borderRadius: BorderRadius.all(Radius.circular(5)),
+                              ),
+                              LinearProgressIndicator(
+                                value: playerData.position / playerData.nowPlaying["Duration"],
+                                backgroundColor: Colors.transparent,
+                                color: Colors.white,
+                                minHeight: 10,
+                                borderRadius: BorderRadius.all(Radius.circular(5)),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 25),
+                          child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            ElevatedButton(
+                              onPressed: () {},
+                              child: Icon(
+                                Icons.repeat_rounded,
+                                size: 32,
+                              ),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.transparent,
+                                shadowColor: Colors.transparent,
+                                shape: CircleBorder(),
+                                padding: EdgeInsets.all(10),
+                              ),
+                            ),
+                            ElevatedButton(
+                              onPressed: () {},
+                              child: Icon(
+                                Icons.skip_previous_rounded,
+                                size: 42,
+                              ),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.transparent,
+                                shadowColor: Colors.transparent,
+                                shape: CircleBorder(),
+                                padding: EdgeInsets.all(10),
+                              ),
+                            ),
+                            ElevatedButton(
+                              onPressed: (){
+                                playerData.isPlaying
+                                    ? Provider.of<musicPlayer>(context, listen: false).pause()
+                                    : Provider.of<musicPlayer>(context, listen: false).resume();
+                              },
+                              child: Icon(
+                                playerData.isPlaying ? Icons.pause_rounded : Icons.play_arrow_rounded,
+                                size: 42,
+                              ),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.teal,
+                                shadowColor: Colors.transparent,
+                                shape: CircleBorder(),
+                                padding: EdgeInsets.all(10),
+                              ),
+                            ),
+                            ElevatedButton(
+                              onPressed: () {},
+                              child: Icon(
+                                Icons.skip_next_rounded,
+                                size: 42,
+                              ),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.transparent,
+                                shadowColor: Colors.transparent,
+                                shape: CircleBorder(),
+                                padding: EdgeInsets.all(10),
+                              ),
+                            ),
+                            ElevatedButton(
+                              onPressed: () {},
+                              child: Icon(
+                                Icons.shuffle_rounded,
+                                size: 32,
+                              ),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.transparent,
+                                shadowColor: Colors.transparent,
+                                shape: CircleBorder(),
+                                padding: EdgeInsets.all(10),
                               ),
                             )
                           ],
+                        ),
                         )
-                    ) : Container(),
-                    playerData.queue.length > 0 ? Stack(
-                      children: [
-                        LinearProgressIndicator(
-                          value: playerData.buffered / playerData.nowPlaying["Duration"],
-                          backgroundColor: Colors.transparent,
-                          color: Colors.grey,
-                          minHeight: 2,
-                        ),
-                        LinearProgressIndicator(
-                          value: playerData.position / playerData.nowPlaying["Duration"],
-                          backgroundColor: Colors.transparent,
-                          color: Colors.teal,
-                          minHeight: 2,
-                        ),
+
                       ],
-                    ) : Container(),
-                    ColoredBox(
-                      color: backgroundColor,
-                      child: TabBar(
-                        controller: tabController,
-                        labelColor: Colors.teal,
-                        indicatorColor: Colors.transparent,
-                        unselectedLabelColor: Colors.grey,
-                        labelPadding: EdgeInsets.symmetric(
-                            vertical: 5,
-                            horizontal: 10
-                        ),
-                        tabs: [
-                          Tab(
-                              icon: Icon(
-                                Icons.home_rounded,
-                                size: 28,
-                              )
-                          ),
-                          Tab(
-                              icon: Icon(
-                                Icons.search_rounded,
-                                size: 28,
-                              )
-                          ),
-                          Tab(
-                              icon: Icon(
-                                Icons.library_music_outlined,
-                                size: 28,
-                              )
-                          ),
-                        ],
-                      ),
                     )
                   ],
                 ),
