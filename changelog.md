@@ -1,3 +1,23 @@
+## Update 0.0.11 [11] (OBT)
+#### Miscellaneous
+ - Added Player screen for tablets
+ - Added miniplayer for tablets
+#### Fixes
+ - Fixed albums & playlists display from the homepage on tablets
+ - Fixed recently released indexing for tablets
+
+## Update 0.0.10 [10] (OBT)
+#### Player Screen
+ - Added new player screen
+   - It's just the mockup with only play/pause working
+   - Compatibility is questionable it is open beta now
+#### Fixes
+ - Fixed songs playing without playing bar display
+ - Fixed OTP 2FA bugs
+
+## Update 0.0.9 [9]
+ - Not released due to compatibility issues
+
 ## Update 0.0.8 [8]
 #### Music playback
  - You can now listen to music, though adding tracks to queue is still WiP.
