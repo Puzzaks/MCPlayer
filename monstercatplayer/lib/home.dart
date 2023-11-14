@@ -1137,7 +1137,7 @@ class ScrollablePageState extends State<homePage> {
                                             showModalBottomSheet(
                                               context: context,
                                               useRootNavigator: true,
-                                              isScrollControlled: false,
+                                              isScrollControlled: true,
                                               constraints: BoxConstraints(maxWidth: scaffoldWidth < 500 ? scaffoldWidth - 20 : 500),
                                               enableDrag: true,
                                               showDragHandle: true,
@@ -1378,7 +1378,7 @@ class ScrollablePageState extends State<homePage> {
                                                     showModalBottomSheet(
                                                       context: context,
                                                       useRootNavigator: true,
-                                                      isScrollControlled: false,
+                                                      isScrollControlled: true,
                                                       constraints: BoxConstraints(maxWidth: scaffoldWidth < 500 ? scaffoldWidth - 20 : 500),
                                                       enableDrag: true,
                                                       showDragHandle: true,
@@ -1412,15 +1412,23 @@ class ScrollablePageState extends State<homePage> {
                                                 ),
                                                 GestureDetector(
                                                   onTap: () {
-                                                    Navigator.push(
-                                                      topContext,
-                                                      MaterialPageRoute(
-                                                          fullscreenDialog: true,
-                                                          allowSnapshotting: true,
-                                                          maintainState: true,
-                                                          builder: (context) => albumView(
-                                                                release: recents.data["Data"][2]["Release"]["CatalogId"],
-                                                              )),
+                                                    showModalBottomSheet(
+                                                      context: context,
+                                                      useRootNavigator: true,
+                                                      isScrollControlled: true,
+                                                      constraints: BoxConstraints(maxWidth: scaffoldWidth < 500 ? scaffoldWidth - 20 : 500),
+                                                      enableDrag: true,
+                                                      showDragHandle: true,
+                                                      shape: RoundedRectangleBorder(
+                                                        borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
+                                                      ),
+                                                      useSafeArea: true,
+                                                      backgroundColor: MediaQuery.of(context).platformBrightness == Brightness.dark ? Color(0xFF040707) : ThemeData.light().scaffoldBackgroundColor,
+                                                      builder: (BuildContext context) {
+                                                        return albumView(
+                                                          release: recents.data["Data"][2]["Release"]["CatalogId"],
+                                                        );
+                                                      },
                                                     );
                                                   },
                                                   child: mcRecentAlbum(
@@ -1431,15 +1439,23 @@ class ScrollablePageState extends State<homePage> {
                                                 ),
                                                 GestureDetector(
                                                   onTap: () {
-                                                    Navigator.push(
-                                                      topContext,
-                                                      MaterialPageRoute(
-                                                          fullscreenDialog: true,
-                                                          allowSnapshotting: true,
-                                                          maintainState: true,
-                                                          builder: (context) => albumView(
-                                                                release: recents.data["Data"][3]["Release"]["CatalogId"],
-                                                              )),
+                                                    showModalBottomSheet(
+                                                      context: context,
+                                                      useRootNavigator: true,
+                                                      isScrollControlled: true,
+                                                      constraints: BoxConstraints(maxWidth: scaffoldWidth < 500 ? scaffoldWidth - 20 : 500),
+                                                      enableDrag: true,
+                                                      showDragHandle: true,
+                                                      shape: RoundedRectangleBorder(
+                                                        borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
+                                                      ),
+                                                      useSafeArea: true,
+                                                      backgroundColor: MediaQuery.of(context).platformBrightness == Brightness.dark ? Color(0xFF040707) : ThemeData.light().scaffoldBackgroundColor,
+                                                      builder: (BuildContext context) {
+                                                        return albumView(
+                                                          release: recents.data["Data"][3]["Release"]["CatalogId"],
+                                                        );
+                                                      },
                                                     );
                                                   },
                                                   child: mcRecentAlbum(
@@ -1450,15 +1466,23 @@ class ScrollablePageState extends State<homePage> {
                                                 ),
                                                 GestureDetector(
                                                   onTap: () {
-                                                    Navigator.push(
-                                                      topContext,
-                                                      MaterialPageRoute(
-                                                          fullscreenDialog: true,
-                                                          allowSnapshotting: true,
-                                                          maintainState: true,
-                                                          builder: (context) => albumView(
-                                                                release: recents.data["Data"][4]["Release"]["CatalogId"],
-                                                              )),
+                                                    showModalBottomSheet(
+                                                      context: context,
+                                                      useRootNavigator: true,
+                                                      isScrollControlled: true,
+                                                      constraints: BoxConstraints(maxWidth: scaffoldWidth < 500 ? scaffoldWidth - 20 : 500),
+                                                      enableDrag: true,
+                                                      showDragHandle: true,
+                                                      shape: RoundedRectangleBorder(
+                                                        borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
+                                                      ),
+                                                      useSafeArea: true,
+                                                      backgroundColor: MediaQuery.of(context).platformBrightness == Brightness.dark ? Color(0xFF040707) : ThemeData.light().scaffoldBackgroundColor,
+                                                      builder: (BuildContext context) {
+                                                        return albumView(
+                                                          release: recents.data["Data"][4]["Release"]["CatalogId"],
+                                                        );
+                                                      },
                                                     );
                                                   },
                                                   child: mcRecentAlbum(
@@ -1476,15 +1500,23 @@ class ScrollablePageState extends State<homePage> {
                                               children: [
                                                 GestureDetector(
                                                   onTap: () {
-                                                    Navigator.push(
-                                                      topContext,
-                                                      MaterialPageRoute(
-                                                          fullscreenDialog: true,
-                                                          allowSnapshotting: true,
-                                                          maintainState: true,
-                                                          builder: (context) => albumView(
-                                                                release: recents.data["Data"][5]["Release"]["CatalogId"],
-                                                              )),
+                                                    showModalBottomSheet(
+                                                      context: context,
+                                                      useRootNavigator: true,
+                                                      isScrollControlled: true,
+                                                      constraints: BoxConstraints(maxWidth: scaffoldWidth < 500 ? scaffoldWidth - 20 : 500),
+                                                      enableDrag: true,
+                                                      showDragHandle: true,
+                                                      shape: RoundedRectangleBorder(
+                                                        borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
+                                                      ),
+                                                      useSafeArea: true,
+                                                      backgroundColor: MediaQuery.of(context).platformBrightness == Brightness.dark ? Color(0xFF040707) : ThemeData.light().scaffoldBackgroundColor,
+                                                      builder: (BuildContext context) {
+                                                        return albumView(
+                                                          release: recents.data["Data"][5]["Release"]["CatalogId"],
+                                                        );
+                                                      },
                                                     );
                                                   },
                                                   child: mcRecentAlbum(
@@ -1495,15 +1527,50 @@ class ScrollablePageState extends State<homePage> {
                                                 ),
                                                 GestureDetector(
                                                   onTap: () {
-                                                    Navigator.push(
-                                                      topContext,
-                                                      MaterialPageRoute(
-                                                          fullscreenDialog: true,
-                                                          allowSnapshotting: true,
-                                                          maintainState: true,
-                                                          builder: (context) => albumView(
-                                                                release: recents.data["Data"][6]["Release"]["CatalogId"],
-                                                              )),
+                                                    showModalBottomSheet(
+                                                      context: context,
+                                                      useRootNavigator: true,
+                                                      isScrollControlled: true,
+                                                      constraints: BoxConstraints(maxWidth: scaffoldWidth < 500 ? scaffoldWidth - 20 : 500),
+                                                      enableDrag: true,
+                                                      showDragHandle: true,
+                                                      shape: RoundedRectangleBorder(
+                                                        borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
+                                                      ),
+                                                      useSafeArea: true,
+                                                      backgroundColor: MediaQuery.of(context).platformBrightness == Brightness.dark ? Color(0xFF040707) : ThemeData.light().scaffoldBackgroundColor,
+                                                      builder: (BuildContext context) {
+                                                        return albumView(
+                                                          release: recents.data["Data"][6]["Release"]["CatalogId"],
+                                                        );
+                                                      },
+                                                    );
+                                                  },
+                                                  child: mcRecentAlbum(
+                                                    data: recents.data["Data"][6],
+                                                    width: scaffoldWidth / 2 - 30,
+                                                    appSettings: appSettings,
+                                                  ),
+                                                ),
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    showModalBottomSheet(
+                                                      context: context,
+                                                      useRootNavigator: true,
+                                                      isScrollControlled: true,
+                                                      constraints: BoxConstraints(maxWidth: scaffoldWidth < 500 ? scaffoldWidth - 20 : 500),
+                                                      enableDrag: true,
+                                                      showDragHandle: true,
+                                                      shape: RoundedRectangleBorder(
+                                                        borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
+                                                      ),
+                                                      useSafeArea: true,
+                                                      backgroundColor: MediaQuery.of(context).platformBrightness == Brightness.dark ? Color(0xFF040707) : ThemeData.light().scaffoldBackgroundColor,
+                                                      builder: (BuildContext context) {
+                                                        return albumView(
+                                                          release: recents.data["Data"][7]["Release"]["CatalogId"],
+                                                        );
+                                                      },
                                                     );
                                                   },
                                                   child: mcRecentAlbum(
@@ -1514,38 +1581,27 @@ class ScrollablePageState extends State<homePage> {
                                                 ),
                                                 GestureDetector(
                                                   onTap: () {
-                                                    Navigator.push(
-                                                      topContext,
-                                                      MaterialPageRoute(
-                                                          fullscreenDialog: true,
-                                                          allowSnapshotting: true,
-                                                          maintainState: true,
-                                                          builder: (context) => albumView(
-                                                                release: recents.data["Data"][8]["Release"]["CatalogId"],
-                                                              )),
+                                                    showModalBottomSheet(
+                                                      context: context,
+                                                      useRootNavigator: true,
+                                                      isScrollControlled: true,
+                                                      constraints: BoxConstraints(maxWidth: scaffoldWidth < 500 ? scaffoldWidth - 20 : 500),
+                                                      enableDrag: true,
+                                                      showDragHandle: true,
+                                                      shape: RoundedRectangleBorder(
+                                                        borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
+                                                      ),
+                                                      useSafeArea: true,
+                                                      backgroundColor: MediaQuery.of(context).platformBrightness == Brightness.dark ? Color(0xFF040707) : ThemeData.light().scaffoldBackgroundColor,
+                                                      builder: (BuildContext context) {
+                                                        return albumView(
+                                                          release: recents.data["Data"][8]["Release"]["CatalogId"],
+                                                        );
+                                                      },
                                                     );
                                                   },
                                                   child: mcRecentAlbum(
                                                     data: recents.data["Data"][8],
-                                                    width: scaffoldWidth / 2 - 30,
-                                                    appSettings: appSettings,
-                                                  ),
-                                                ),
-                                                GestureDetector(
-                                                  onTap: () {
-                                                    Navigator.push(
-                                                      topContext,
-                                                      MaterialPageRoute(
-                                                          fullscreenDialog: true,
-                                                          allowSnapshotting: true,
-                                                          maintainState: true,
-                                                          builder: (context) => albumView(
-                                                                release: recents.data["Data"][9]["Release"]["CatalogId"],
-                                                              )),
-                                                    );
-                                                  },
-                                                  child: mcRecentAlbum(
-                                                    data: recents.data["Data"][9],
                                                     width: scaffoldWidth / 2 - 30,
                                                     appSettings: appSettings,
                                                   ),
@@ -1632,13 +1688,21 @@ class ScrollablePageState extends State<homePage> {
                                                       final isLastItem = index == playlists.data["Menu"]["Sections"][0]["Items"].length - 1;
                                                       return GestureDetector(
                                                         onTap: () {
-                                                          Navigator.push(
-                                                            topContext,
-                                                            MaterialPageRoute(
-                                                                fullscreenDialog: true,
-                                                                allowSnapshotting: true,
-                                                                maintainState: true,
-                                                                builder: (context) => playistView(playlist: playlists.data["Menu"]["Sections"][0]["Items"][index]["Link"].replaceAll('mcat://playlist:', ''))),
+                                                          showModalBottomSheet(
+                                                            context: context,
+                                                            useRootNavigator: true,
+                                                            isScrollControlled: true,
+                                                            constraints: BoxConstraints(maxWidth: scaffoldWidth < 500 ? scaffoldWidth - 20 : 500),
+                                                            enableDrag: true,
+                                                            showDragHandle: true,
+                                                            shape: RoundedRectangleBorder(
+                                                              borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
+                                                            ),
+                                                            useSafeArea: true,
+                                                            backgroundColor: MediaQuery.of(context).platformBrightness == Brightness.dark ? Color(0xFF040707) : ThemeData.light().scaffoldBackgroundColor,
+                                                            builder: (BuildContext context) {
+                                                              return playistView(playlist: playlists.data["Menu"]["Sections"][0]["Items"][index]["Link"].replaceAll('mcat://playlist:', ''));
+                                                            },
                                                           );
                                                         },
                                                         child: Padding(
@@ -1734,9 +1798,21 @@ class ScrollablePageState extends State<homePage> {
                                                         ),
                                                         child: GestureDetector(
                                                           onTap: () {
-                                                            Navigator.push(
-                                                              topContext,
-                                                              MaterialPageRoute(fullscreenDialog: true, allowSnapshotting: true, maintainState: true, builder: (context) => moodView(mood: moods.data["Moods"]["Data"][index]["Uri"])),
+                                                            showModalBottomSheet(
+                                                              context: context,
+                                                              useRootNavigator: true,
+                                                              isScrollControlled: true,
+                                                              constraints: BoxConstraints(maxWidth: scaffoldWidth < 500 ? scaffoldWidth - 20 : 500),
+                                                              enableDrag: true,
+                                                              showDragHandle: true,
+                                                              shape: RoundedRectangleBorder(
+                                                                borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
+                                                              ),
+                                                              useSafeArea: true,
+                                                              backgroundColor: MediaQuery.of(context).platformBrightness == Brightness.dark ? Color(0xFF040707) : ThemeData.light().scaffoldBackgroundColor,
+                                                              builder: (BuildContext context) {
+                                                                return moodView(mood: moods.data["Moods"]["Data"][index]["Uri"]);
+                                                              },
                                                             );
                                                           },
                                                           child: ClipRRect(
