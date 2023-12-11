@@ -55,11 +55,14 @@ class ScrollablePageState extends State<homePage> {
   Widget build(BuildContext topContext) {
     return MaterialApp(
       theme: ThemeData(
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: const IconThemeData(color: Colors.black),
       ),
       darkTheme: ThemeData.dark().copyWith(
-        cardColor: Color(0xFF202020),
+        cardColor: const Color(0xFF202020),
         scaffoldBackgroundColor: const Color(0xFF040707),
+        iconTheme: IconThemeData(
+          color: Colors.white
+        ),
       ),
       themeMode: ThemeMode.system,
       debugShowCheckedModeBanner: false,
@@ -74,15 +77,15 @@ class ScrollablePageState extends State<homePage> {
             } else {
               isDarkTheme = false;
             }
-            final backgroundColor = MediaQuery.of(context).platformBrightness == Brightness.dark ? Color(0xFF040707) : ThemeData.light().scaffoldBackgroundColor;
+            final backgroundColor = MediaQuery.of(context).platformBrightness == Brightness.dark ? const Color(0xFF040707) : ThemeData.light().scaffoldBackgroundColor;
             final iconColor = MediaQuery.of(context).platformBrightness == Brightness.dark ? Brightness.light : Brightness.dark;
-            final appBarColor = MediaQuery.of(context).platformBrightness == Brightness.dark ? Color(0xFF202020) : ThemeData.light().scaffoldBackgroundColor;
+            final appBarColor = MediaQuery.of(context).platformBrightness == Brightness.dark ? const Color(0xFF202020) : ThemeData.light().scaffoldBackgroundColor;
 
             SystemChrome.setSystemUIOverlayStyle(
               SystemUiOverlayStyle(
                 statusBarColor: Colors.transparent,
                 statusBarIconBrightness: iconColor,
-                systemNavigationBarColor: Color(0xFF040707),
+                systemNavigationBarColor: const Color(0xFF040707),
               ),
             );
             return OrientationBuilder(
@@ -90,11 +93,11 @@ class ScrollablePageState extends State<homePage> {
                 if (orientation == Orientation.portrait) {
                   return SingleChildScrollView(
                     child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 15),
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            SizedBox(
+                            const SizedBox(
                               height: 15,
                             ),
                             FutureBuilder(
@@ -102,7 +105,7 @@ class ScrollablePageState extends State<homePage> {
                                 builder: (BuildContext context, AsyncSnapshot userData) {
                                   if (userData.hasData) {
                                     return Padding(
-                                      padding: EdgeInsets.only(top: 30, bottom: 10),
+                                      padding: const EdgeInsets.only(top: 30, bottom: 10),
                                       child: Row(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -113,7 +116,7 @@ class ScrollablePageState extends State<homePage> {
                                               "${greetings[Random().nextInt(greetings.length)]}, ${userData.data["User"]["FirstName"]}!",
                                               overflow: TextOverflow.visible,
                                               maxLines: 3,
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                 fontSize: 32,
                                                 height: 1.25,
                                                 fontWeight: FontWeight.bold,
@@ -127,10 +130,10 @@ class ScrollablePageState extends State<homePage> {
                                                 onTap: () {
                                                   Navigator.push(
                                                     topContext,
-                                                    MaterialPageRoute(fullscreenDialog: true, builder: (ultraTopContext) => settingsPage()),
+                                                    MaterialPageRoute(fullscreenDialog: true, builder: (ultraTopContext) => const settingsPage()),
                                                   );
                                                 },
-                                                child: Padding(
+                                                child: const Padding(
                                                   padding: EdgeInsets.symmetric(horizontal: 15),
                                                   child: Icon(
                                                     Icons.settings_outlined,
@@ -145,14 +148,14 @@ class ScrollablePageState extends State<homePage> {
                                     );
                                   }
                                   return Padding(
-                                    padding: EdgeInsets.only(top: 30, bottom: 10),
+                                    padding: const EdgeInsets.only(top: 30, bottom: 10),
                                     child: Row(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         Container(
                                           width: scaffoldWidth - 143,
-                                          child: Text(
+                                          child: const Text(
                                             "Hello, User!",
                                             overflow: TextOverflow.visible,
                                             maxLines: 3,
@@ -168,10 +171,10 @@ class ScrollablePageState extends State<homePage> {
                                           onTap: () {
                                             Navigator.push(
                                               topContext,
-                                              MaterialPageRoute(fullscreenDialog: true, builder: (ultraTopContext) => settingsPage()),
+                                              MaterialPageRoute(fullscreenDialog: true, builder: (ultraTopContext) => const settingsPage()),
                                             );
                                           },
-                                          child: Padding(
+                                          child: const Padding(
                                             padding: EdgeInsets.symmetric(horizontal: 15),
                                             child: Icon(
                                               Icons.settings_outlined,
@@ -196,13 +199,13 @@ class ScrollablePageState extends State<homePage> {
                                                 children: [
                                                   Expanded(
                                                     child: Padding(
-                                                      padding: EdgeInsets.symmetric(vertical: 10),
+                                                      padding: const EdgeInsets.symmetric(vertical: 10),
                                                       child: GestureDetector(
                                                         onTap: () {
                                                           setBool("shown${appData.data["build"]}", true);
                                                           Navigator.push(
                                                             topContext,
-                                                            MaterialPageRoute(builder: (context) => changelogPage()),
+                                                            MaterialPageRoute(builder: (context) => const changelogPage()),
                                                           );
                                                         },
                                                         child:
@@ -232,11 +235,11 @@ class ScrollablePageState extends State<homePage> {
                                                 setState(() {
                                                   Navigator.push(
                                                     topContext,
-                                                    MaterialPageRoute(builder: (context) => finishSetupPage()),
+                                                    MaterialPageRoute(builder: (context) => const finishSetupPage()),
                                                   );
                                                 });
                                               },
-                                              child: mcNotificationCard(title: "Finish setup", subtitle: "Tips on using Monstercat at 110% efficiency", icon: Icons.arrow_forward),
+                                              child: const mcNotificationCard(title: "Finish setup", subtitle: "Tips on using Monstercat at 110% efficiency", icon: Icons.arrow_forward),
                                             ),
                                           ),
                                         ],
@@ -254,7 +257,7 @@ class ScrollablePageState extends State<homePage> {
                                       child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          Text(
+                                          const Text(
                                             "Latest release",
                                             overflow: TextOverflow.ellipsis,
                                             maxLines: 1,
@@ -266,12 +269,12 @@ class ScrollablePageState extends State<homePage> {
                                             ),
                                           ),
                                           Padding(
-                                            padding: EdgeInsets.only(bottom: 10),
+                                            padding: const EdgeInsets.only(bottom: 10),
                                             child: Text(
                                               "${recents.data["Data"][0]["Brand"]} - Released ${DateFormat('MMMM d, y').format(DateTime.parse(recents.data["Data"][0]["Release"]["ReleaseDate"]))}",
                                               overflow: TextOverflow.ellipsis,
                                               maxLines: 1,
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                 fontSize: 18,
                                                 height: 1.5,
                                                 color: Colors.grey,
@@ -284,15 +287,17 @@ class ScrollablePageState extends State<homePage> {
                                               showModalBottomSheet(
                                                 context: context,
                                                 useRootNavigator: false,
-                                                isScrollControlled: false,
+                                                isScrollControlled: true,
                                                 constraints: BoxConstraints(maxWidth: scaffoldWidth < 500 ? scaffoldWidth : 500),
                                                 enableDrag: true,
                                                 showDragHandle: true,
-                                                shape: RoundedRectangleBorder(
+                                                shape: const RoundedRectangleBorder(
                                                   borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
                                                 ),
                                                 useSafeArea: true,
-                                                backgroundColor: MediaQuery.of(context).platformBrightness == Brightness.dark ? Color(0xFF040707) : ThemeData.light().scaffoldBackgroundColor,
+
+                                                barrierColor: MediaQuery.of(context).platformBrightness == Brightness.dark ? const Color(0xFF040707) : ThemeData.light().scaffoldBackgroundColor,
+                                                backgroundColor: MediaQuery.of(context).platformBrightness == Brightness.dark ? const Color(0xFF040707) : ThemeData.light().scaffoldBackgroundColor,
                                                 builder: (BuildContext context) {
                                                   return albumView(
                                                     release: recents.data["Data"][0]["Release"]["CatalogId"],
@@ -315,7 +320,7 @@ class ScrollablePageState extends State<homePage> {
                                               mainAxisAlignment: MainAxisAlignment.start,
                                               children: [
                                                 Padding(
-                                                  padding: EdgeInsets.only(right: 10),
+                                                  padding: const EdgeInsets.only(right: 10),
                                                   child: ClipRRect(
                                                     borderRadius: BorderRadius.circular(15.0),
                                                     child: CachedNetworkImage(
@@ -337,7 +342,7 @@ class ScrollablePageState extends State<homePage> {
                                                       mainAxisAlignment: MainAxisAlignment.start,
                                                       children: [
                                                         Padding(
-                                                            padding: EdgeInsets.only(bottom: 5),
+                                                            padding: const EdgeInsets.only(bottom: 5),
                                                             child: Text(
                                                               recents.data["Data"][0]["Title"],
                                                               overflow: TextOverflow.ellipsis,
@@ -359,7 +364,7 @@ class ScrollablePageState extends State<homePage> {
                                                           ),
                                                         ),
                                                         Padding(
-                                                            padding: EdgeInsets.only(top: 5),
+                                                            padding: const EdgeInsets.only(top: 5),
                                                             child: Text(
                                                               "${recents.data["Data"][0]["Release"]["Title"]} (${recents.data["Data"][0]["Release"]["Type"]})",
                                                               overflow: TextOverflow.ellipsis,
@@ -386,7 +391,7 @@ class ScrollablePageState extends State<homePage> {
                                       child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          Text(
+                                          const Text(
                                             "Latest release",
                                             overflow: TextOverflow.ellipsis,
                                             maxLines: 1,
@@ -397,7 +402,7 @@ class ScrollablePageState extends State<homePage> {
                                               fontFamily: 'Flow',
                                             ),
                                           ),
-                                          Padding(
+                                          const Padding(
                                             padding: EdgeInsets.only(bottom: 10),
                                             child: Text(
                                               "Loading Date",
@@ -416,7 +421,7 @@ class ScrollablePageState extends State<homePage> {
                                             mainAxisAlignment: MainAxisAlignment.start,
                                             children: [
                                               Padding(
-                                                padding: EdgeInsets.only(right: 10),
+                                                padding: const EdgeInsets.only(right: 10),
                                                 child: ClipRRect(
                                                   borderRadius: BorderRadius.circular(15.0),
                                                   child: Container(height: 128, width: 128, color: Colors.transparent),
@@ -425,7 +430,7 @@ class ScrollablePageState extends State<homePage> {
                                               Container(
                                                 height: 128,
                                                 width: scaffoldWidth - 168,
-                                                child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                                                child: const Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                                                   Column(
                                                     crossAxisAlignment: CrossAxisAlignment.start,
                                                     mainAxisAlignment: MainAxisAlignment.start,
@@ -436,7 +441,7 @@ class ScrollablePageState extends State<homePage> {
                                                             "Loading...",
                                                             overflow: TextOverflow.ellipsis,
                                                             maxLines: 1,
-                                                            style: const TextStyle(
+                                                            style: TextStyle(
                                                               fontSize: 24,
                                                               height: 1,
                                                               fontWeight: FontWeight.bold,
@@ -446,7 +451,7 @@ class ScrollablePageState extends State<homePage> {
                                                       Text(
                                                         "Loading...",
                                                         maxLines: 1,
-                                                        style: const TextStyle(
+                                                        style: TextStyle(
                                                           fontSize: 18,
                                                           color: Colors.teal,
                                                           fontFamily: 'Flow',
@@ -458,7 +463,7 @@ class ScrollablePageState extends State<homePage> {
                                                             "Loading...",
                                                             overflow: TextOverflow.ellipsis,
                                                             maxLines: 2,
-                                                            style: const TextStyle(
+                                                            style: TextStyle(
                                                               fontSize: 20,
                                                               height: 1,
                                                               fontFamily: 'Flow',
@@ -519,15 +524,15 @@ class ScrollablePageState extends State<homePage> {
                                             showModalBottomSheet(
                                               context: context,
                                               useRootNavigator: false,
-                                              isScrollControlled: false,
+                                              isScrollControlled: true,
                                               constraints: BoxConstraints(maxWidth: scaffoldWidth < 500 ? scaffoldWidth - 20 : 500),
                                               enableDrag: true,
                                               showDragHandle: true,
-                                              shape: RoundedRectangleBorder(
+                                              shape: const RoundedRectangleBorder(
                                                 borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
                                               ),
                                               useSafeArea: true,
-                                              backgroundColor: MediaQuery.of(context).platformBrightness == Brightness.dark ? Color(0xFF040707) : ThemeData.light().scaffoldBackgroundColor,
+                                              backgroundColor: MediaQuery.of(context).platformBrightness == Brightness.dark ? const Color(0xFF040707) : ThemeData.light().scaffoldBackgroundColor,
                                               builder: (BuildContext context) {
                                                 return albumView(
                                                   release: recents.data["Data"][1]["Release"]["CatalogId"],
@@ -556,15 +561,15 @@ class ScrollablePageState extends State<homePage> {
                                             showModalBottomSheet(
                                               context: context,
                                               useRootNavigator: false,
-                                              isScrollControlled: false,
+                                              isScrollControlled: true,
                                               constraints: BoxConstraints(maxWidth: scaffoldWidth < 500 ? scaffoldWidth - 20 : 500),
                                               enableDrag: true,
                                               showDragHandle: true,
-                                              shape: RoundedRectangleBorder(
+                                              shape: const RoundedRectangleBorder(
                                                 borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
                                               ),
                                               useSafeArea: true,
-                                              backgroundColor: MediaQuery.of(context).platformBrightness == Brightness.dark ? Color(0xFF040707) : ThemeData.light().scaffoldBackgroundColor,
+                                              backgroundColor: MediaQuery.of(context).platformBrightness == Brightness.dark ? const Color(0xFF040707) : ThemeData.light().scaffoldBackgroundColor,
                                               builder: (BuildContext context) {
                                                 return albumView(
                                                   release: recents.data["Data"][2]["Release"]["CatalogId"],
@@ -593,15 +598,15 @@ class ScrollablePageState extends State<homePage> {
                                             showModalBottomSheet(
                                               context: context,
                                               useRootNavigator: false,
-                                              isScrollControlled: false,
+                                              isScrollControlled: true,
                                               constraints: BoxConstraints(maxWidth: scaffoldWidth < 500 ? scaffoldWidth - 20 : 500),
                                               enableDrag: true,
                                               showDragHandle: true,
-                                              shape: RoundedRectangleBorder(
+                                              shape: const RoundedRectangleBorder(
                                                 borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
                                               ),
                                               useSafeArea: true,
-                                              backgroundColor: MediaQuery.of(context).platformBrightness == Brightness.dark ? Color(0xFF040707) : ThemeData.light().scaffoldBackgroundColor,
+                                              backgroundColor: MediaQuery.of(context).platformBrightness == Brightness.dark ? const Color(0xFF040707) : ThemeData.light().scaffoldBackgroundColor,
                                               builder: (BuildContext context) {
                                                 return albumView(
                                                   release: recents.data["Data"][3]["Release"]["CatalogId"],
@@ -630,15 +635,15 @@ class ScrollablePageState extends State<homePage> {
                                             showModalBottomSheet(
                                               context: context,
                                               useRootNavigator: false,
-                                              isScrollControlled: false,
+                                              isScrollControlled: true,
                                               constraints: BoxConstraints(maxWidth: scaffoldWidth < 500 ? scaffoldWidth - 20 : 500),
                                               enableDrag: true,
                                               showDragHandle: true,
-                                              shape: RoundedRectangleBorder(
+                                              shape: const RoundedRectangleBorder(
                                                 borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
                                               ),
                                               useSafeArea: true,
-                                              backgroundColor: MediaQuery.of(context).platformBrightness == Brightness.dark ? Color(0xFF040707) : ThemeData.light().scaffoldBackgroundColor,
+                                              backgroundColor: MediaQuery.of(context).platformBrightness == Brightness.dark ? const Color(0xFF040707) : ThemeData.light().scaffoldBackgroundColor,
                                               builder: (BuildContext context) {
                                                 return albumView(
                                                   release: recents.data["Data"][4]["Release"]["CatalogId"],
@@ -665,9 +670,9 @@ class ScrollablePageState extends State<homePage> {
                                       ],
                                     );
                                   } else {
-                                    return Center(
+                                    return const Center(
                                       child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.start, children: [
-                                        const Padding(
+                                        Padding(
                                           padding: EdgeInsets.all(15),
                                           child: Text(
                                             "Loading...",
@@ -678,20 +683,20 @@ class ScrollablePageState extends State<homePage> {
                                             ),
                                           ),
                                         ),
-                                        const LinearProgressIndicator(
+                                        LinearProgressIndicator(
                                           color: Colors.teal,
                                           backgroundColor: Colors.transparent,
                                         ),
-                                        const SizedBox(
+                                        SizedBox(
                                           height: 280,
                                         ),
                                         Center(
                                           child: Padding(
-                                            padding: const EdgeInsets.only(top: 15, bottom: 15),
+                                            padding: EdgeInsets.only(top: 15, bottom: 15),
                                             child: Row(
                                               mainAxisAlignment: MainAxisAlignment.center,
                                               children: [
-                                                const Text(
+                                                Text(
                                                   "View More",
                                                   style: TextStyle(
                                                     fontSize: 18,
@@ -746,11 +751,11 @@ class ScrollablePageState extends State<homePage> {
                                                               constraints: BoxConstraints(maxWidth: scaffoldWidth < 500 ? scaffoldWidth - 20 : 500),
                                                               enableDrag: true,
                                                               showDragHandle: true,
-                                                              shape: RoundedRectangleBorder(
+                                                              shape: const RoundedRectangleBorder(
                                                                 borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
                                                               ),
                                                               useSafeArea: true,
-                                                              backgroundColor: MediaQuery.of(context).platformBrightness == Brightness.dark ? Color(0xFF040707) : ThemeData.light().scaffoldBackgroundColor,
+                                                              backgroundColor: MediaQuery.of(context).platformBrightness == Brightness.dark ? const Color(0xFF040707) : ThemeData.light().scaffoldBackgroundColor,
                                                               builder: (BuildContext context) {
                                                                 return playistView(playlist: playlists.data["Menu"]["Sections"][0]["Items"][index]["Link"].replaceAll('mcat://playlist:', ''));
                                                               },
@@ -785,10 +790,10 @@ class ScrollablePageState extends State<homePage> {
                                       ],
                                     );
                                   } else {
-                                    return Center(
-                                      child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.start, children: const [
+                                    return const Center(
+                                      child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.start, children: [
                                         Padding(
-                                          padding: const EdgeInsets.only(left: 15, right: 15, top: 15, bottom: 5),
+                                          padding: EdgeInsets.only(left: 15, right: 15, top: 15, bottom: 5),
                                           child: Text(
                                             "Loading...",
                                             style: TextStyle(
@@ -800,7 +805,7 @@ class ScrollablePageState extends State<homePage> {
                                           ),
                                         ),
                                         Padding(
-                                          padding: const EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 5),
+                                          padding: EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 5),
                                           child: Text(
                                             "Official Monstercat playlists",
                                             style: TextStyle(
@@ -864,11 +869,11 @@ class ScrollablePageState extends State<homePage> {
                                                                 constraints: BoxConstraints(maxWidth: scaffoldWidth < 500 ? scaffoldWidth - 20 : 500),
                                                                 enableDrag: true,
                                                                 showDragHandle: true,
-                                                                shape: RoundedRectangleBorder(
+                                                                shape: const RoundedRectangleBorder(
                                                                   borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
                                                                 ),
                                                                 useSafeArea: true,
-                                                                backgroundColor: MediaQuery.of(context).platformBrightness == Brightness.dark ? Color(0xFF040707) : ThemeData.light().scaffoldBackgroundColor,
+                                                                backgroundColor: MediaQuery.of(context).platformBrightness == Brightness.dark ? const Color(0xFF040707) : ThemeData.light().scaffoldBackgroundColor,
                                                                 builder: (BuildContext context) {
                                                                   return moodView(mood: moods.data["Moods"]["Data"][index]["Uri"]);
                                                                 },
@@ -897,10 +902,10 @@ class ScrollablePageState extends State<homePage> {
                                       ],
                                     );
                                   } else {
-                                    return Center(
-                                      child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.start, children: const [
+                                    return const Center(
+                                      child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.start, children: [
                                         Padding(
-                                          padding: const EdgeInsets.only(left: 15, right: 15, top: 15, bottom: 5),
+                                          padding: EdgeInsets.only(left: 15, right: 15, top: 15, bottom: 5),
                                           child: Text(
                                             "Loading...",
                                             style: TextStyle(
@@ -912,7 +917,7 @@ class ScrollablePageState extends State<homePage> {
                                           ),
                                         ),
                                         Padding(
-                                          padding: const EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 5),
+                                          padding: EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 5),
                                           child: Text(
                                             "A selection of Monstercat songs to fit a variety of moods.",
                                             style: TextStyle(
@@ -936,9 +941,9 @@ class ScrollablePageState extends State<homePage> {
                               onTap: () {
                                 review.openStoreListing();
                               },
-                              child: mcNotificationCard(title: "Got feedback?", subtitle: "Please, tap this card and share our thoughts", icon: Icons.arrow_forward_rounded),
+                              child: const mcNotificationCard(title: "Got feedback?", subtitle: "Please, tap this card and share our thoughts", icon: Icons.arrow_forward_rounded),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 15,
                             )
                           ],
@@ -947,7 +952,7 @@ class ScrollablePageState extends State<homePage> {
                 }
                 return SingleChildScrollView(
                   child: Padding(
-                      padding: EdgeInsets.only(left: 15, right: 45),
+                      padding: const EdgeInsets.only(left: 15, right: 45),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -956,7 +961,7 @@ class ScrollablePageState extends State<homePage> {
                               builder: (BuildContext context, AsyncSnapshot userData) {
                                 if (userData.hasData) {
                                   return Padding(
-                                    padding: EdgeInsets.only(top: 30, bottom: 10),
+                                    padding: const EdgeInsets.only(top: 30, bottom: 10),
                                     child: Row(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -967,7 +972,7 @@ class ScrollablePageState extends State<homePage> {
                                             "${greetings[Random().nextInt(greetings.length)]}, ${userData.data["User"]["FirstName"]}!",
                                             overflow: TextOverflow.visible,
                                             maxLines: 3,
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                               fontSize: 32,
                                               height: 1.25,
                                               fontWeight: FontWeight.bold,
@@ -981,10 +986,10 @@ class ScrollablePageState extends State<homePage> {
                                               onTap: () {
                                                 Navigator.push(
                                                   topContext,
-                                                  MaterialPageRoute(fullscreenDialog: true, builder: (ultraTopContext) => settingsPage()),
+                                                  MaterialPageRoute(fullscreenDialog: true, builder: (ultraTopContext) => const settingsPage()),
                                                 );
                                               },
-                                              child: Padding(
+                                              child: const Padding(
                                                 padding: EdgeInsets.symmetric(horizontal: 15),
                                                 child: Icon(
                                                   Icons.settings_outlined,
@@ -999,14 +1004,14 @@ class ScrollablePageState extends State<homePage> {
                                   );
                                 }
                                 return Padding(
-                                  padding: EdgeInsets.only(top: 30, bottom: 10),
+                                  padding: const EdgeInsets.only(top: 30, bottom: 10),
                                   child: Row(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
                                       Container(
                                         width: scaffoldWidth - 143,
-                                        child: Text(
+                                        child: const Text(
                                           "Hello, User!",
                                           overflow: TextOverflow.visible,
                                           maxLines: 3,
@@ -1022,10 +1027,10 @@ class ScrollablePageState extends State<homePage> {
                                         onTap: () {
                                           Navigator.push(
                                             topContext,
-                                            MaterialPageRoute(fullscreenDialog: true, builder: (ultraTopContext) => settingsPage()),
+                                            MaterialPageRoute(fullscreenDialog: true, builder: (ultraTopContext) => const settingsPage()),
                                           );
                                         },
-                                        child: Padding(
+                                        child: const Padding(
                                           padding: EdgeInsets.symmetric(horizontal: 15),
                                           child: Icon(
                                             Icons.settings_outlined,
@@ -1050,13 +1055,13 @@ class ScrollablePageState extends State<homePage> {
                                               children: [
                                                 Expanded(
                                                   child: Padding(
-                                                    padding: EdgeInsets.symmetric(vertical: 10),
+                                                    padding: const EdgeInsets.symmetric(vertical: 10),
                                                     child: GestureDetector(
                                                       onTap: () {
                                                         setBool("shown${appData.data["build"]}", true);
                                                         Navigator.push(
                                                           topContext,
-                                                          MaterialPageRoute(builder: (context) => changelogPage()),
+                                                          MaterialPageRoute(builder: (context) => const changelogPage()),
                                                         );
                                                       },
                                                       child: mcNotificationCard(title: "Update ${appData.data["version"]} [${appData.data["build"]}]", subtitle: "MCPlayer has been updated!\nTap here to read what's new!", icon: Icons.info_outline_rounded),
@@ -1085,11 +1090,11 @@ class ScrollablePageState extends State<homePage> {
                                               setState(() {
                                                 Navigator.push(
                                                   topContext,
-                                                  MaterialPageRoute(builder: (context) => finishSetupPage()),
+                                                  MaterialPageRoute(builder: (context) => const finishSetupPage()),
                                                 );
                                               });
                                             },
-                                            child: mcNotificationCard(title: "Finish setup", subtitle: "Tips on using Monstercat at 110% efficiency", icon: Icons.arrow_forward),
+                                            child: const mcNotificationCard(title: "Finish setup", subtitle: "Tips on using Monstercat at 110% efficiency", icon: Icons.arrow_forward),
                                           ),
                                         ),
                                       ],
@@ -1107,7 +1112,7 @@ class ScrollablePageState extends State<homePage> {
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Text(
+                                        const Text(
                                           "Latest release",
                                           overflow: TextOverflow.ellipsis,
                                           maxLines: 1,
@@ -1119,12 +1124,12 @@ class ScrollablePageState extends State<homePage> {
                                           ),
                                         ),
                                         Padding(
-                                          padding: EdgeInsets.only(bottom: 10),
+                                          padding: const EdgeInsets.only(bottom: 10),
                                           child: Text(
                                             "${recents.data["Data"][0]["Brand"]} - Released ${DateFormat('MMMM d, y').format(DateTime.parse(recents.data["Data"][0]["Release"]["ReleaseDate"]))}",
                                             overflow: TextOverflow.ellipsis,
                                             maxLines: 1,
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                               fontSize: 18,
                                               height: 1.5,
                                               color: Colors.grey,
@@ -1141,11 +1146,11 @@ class ScrollablePageState extends State<homePage> {
                                               constraints: BoxConstraints(maxWidth: scaffoldWidth < 500 ? scaffoldWidth - 20 : 500),
                                               enableDrag: true,
                                               showDragHandle: true,
-                                              shape: RoundedRectangleBorder(
+                                              shape: const RoundedRectangleBorder(
                                                 borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
                                               ),
                                               useSafeArea: true,
-                                              backgroundColor: MediaQuery.of(context).platformBrightness == Brightness.dark ? Color(0xFF040707) : ThemeData.light().scaffoldBackgroundColor,
+                                              backgroundColor: MediaQuery.of(context).platformBrightness == Brightness.dark ? const Color(0xFF040707) : ThemeData.light().scaffoldBackgroundColor,
                                               builder: (BuildContext context) {
                                                 return albumView(
                                                   release: recents.data["Data"][0]["Release"]["CatalogId"],
@@ -1168,7 +1173,7 @@ class ScrollablePageState extends State<homePage> {
                                             mainAxisAlignment: MainAxisAlignment.start,
                                             children: [
                                               Padding(
-                                                padding: EdgeInsets.only(right: 10),
+                                                padding: const EdgeInsets.only(right: 10),
                                                 child: ClipRRect(
                                                   borderRadius: BorderRadius.circular(15.0),
                                                   child: CachedNetworkImage(
@@ -1190,7 +1195,7 @@ class ScrollablePageState extends State<homePage> {
                                                     mainAxisAlignment: MainAxisAlignment.start,
                                                     children: [
                                                       Padding(
-                                                          padding: EdgeInsets.only(bottom: 5),
+                                                          padding: const EdgeInsets.only(bottom: 5),
                                                           child: Text(
                                                             recents.data["Data"][0]["Title"],
                                                             overflow: TextOverflow.ellipsis,
@@ -1212,7 +1217,7 @@ class ScrollablePageState extends State<homePage> {
                                                         ),
                                                       ),
                                                       Padding(
-                                                          padding: EdgeInsets.only(top: 5),
+                                                          padding: const EdgeInsets.only(top: 5),
                                                           child: Text(
                                                             "${recents.data["Data"][0]["Release"]["Title"]} (${recents.data["Data"][0]["Release"]["Type"]})",
                                                             overflow: TextOverflow.ellipsis,
@@ -1239,7 +1244,7 @@ class ScrollablePageState extends State<homePage> {
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Text(
+                                        const Text(
                                           "Latest release",
                                           overflow: TextOverflow.ellipsis,
                                           maxLines: 1,
@@ -1250,7 +1255,7 @@ class ScrollablePageState extends State<homePage> {
                                             fontFamily: 'Flow',
                                           ),
                                         ),
-                                        Padding(
+                                        const Padding(
                                           padding: EdgeInsets.only(bottom: 10),
                                           child: Text(
                                             "Loading Date",
@@ -1269,7 +1274,7 @@ class ScrollablePageState extends State<homePage> {
                                           mainAxisAlignment: MainAxisAlignment.start,
                                           children: [
                                             Padding(
-                                              padding: EdgeInsets.only(right: 10),
+                                              padding: const EdgeInsets.only(right: 10),
                                               child: ClipRRect(
                                                 borderRadius: BorderRadius.circular(15.0),
                                                 child: Container(height: 128, width: 128, color: Colors.transparent),
@@ -1278,7 +1283,7 @@ class ScrollablePageState extends State<homePage> {
                                             Container(
                                               height: 128,
                                               width: scaffoldWidth - 200,
-                                              child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                                              child: const Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                                                 Column(
                                                   crossAxisAlignment: CrossAxisAlignment.start,
                                                   mainAxisAlignment: MainAxisAlignment.start,
@@ -1289,7 +1294,7 @@ class ScrollablePageState extends State<homePage> {
                                                           "Loading...",
                                                           overflow: TextOverflow.ellipsis,
                                                           maxLines: 1,
-                                                          style: const TextStyle(
+                                                          style: TextStyle(
                                                             fontSize: 24,
                                                             height: 1,
                                                             fontWeight: FontWeight.bold,
@@ -1299,7 +1304,7 @@ class ScrollablePageState extends State<homePage> {
                                                     Text(
                                                       "Loading...",
                                                       maxLines: 1,
-                                                      style: const TextStyle(
+                                                      style: TextStyle(
                                                         fontSize: 18,
                                                         color: Colors.teal,
                                                         fontFamily: 'Flow',
@@ -1311,7 +1316,7 @@ class ScrollablePageState extends State<homePage> {
                                                           "Loading...",
                                                           overflow: TextOverflow.ellipsis,
                                                           maxLines: 2,
-                                                          style: const TextStyle(
+                                                          style: TextStyle(
                                                             fontSize: 20,
                                                             height: 1,
                                                             fontFamily: 'Flow',
@@ -1382,11 +1387,11 @@ class ScrollablePageState extends State<homePage> {
                                                       constraints: BoxConstraints(maxWidth: scaffoldWidth < 500 ? scaffoldWidth - 20 : 500),
                                                       enableDrag: true,
                                                       showDragHandle: true,
-                                                      shape: RoundedRectangleBorder(
+                                                      shape: const RoundedRectangleBorder(
                                                         borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
                                                       ),
                                                       useSafeArea: true,
-                                                      backgroundColor: MediaQuery.of(context).platformBrightness == Brightness.dark ? Color(0xFF040707) : ThemeData.light().scaffoldBackgroundColor,
+                                                      backgroundColor: MediaQuery.of(context).platformBrightness == Brightness.dark ? const Color(0xFF040707) : ThemeData.light().scaffoldBackgroundColor,
                                                       builder: (BuildContext context) {
                                                         return albumView(
                                                           release: recents.data["Data"][1]["Release"]["CatalogId"],
@@ -1419,11 +1424,11 @@ class ScrollablePageState extends State<homePage> {
                                                       constraints: BoxConstraints(maxWidth: scaffoldWidth < 500 ? scaffoldWidth - 20 : 500),
                                                       enableDrag: true,
                                                       showDragHandle: true,
-                                                      shape: RoundedRectangleBorder(
+                                                      shape: const RoundedRectangleBorder(
                                                         borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
                                                       ),
                                                       useSafeArea: true,
-                                                      backgroundColor: MediaQuery.of(context).platformBrightness == Brightness.dark ? Color(0xFF040707) : ThemeData.light().scaffoldBackgroundColor,
+                                                      backgroundColor: MediaQuery.of(context).platformBrightness == Brightness.dark ? const Color(0xFF040707) : ThemeData.light().scaffoldBackgroundColor,
                                                       builder: (BuildContext context) {
                                                         return albumView(
                                                           release: recents.data["Data"][2]["Release"]["CatalogId"],
@@ -1446,11 +1451,11 @@ class ScrollablePageState extends State<homePage> {
                                                       constraints: BoxConstraints(maxWidth: scaffoldWidth < 500 ? scaffoldWidth - 20 : 500),
                                                       enableDrag: true,
                                                       showDragHandle: true,
-                                                      shape: RoundedRectangleBorder(
+                                                      shape: const RoundedRectangleBorder(
                                                         borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
                                                       ),
                                                       useSafeArea: true,
-                                                      backgroundColor: MediaQuery.of(context).platformBrightness == Brightness.dark ? Color(0xFF040707) : ThemeData.light().scaffoldBackgroundColor,
+                                                      backgroundColor: MediaQuery.of(context).platformBrightness == Brightness.dark ? const Color(0xFF040707) : ThemeData.light().scaffoldBackgroundColor,
                                                       builder: (BuildContext context) {
                                                         return albumView(
                                                           release: recents.data["Data"][3]["Release"]["CatalogId"],
@@ -1473,11 +1478,11 @@ class ScrollablePageState extends State<homePage> {
                                                       constraints: BoxConstraints(maxWidth: scaffoldWidth < 500 ? scaffoldWidth - 20 : 500),
                                                       enableDrag: true,
                                                       showDragHandle: true,
-                                                      shape: RoundedRectangleBorder(
+                                                      shape: const RoundedRectangleBorder(
                                                         borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
                                                       ),
                                                       useSafeArea: true,
-                                                      backgroundColor: MediaQuery.of(context).platformBrightness == Brightness.dark ? Color(0xFF040707) : ThemeData.light().scaffoldBackgroundColor,
+                                                      backgroundColor: MediaQuery.of(context).platformBrightness == Brightness.dark ? const Color(0xFF040707) : ThemeData.light().scaffoldBackgroundColor,
                                                       builder: (BuildContext context) {
                                                         return albumView(
                                                           release: recents.data["Data"][4]["Release"]["CatalogId"],
@@ -1507,11 +1512,11 @@ class ScrollablePageState extends State<homePage> {
                                                       constraints: BoxConstraints(maxWidth: scaffoldWidth < 500 ? scaffoldWidth - 20 : 500),
                                                       enableDrag: true,
                                                       showDragHandle: true,
-                                                      shape: RoundedRectangleBorder(
+                                                      shape: const RoundedRectangleBorder(
                                                         borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
                                                       ),
                                                       useSafeArea: true,
-                                                      backgroundColor: MediaQuery.of(context).platformBrightness == Brightness.dark ? Color(0xFF040707) : ThemeData.light().scaffoldBackgroundColor,
+                                                      backgroundColor: MediaQuery.of(context).platformBrightness == Brightness.dark ? const Color(0xFF040707) : ThemeData.light().scaffoldBackgroundColor,
                                                       builder: (BuildContext context) {
                                                         return albumView(
                                                           release: recents.data["Data"][5]["Release"]["CatalogId"],
@@ -1534,11 +1539,11 @@ class ScrollablePageState extends State<homePage> {
                                                       constraints: BoxConstraints(maxWidth: scaffoldWidth < 500 ? scaffoldWidth - 20 : 500),
                                                       enableDrag: true,
                                                       showDragHandle: true,
-                                                      shape: RoundedRectangleBorder(
+                                                      shape: const RoundedRectangleBorder(
                                                         borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
                                                       ),
                                                       useSafeArea: true,
-                                                      backgroundColor: MediaQuery.of(context).platformBrightness == Brightness.dark ? Color(0xFF040707) : ThemeData.light().scaffoldBackgroundColor,
+                                                      backgroundColor: MediaQuery.of(context).platformBrightness == Brightness.dark ? const Color(0xFF040707) : ThemeData.light().scaffoldBackgroundColor,
                                                       builder: (BuildContext context) {
                                                         return albumView(
                                                           release: recents.data["Data"][6]["Release"]["CatalogId"],
@@ -1561,11 +1566,11 @@ class ScrollablePageState extends State<homePage> {
                                                       constraints: BoxConstraints(maxWidth: scaffoldWidth < 500 ? scaffoldWidth - 20 : 500),
                                                       enableDrag: true,
                                                       showDragHandle: true,
-                                                      shape: RoundedRectangleBorder(
+                                                      shape: const RoundedRectangleBorder(
                                                         borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
                                                       ),
                                                       useSafeArea: true,
-                                                      backgroundColor: MediaQuery.of(context).platformBrightness == Brightness.dark ? Color(0xFF040707) : ThemeData.light().scaffoldBackgroundColor,
+                                                      backgroundColor: MediaQuery.of(context).platformBrightness == Brightness.dark ? const Color(0xFF040707) : ThemeData.light().scaffoldBackgroundColor,
                                                       builder: (BuildContext context) {
                                                         return albumView(
                                                           release: recents.data["Data"][7]["Release"]["CatalogId"],
@@ -1588,11 +1593,11 @@ class ScrollablePageState extends State<homePage> {
                                                       constraints: BoxConstraints(maxWidth: scaffoldWidth < 500 ? scaffoldWidth - 20 : 500),
                                                       enableDrag: true,
                                                       showDragHandle: true,
-                                                      shape: RoundedRectangleBorder(
+                                                      shape: const RoundedRectangleBorder(
                                                         borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
                                                       ),
                                                       useSafeArea: true,
-                                                      backgroundColor: MediaQuery.of(context).platformBrightness == Brightness.dark ? Color(0xFF040707) : ThemeData.light().scaffoldBackgroundColor,
+                                                      backgroundColor: MediaQuery.of(context).platformBrightness == Brightness.dark ? const Color(0xFF040707) : ThemeData.light().scaffoldBackgroundColor,
                                                       builder: (BuildContext context) {
                                                         return albumView(
                                                           release: recents.data["Data"][8]["Release"]["CatalogId"],
@@ -1614,9 +1619,9 @@ class ScrollablePageState extends State<homePage> {
                                     ],
                                   );
                                 } else {
-                                  return Center(
+                                  return const Center(
                                     child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.start, children: [
-                                      const Padding(
+                                      Padding(
                                         padding: EdgeInsets.all(15),
                                         child: Text(
                                           "Loading...",
@@ -1627,20 +1632,20 @@ class ScrollablePageState extends State<homePage> {
                                           ),
                                         ),
                                       ),
-                                      const LinearProgressIndicator(
+                                      LinearProgressIndicator(
                                         color: Colors.teal,
                                         backgroundColor: Colors.transparent,
                                       ),
-                                      const SizedBox(
+                                      SizedBox(
                                         height: 280,
                                       ),
                                       Center(
                                         child: Padding(
-                                          padding: const EdgeInsets.only(top: 15, bottom: 15),
+                                          padding: EdgeInsets.only(top: 15, bottom: 15),
                                           child: Row(
                                             mainAxisAlignment: MainAxisAlignment.center,
                                             children: [
-                                              const Text(
+                                              Text(
                                                 "View More",
                                                 style: TextStyle(
                                                   fontSize: 18,
@@ -1695,11 +1700,11 @@ class ScrollablePageState extends State<homePage> {
                                                             constraints: BoxConstraints(maxWidth: scaffoldWidth < 500 ? scaffoldWidth - 20 : 500),
                                                             enableDrag: true,
                                                             showDragHandle: true,
-                                                            shape: RoundedRectangleBorder(
+                                                            shape: const RoundedRectangleBorder(
                                                               borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
                                                             ),
                                                             useSafeArea: true,
-                                                            backgroundColor: MediaQuery.of(context).platformBrightness == Brightness.dark ? Color(0xFF040707) : ThemeData.light().scaffoldBackgroundColor,
+                                                            backgroundColor: MediaQuery.of(context).platformBrightness == Brightness.dark ? const Color(0xFF040707) : ThemeData.light().scaffoldBackgroundColor,
                                                             builder: (BuildContext context) {
                                                               return playistView(playlist: playlists.data["Menu"]["Sections"][0]["Items"][index]["Link"].replaceAll('mcat://playlist:', ''));
                                                             },
@@ -1726,10 +1731,10 @@ class ScrollablePageState extends State<homePage> {
                                     ],
                                   );
                                 } else {
-                                  return Center(
-                                    child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.start, children: const [
+                                  return const Center(
+                                    child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.start, children: [
                                       Padding(
-                                        padding: const EdgeInsets.only(left: 15, right: 15, top: 15, bottom: 5),
+                                        padding: EdgeInsets.only(left: 15, right: 15, top: 15, bottom: 5),
                                         child: Text(
                                           "Loading...",
                                           style: TextStyle(
@@ -1741,7 +1746,7 @@ class ScrollablePageState extends State<homePage> {
                                         ),
                                       ),
                                       Padding(
-                                        padding: const EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 5),
+                                        padding: EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 5),
                                         child: Text(
                                           "Official Monstercat playlists",
                                           style: TextStyle(
@@ -1805,11 +1810,11 @@ class ScrollablePageState extends State<homePage> {
                                                               constraints: BoxConstraints(maxWidth: scaffoldWidth < 500 ? scaffoldWidth - 20 : 500),
                                                               enableDrag: true,
                                                               showDragHandle: true,
-                                                              shape: RoundedRectangleBorder(
+                                                              shape: const RoundedRectangleBorder(
                                                                 borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
                                                               ),
                                                               useSafeArea: true,
-                                                              backgroundColor: MediaQuery.of(context).platformBrightness == Brightness.dark ? Color(0xFF040707) : ThemeData.light().scaffoldBackgroundColor,
+                                                              backgroundColor: MediaQuery.of(context).platformBrightness == Brightness.dark ? const Color(0xFF040707) : ThemeData.light().scaffoldBackgroundColor,
                                                               builder: (BuildContext context) {
                                                                 return moodView(mood: moods.data["Moods"]["Data"][index]["Uri"]);
                                                               },
@@ -1834,10 +1839,10 @@ class ScrollablePageState extends State<homePage> {
                                     ],
                                   );
                                 } else {
-                                  return Center(
-                                    child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.start, children: const [
+                                  return const Center(
+                                    child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.start, children: [
                                       Padding(
-                                        padding: const EdgeInsets.only(left: 15, right: 15, top: 15, bottom: 5),
+                                        padding: EdgeInsets.only(left: 15, right: 15, top: 15, bottom: 5),
                                         child: Text(
                                           "Loading...",
                                           style: TextStyle(
@@ -1849,7 +1854,7 @@ class ScrollablePageState extends State<homePage> {
                                         ),
                                       ),
                                       Padding(
-                                        padding: const EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 5),
+                                        padding: EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 5),
                                         child: Text(
                                           "A selection of Monstercat songs to fit a variety of moods.",
                                           style: TextStyle(
@@ -1873,9 +1878,9 @@ class ScrollablePageState extends State<homePage> {
                             onTap: () {
                               review.openStoreListing();
                             },
-                            child: mcNotificationCard(title: "Got feedback?", subtitle: "Please, tap this card and share our thoughts", icon: Icons.arrow_forward_rounded),
+                            child: const mcNotificationCard(title: "Got feedback?", subtitle: "Please, tap this card and share our thoughts", icon: Icons.arrow_forward_rounded),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 15,
                           )
                         ],
@@ -2111,25 +2116,25 @@ class finishSetupPageState extends State<finishSetupPage> {
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(20),
                                   ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(15),
+                                  child: const Padding(
+                                    padding: EdgeInsets.all(15),
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Row(
                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
-                                            const Text(
+                                            Text(
                                               "Continue setup",
                                               style: TextStyle(fontSize: 20, fontFamily: "Comfortaa", fontWeight: FontWeight.bold),
                                             ),
-                                            const Icon(Icons.tune_outlined)
+                                            Icon(Icons.tune_outlined)
                                           ],
                                         ),
-                                        const SizedBox(
+                                        SizedBox(
                                           height: 10,
                                         ),
-                                        const Text(
+                                        Text(
                                           "You can customize this app to your liking and change your account settings in Settings anytime.",
                                           style: TextStyle(
                                             fontSize: 14,
@@ -2152,25 +2157,25 @@ class finishSetupPageState extends State<finishSetupPage> {
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(20),
                                   ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(15),
+                                  child: const Padding(
+                                    padding: EdgeInsets.all(15),
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Row(
                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
-                                            const Text(
+                                            Text(
                                               "Privacy policy",
                                               style: TextStyle(fontSize: 20, fontFamily: "Comfortaa", fontWeight: FontWeight.bold),
                                             ),
-                                            const Icon(Icons.privacy_tip_outlined)
+                                            Icon(Icons.privacy_tip_outlined)
                                           ],
                                         ),
-                                        const SizedBox(
+                                        SizedBox(
                                           height: 10,
                                         ),
-                                        const Text(
+                                        Text(
                                           "Click here to read our privacy policy",
                                           style: TextStyle(
                                             fontSize: 14,
@@ -2193,25 +2198,25 @@ class finishSetupPageState extends State<finishSetupPage> {
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(20),
                                   ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(15),
+                                  child: const Padding(
+                                    padding: EdgeInsets.all(15),
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Row(
                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
-                                            const Text(
+                                            Text(
                                               "2FA",
                                               style: TextStyle(fontSize: 20, fontFamily: "Comfortaa", fontWeight: FontWeight.bold),
                                             ),
-                                            const Icon(Icons.phonelink_lock_rounded)
+                                            Icon(Icons.phonelink_lock_rounded)
                                           ],
                                         ),
-                                        const SizedBox(
+                                        SizedBox(
                                           height: 10,
                                         ),
-                                        const Text(
+                                        Text(
                                           "Always enable 2FA if you can. Monstercat allows you to do so and you can login in this app with 2FA. There is no such thing as \"too much security\".",
                                           style: TextStyle(
                                             fontSize: 14,
@@ -2234,25 +2239,25 @@ class finishSetupPageState extends State<finishSetupPage> {
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(20),
                                   ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(15),
+                                  child: const Padding(
+                                    padding: EdgeInsets.all(15),
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Row(
                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
-                                            const Text(
+                                            Text(
                                               "Open links in app",
                                               style: TextStyle(fontSize: 20, fontFamily: "Comfortaa", fontWeight: FontWeight.bold),
                                             ),
-                                            const Icon(Icons.info_outline_rounded)
+                                            Icon(Icons.info_outline_rounded)
                                           ],
                                         ),
-                                        const SizedBox(
+                                        SizedBox(
                                           height: 10,
                                         ),
-                                        const Text(
+                                        Text(
                                           "Since 0.0.8, MCPlayer can open links from monstercat web player. To allow it, open Android settings for this app, tap on \"Open by default\", and select all available options in \"Add link\".",
                                           style: TextStyle(
                                             fontSize: 14,
@@ -2287,7 +2292,7 @@ class finishSetupPageState extends State<finishSetupPage> {
                                   setBool("initDone", true);
                                   Navigator.pop(context);
                                 },
-                                child: Text(
+                                child: const Text(
                                   "Done",
                                   style: TextStyle(
                                     fontFamily: "Comfortaa",
@@ -2300,21 +2305,21 @@ class finishSetupPageState extends State<finishSetupPage> {
                           ),
                         ],
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 5),
+                      const Padding(
+                        padding: EdgeInsets.only(top: 5),
                         child: Row(
                           children: [
-                            const Padding(
+                            Padding(
                               padding: EdgeInsets.symmetric(horizontal: 7.5),
                               child: Icon(
                                 Icons.favorite_outline_rounded,
                                 color: Colors.grey,
                               ),
                             ),
-                            const SizedBox(
+                            SizedBox(
                               width: 5,
                             ),
-                            const Text(
+                            Text(
                               "Thanks for choosing MCPlayer!",
                               style: TextStyle(fontFamily: "Comfortaa", color: Colors.grey, height: 1.25),
                             ),
@@ -2375,8 +2380,8 @@ class changelogPageState extends State<changelogPage> {
           } else {
             isDarkTheme = false;
           }
-          final appBarColor = MediaQuery.of(context).platformBrightness == Brightness.dark ? Color(0xFF202020) : ThemeData.light().scaffoldBackgroundColor;
-          final backgroundColor = MediaQuery.of(context).platformBrightness == Brightness.dark ? Color(0xFF040707) : ThemeData.light().scaffoldBackgroundColor;
+          final appBarColor = MediaQuery.of(context).platformBrightness == Brightness.dark ? const Color(0xFF202020) : ThemeData.light().scaffoldBackgroundColor;
+          final backgroundColor = MediaQuery.of(context).platformBrightness == Brightness.dark ? const Color(0xFF040707) : ThemeData.light().scaffoldBackgroundColor;
           final iconColor = MediaQuery.of(context).platformBrightness == Brightness.dark ? Brightness.light : Brightness.dark;
           SystemChrome.setSystemUIOverlayStyle(
             SystemUiOverlayStyle(
@@ -2390,12 +2395,12 @@ class changelogPageState extends State<changelogPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.transparent,
                     shadowColor: Colors.transparent,
-                    padding: EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(10),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15.0),
                       side: const BorderSide(color: Colors.transparent, width: 1),
@@ -2407,7 +2412,7 @@ class changelogPageState extends State<changelogPage> {
                   child: Row(
                     children: [
                       Padding(
-                        padding: EdgeInsets.only(right: 10),
+                        padding: const EdgeInsets.only(right: 10),
                         child: Icon(
                           Icons.arrow_back_rounded,
                           color: MediaQuery.of(context).platformBrightness == Brightness.dark ? Colors.white : Colors.black,
@@ -2415,7 +2420,7 @@ class changelogPageState extends State<changelogPage> {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(left: 10),
+                        padding: const EdgeInsets.only(left: 10),
                         child: Text(
                           "Changelog",
                           style: TextStyle(
@@ -2438,15 +2443,15 @@ class changelogPageState extends State<changelogPage> {
                     builder: (BuildContext context, AsyncSnapshot changelog) {
                       if (changelog.hasData) {
                         if (changelog.data == "Error") {
-                          return Center(child: Text("Error while loading"));
+                          return const Center(child: Text("Error while loading"));
                         }
                         return Markdown(
                             data: changelog.data,
                             styleSheet: MarkdownStyleSheet(
-                              blockquoteDecoration: BoxDecoration(color: Color(0x66009688)),
+                              blockquoteDecoration: const BoxDecoration(color: Color(0x66009688)),
                             ));
                       }
-                      return Center(
+                      return const Center(
                         child: LinearProgressIndicator(
                           color: Colors.teal,
                           backgroundColor: Colors.transparent,

@@ -224,8 +224,8 @@ class searchPageState extends State<searchPage> {
                                               child: Padding(
                                                 padding: const EdgeInsets.only(bottom: 15),
                                                 child: Wrap(
-                                                  spacing: 5.0, // Adjust the spacing between chips as needed
-                                                  runSpacing: -10,
+                                                  spacing: 7.5, // Adjust the spacing between chips as needed
+                                                  runSpacing: -5,
                                                   children: filters.data[filters.data.keys.toList()[0]]
                                                       .map((option) {
                                                     bool isSelected = selectedOptions.containsKey(option["Id"].toString());
@@ -253,6 +253,10 @@ class searchPageState extends State<searchPage> {
                                                         backgroundColor: isSelected ? Colors.teal : bgColor,
                                                         elevation: 1.0,
                                                         shadowColor: Colors.transparent,
+                                                        side: BorderSide(
+                                                          color: Colors.transparent,
+                                                          width: 0
+                                                        ),
                                                         shape: RoundedRectangleBorder(
                                                           borderRadius: BorderRadius.circular(10.0),
                                                         ),
@@ -277,8 +281,8 @@ class searchPageState extends State<searchPage> {
                                               child: Padding(
                                                 padding: const EdgeInsets.only(bottom: 15),
                                                 child: Wrap(
-                                                  spacing: 5.0, // Adjust the spacing between chips as needed
-                                                  runSpacing: -10, // Adjust the run spacing as needed
+                                                  spacing: 7.5, // Adjust the spacing between chips as needed
+                                                  runSpacing: -5,
                                                   children: filters.data[filters.data.keys.toList()[1]]
                                                       .map((option) {
                                                     bool isSelected = selectedOptions.containsKey(option);
@@ -306,6 +310,10 @@ class searchPageState extends State<searchPage> {
                                                         backgroundColor: isSelected ? Colors.teal : bgColor,
                                                         elevation: 1.0,
                                                         shadowColor: Colors.transparent,
+                                                        side: BorderSide(
+                                                            color: Colors.transparent,
+                                                            width: 0
+                                                        ),
                                                         shape: RoundedRectangleBorder(
                                                           borderRadius: BorderRadius.circular(10.0),
                                                         ),
@@ -328,8 +336,8 @@ class searchPageState extends State<searchPage> {
                                               child: Padding(
                                                 padding: const EdgeInsets.only(bottom: 15),
                                                 child: Wrap(
-                                                  spacing: 5.0, // Adjust the spacing between chips as needed
-                                                  runSpacing: -10, // Adjust the run spacing as needed
+                                                  spacing: 7.5, // Adjust the spacing between chips as needed
+                                                  runSpacing: -5,
                                                   children: filters.data[filters.data.keys.toList()[2]]
                                                       .map((option) {
                                                     bool isSelected = selectedOptions.containsKey(option);
@@ -358,6 +366,10 @@ class searchPageState extends State<searchPage> {
                                                         backgroundColor: isSelected ? Colors.teal : bgColor,
                                                         elevation: 1.0,
                                                         shadowColor: Colors.transparent,
+                                                        side: BorderSide(
+                                                            color: Colors.transparent,
+                                                            width: 0
+                                                        ),
                                                         shape: RoundedRectangleBorder(
                                                           borderRadius: BorderRadius.circular(10.0),
                                                         ),
@@ -382,8 +394,8 @@ class searchPageState extends State<searchPage> {
                                               child: Padding(
                                                 padding: const EdgeInsets.only(bottom: 15),
                                                 child: Wrap(
-                                                  spacing: 5.0, // Adjust the spacing between chips as needed
-                                                  runSpacing: -10, // Adjust the run spacing as needed
+                                                  spacing: 7.5, // Adjust the spacing between chips as needed
+                                                  runSpacing: -5,
                                                   children: filters.data[filters.data.keys.toList()[3]]
                                                       .map((option) {
                                                     bool isSelected = selectedOptions.containsKey(option);
@@ -411,6 +423,10 @@ class searchPageState extends State<searchPage> {
                                                         backgroundColor: isSelected ? Colors.teal : bgColor,
                                                         elevation: 1.0,
                                                         shadowColor: Colors.transparent,
+                                                        side: BorderSide(
+                                                            color: Colors.transparent,
+                                                            width: 0
+                                                        ),
                                                         shape: RoundedRectangleBorder(
                                                           borderRadius: BorderRadius.circular(10.0),
                                                         ),
