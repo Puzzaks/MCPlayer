@@ -1,10 +1,3 @@
-## Update 0.0.12 [12] (OBT)
-#### Fixes
- - Fixed chips design on older devices
- - Fixed player screen design on light theme
- - Fixed small release display (especially on smaller screens)
- - Fixed that buttons were pink for some reason on older devices
-
 ## Update 0.0.11 [11] (OBT)
 #### Miscellaneous
  - Added Player screen for tablets
