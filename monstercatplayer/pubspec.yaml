@@ -3,7 +3,7 @@ description: Monstercat player
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 0.0.11+11
+version: 0.0.12+12
 
 environment:  
   sdk: '>=2.19.3 <3.0.0'
@@ -30,6 +30,7 @@ dependencies:
   flutter_markdown: ^0.6.17+1
   system_theme: ^2.3.1
   just_audio: ^0.9.34
+  just_audio_background: ^0.0.1-beta.11
   provider: ^6.0.5
   uni_links: ^0.5.1
   permission_handler: ^11.0.1

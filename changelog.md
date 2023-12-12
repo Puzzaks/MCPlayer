@@ -1,3 +1,23 @@
+## Update 0.0.12 [12] (OBT)
+#### Player
+ - Skipping songs is available:
+    - Skip to the next song
+    - Go back to the previous song
+    - Go back to the beginning of song (after 5 seconds)
+    - Works only when playing whole release
+ - Player is now integrated into system:
+   - After starting playback, player will work in background
+   - You can skip, go back, stop/resume music and skip track there
+   - It is integrated with the system, so your headphones and voice command can control music
+#### Fixes
+ - Fixed chips design on older devices
+ - Fixed player screen design on light theme
+ - Fixed small release display (especially on smaller screens)
+ - Fixed that buttons were pink for some reason on older devices
+#### Known Issues
+ - Sometimes player can NOT work or crash the app when playing single song
+ - Sometimes there is a mismatch in song names in system player and in app
+
 ## Update 0.0.11 [11] (OBT)
 #### Miscellaneous
  - Added Player screen for tablets
@@ -30,8 +50,8 @@
 #### Fixes
  - Fixed that "Copy from clipboard" button wasn't showing in some cases.
  - Fixed that OTP Code field wasn't working in some cases
-#### Known issues
- - Sometimes lanscape orientation may not behave as vertical. Vertical orientation is being developed first, then adapted to the album one. 
+#### Known Issues
+ - Sometimes lanscape orientation may not behave as vertical. Vertical orientation is being developed first, then adapted to the album one.
 
 ## Update 0.0.7 [7]
 #### Miscellaneous
@@ -106,5 +126,3 @@ Settings > [About MCPlayer] > [Send feedback]
 
 > Pro tip: You can always find changelog in Settings:
 > Settings > [About MCPlayer] > [Changelog]
-
-
