@@ -1298,9 +1298,6 @@ class playistViewState extends State<playistView> {
                                                     child: Icon(
                                                       Icons.play_arrow_rounded,
                                                       size: 32,
-                                                      color: isDarkTheme
-                                                          ? Colors.white
-                                                          : Colors.black,
                                                     ),
                                                     style: ElevatedButton.styleFrom(
                                                       backgroundColor: Colors.teal,
@@ -1626,9 +1623,6 @@ class moodViewState extends State<moodView> {
                                                                 child: Icon(
                                                                   Icons.play_arrow_rounded,
                                                                   size: 32,
-                                                                  color: isDarkTheme
-                                                                      ? Colors.white
-                                                                      : Colors.black,
                                                                 ),
                                                                 style: ElevatedButton.styleFrom(
                                                                   backgroundColor: Colors.teal,
@@ -1951,7 +1945,7 @@ class moodViewState extends State<moodView> {
                                                               child: Icon(
                                                                 Icons.shuffle_rounded,
                                                                 color: isDarkTheme
-                                                                    ? Colors.white
+                                                                    ? null
                                                                     : Colors.black,
                                                                 size: 28,
                                                               ),
@@ -1967,9 +1961,6 @@ class moodViewState extends State<moodView> {
                                                               child: Icon(
                                                                 Icons.play_arrow_rounded,
                                                                 size: 32,
-                                                                color: isDarkTheme
-                                                                    ? Colors.white
-                                                                    : Colors.black,
                                                               ),
                                                               style: ElevatedButton.styleFrom(
                                                                 backgroundColor: Colors.teal,
@@ -2398,7 +2389,7 @@ class albumViewState extends State<albumView> {
                                               child: Icon(
                                                 Icons.download_rounded,
                                                 color: isDarkTheme
-                                                    ? Colors.white
+                                                    ? null
                                                     : Colors.black,
                                                 size: 28,
                                               ),
@@ -2423,7 +2414,7 @@ class albumViewState extends State<albumView> {
                                               child: Icon(
                                                 Icons.share_rounded,
                                                 color: isDarkTheme
-                                                    ? Colors.white
+                                                    ? null
                                                     : Colors.black,
                                                 size: 28,
                                               ),
@@ -2447,7 +2438,7 @@ class albumViewState extends State<albumView> {
                                           child: Icon(
                                             Icons.shuffle_rounded,
                                             color: isDarkTheme
-                                                ? Colors.white
+                                                ? null
                                                 : Colors.black,
                                             size: 28,
                                           ),
@@ -2475,9 +2466,6 @@ class albumViewState extends State<albumView> {
                                           child: Icon(
                                             Icons.play_arrow_rounded,
                                             size: 32,
-                                            color: isDarkTheme
-                                                ? Colors.white
-                                                : Colors.black,
                                           ),
                                           style: ElevatedButton.styleFrom(
                                             backgroundColor: Colors.teal,

@@ -290,7 +290,7 @@ class mcTrackOptions extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
-                  width: scaffoldWidth < 500 ? scaffoldWidth - 84 : 410,
+                  width: scaffoldWidth < 500 ? scaffoldWidth - 84 : 500,
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
@@ -298,8 +298,8 @@ class mcTrackOptions extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10.0),
                         child: CachedNetworkImage(
                           imageUrl: 'https://cdx.monstercat.com/?width=256&encoding=webp&url=https%3A%2F%2Fwww.monstercat.com%2Frelease%2F${data["Release"]["CatalogId"]}%2Fcover',
-                          width: 60, // Set the desired width
-                          height: 60, // Set the desired height
+                          width: 70, // Set the desired width
+                          height: 70, // Set the desired height
                           placeholder: (context, url) => const CircularProgressIndicator(
                             color: Colors.teal,
                             backgroundColor: Colors.transparent,
@@ -314,7 +314,7 @@ class mcTrackOptions extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
-                            width: scaffoldWidth < 500 ? scaffoldWidth - 164 : 410,
+                            width: scaffoldWidth < 500 ? scaffoldWidth - 164 : 500,
                             child: Text(
                               data["Title"],
                               overflow: TextOverflow.ellipsis,
@@ -325,7 +325,7 @@ class mcTrackOptions extends StatelessWidget {
                           Row(
                             children: [
                               Container(
-                                width: scaffoldWidth < 500 ? scaffoldWidth - 164 : 415,
+                                width: scaffoldWidth < 500 ? scaffoldWidth - 164 : 500,
                                 child: Text(
                                   data["ArtistsTitle"],
                                   overflow: TextOverflow.ellipsis,
@@ -368,6 +368,7 @@ class mcTrackOptions extends StatelessWidget {
                 )
               ],
             ),
+
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -392,7 +393,7 @@ class mcTrackOptions extends StatelessWidget {
                     Icon(
                       Icons.playlist_play_rounded,
                       color: MediaQuery.of(context).platformBrightness == Brightness.dark
-                          ? Colors.white
+                          ? null
                           : Colors.black,
                       size: 28,
                     ),
@@ -403,7 +404,7 @@ class mcTrackOptions extends StatelessWidget {
                       maxLines: 1,
                       style: TextStyle(
                         color: MediaQuery.of(context).platformBrightness == Brightness.dark
-                            ? Colors.white
+                            ? null
                             : Colors.black,
                         fontFamily: 'Comfortaa',
                         fontSize: 22,
@@ -439,7 +440,7 @@ class mcTrackOptions extends StatelessWidget {
                     Icon(
                       Icons.playlist_add_rounded,
                       color: MediaQuery.of(context).platformBrightness == Brightness.dark
-                          ? Colors.white
+                          ? null
                           : Colors.black,
                       size: 28,
                     ),
@@ -451,7 +452,7 @@ class mcTrackOptions extends StatelessWidget {
                       style: TextStyle(
                         fontFamily: 'Comfortaa',
                         color: MediaQuery.of(context).platformBrightness == Brightness.dark
-                            ? Colors.white
+                            ? null
                             : Colors.black,
                         fontSize: 22,
                         height: 1.25,
@@ -486,7 +487,7 @@ class mcTrackOptions extends StatelessWidget {
                     Icon(
                       Icons.download_rounded,
                       color: MediaQuery.of(context).platformBrightness == Brightness.dark
-                          ? Colors.white
+                          ? null
                           : Colors.black,
                       size: 28,
                     ),
@@ -498,7 +499,7 @@ class mcTrackOptions extends StatelessWidget {
                       style: TextStyle(
                         fontFamily: 'Comfortaa',
                         color: MediaQuery.of(context).platformBrightness == Brightness.dark
-                            ? Colors.white
+                            ? null
                             : Colors.black,
                         fontSize: 22,
                         height: 1.25,
@@ -529,7 +530,7 @@ class mcTrackOptions extends StatelessWidget {
                     Icon(
                       Icons.share_rounded,
                       color: MediaQuery.of(context).platformBrightness == Brightness.dark
-                          ? Colors.white
+                          ? null
                           : Colors.black,
                       size: 28,
                     ),
@@ -541,7 +542,7 @@ class mcTrackOptions extends StatelessWidget {
                       style: TextStyle(
                         fontFamily: 'Comfortaa',
                         color: MediaQuery.of(context).platformBrightness == Brightness.dark
-                            ? Colors.white
+                            ? null
                             : Colors.black,
                         fontSize: 22,
                         height: 1.25,
@@ -599,7 +600,7 @@ class mcTrackOptions extends StatelessWidget {
                     Icon(
                       Icons.album_rounded,
                       color: MediaQuery.of(context).platformBrightness == Brightness.dark
-                          ? Colors.white
+                          ? null
                           : Colors.black,
                       size: 28,
                     ),
@@ -611,7 +612,7 @@ class mcTrackOptions extends StatelessWidget {
                       style: TextStyle(
                         fontFamily: 'Comfortaa',
                         color: MediaQuery.of(context).platformBrightness == Brightness.dark
-                            ? Colors.white
+                            ? null
                             : Colors.black,
                         fontSize: 22,
                         height: 1.25,
@@ -664,7 +665,7 @@ class mcTrackOptions extends StatelessWidget {
                     Icon(
                       Icons.add_rounded,
                       color: MediaQuery.of(context).platformBrightness == Brightness.dark
-                          ? Colors.white
+                          ? null
                           : Colors.black,
                       size: 28,
                     ),
@@ -676,7 +677,7 @@ class mcTrackOptions extends StatelessWidget {
                       style: TextStyle(
                         fontFamily: 'Comfortaa',
                         color: MediaQuery.of(context).platformBrightness == Brightness.dark
-                            ? Colors.white
+                            ? null
                             : Colors.black,
                         fontSize: 22,
                         height: 1.25,

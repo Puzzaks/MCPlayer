@@ -252,7 +252,6 @@ class MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
                                   },
                                   child: Icon(
                                     playerData.isPlaying?Icons.pause:Icons.play_arrow_rounded,
-                                    color: Colors.teal,
                                     size: 32,
                                   ),
                                   style: ElevatedButton.styleFrom(
@@ -319,9 +318,6 @@ class MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
                   ),
                 ) : Stack(
                     children: [
-                      Container(
-                        color: Colors.black,
-                      ),
                       ClipRRect(
                         borderRadius: BorderRadius.circular(25.0),
                         child: CachedNetworkImage(
@@ -337,13 +333,11 @@ class MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
                         ),
                       ),
                       ClipRRect(
-                        borderRadius: BorderRadius.circular(20.0),
+                        borderRadius: BorderRadius.circular(25.0),
                         child: BackdropFilter(
                             filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15), // Adjust blur intensity
                             child: Container(
-                              color: MediaQuery.of(context).platformBrightness == Brightness.light
-                                  ? Colors.white.withOpacity(0.5)
-                                  : Colors.black.withOpacity(0.5), // Adjust opacity
+                              color: Colors.black.withOpacity(0.25), // Adjust opacity
                               // Your content goes here, e.g., text or other widgets
                             )),
                       ),
@@ -468,9 +462,7 @@ class MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
                                     height: 1.5,
                                     fontFamily: "Comfortaa",
                                     fontSize: 20,
-                                    color: MediaQuery.of(context).platformBrightness == Brightness.dark
-                                        ? Colors.white
-                                        : Colors.black,
+                                    color: Colors.grey
                                 ),
                               )
                             ],
@@ -543,9 +535,6 @@ class MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
                               child: Icon(
                                 Icons.repeat_rounded,
                                 size: 32,
-                                color: MediaQuery.of(context).platformBrightness == Brightness.dark
-                                    ? Colors.white
-                                    : Colors.black,
                               ),
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.transparent,
@@ -555,15 +544,10 @@ class MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
                               ),
                             ),
                             ElevatedButton(
-                              onPressed: () {
-                                Provider.of<musicPlayer>(context, listen: false).playPrevious();
-                              },
+                              onPressed: () {},
                               child: Icon(
                                 Icons.skip_previous_rounded,
                                 size: 42,
-                                color: MediaQuery.of(context).platformBrightness == Brightness.dark
-                                    ? Colors.white
-                                    : Colors.black,
                               ),
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.transparent,
@@ -581,9 +565,6 @@ class MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
                               child: Icon(
                                 playerData.isPlaying ? Icons.pause_rounded : Icons.play_arrow_rounded,
                                 size: 42,
-                                color: MediaQuery.of(context).platformBrightness == Brightness.dark
-                                    ? Colors.white
-                                    : Colors.black,
                               ),
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.teal,
@@ -593,15 +574,10 @@ class MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
                               ),
                             ),
                             ElevatedButton(
-                              onPressed: () {
-                                Provider.of<musicPlayer>(context, listen: false).playNext();
-                              },
+                              onPressed: () {},
                               child: Icon(
                                 Icons.skip_next_rounded,
                                 size: 42,
-                                color: MediaQuery.of(context).platformBrightness == Brightness.dark
-                                    ? Colors.white
-                                    : Colors.black,
                               ),
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.transparent,
@@ -615,9 +591,6 @@ class MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
                               child: Icon(
                                 Icons.shuffle_rounded,
                                 size: 32,
-                                color: MediaQuery.of(context).platformBrightness == Brightness.dark
-                                    ? Colors.white
-                                    : Colors.black,
                               ),
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.transparent,
@@ -739,7 +712,6 @@ class MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
                                                     },
                                                     child: Icon(
                                                       playerData.isPlaying?Icons.pause:Icons.play_arrow_rounded,
-                                                      color: Colors.teal,
                                                       size: 32,
                                                     ),
                                                     style: ElevatedButton.styleFrom(

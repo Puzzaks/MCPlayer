@@ -73,16 +73,6 @@ class musicPlayer with ChangeNotifier {
   }
   void playNext() {
     player.seekToNext();
-    nowPlaying = queue[(player.currentIndex as int)];
-    notifyListeners();
-  }
-  void playPrevious() {
-    if(player.position > Duration(seconds: 5)){
-      player.seek(Duration(seconds: 0));
-    }else {
-      player.seekToPrevious();
-    }
-    nowPlaying = queue[(player.currentIndex as int)];
     notifyListeners();
   }
 

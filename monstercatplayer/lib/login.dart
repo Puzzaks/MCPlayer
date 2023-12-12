@@ -1098,9 +1098,8 @@ class loginEntryPageState extends State<loginEntryPage> {
                                                 },
                                                 child: Chip(
                                                   shadowColor: Colors.transparent,
-                                                  avatar: Icon(
+                                                  avatar: const Icon(
                                                     Icons.alternate_email_rounded,
-                                                    color: MediaQuery.of(context).platformBrightness == Brightness.dark ? Colors.white : Colors.black
                                                   ),
                                                   label: Text(
                                                     option,
