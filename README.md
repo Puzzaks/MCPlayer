@@ -1,4 +1,4 @@
-![MCPlayer Logo](https://github.com/Puzzak/MCPlayer/blob/main/app_logo.png?raw=true)
+![MCPlayer review meme](https://github.com/Puzzak/MCPlayer/blob/main/rating.png?raw=true)
 # MCPlayer - The Monstercat Player
 
 
@@ -87,3 +87,4 @@ MCPlayer acknowledges and appreciates the support of the Monstercat community. S
 For a detailed list of features and updates, please refer to the [Changelog](https://github.com/Puzzak/MCPlayer/blob/main/changelog.md).
 
 App made by [Puzzak](https://puzzak.page) in [Ukraine](https://war.ukraine.ua/support-ukraine/). Consider [donating](https://send.monobank.ua/jar/5Lxxiy7qM7) if you liked the app!
+![MCPlayer review meme](https://github.com/Puzzak/MCPlayer/blob/main/app_logo.png?raw=true)
