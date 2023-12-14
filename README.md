@@ -82,9 +82,30 @@ MCPlayer is released under the terms of the Unlicense. See the [license](https:/
 
 ## Acknowledgments
 
-MCPlayer acknowledges and appreciates the support of the Monstercat community. Special thanks to [Monstercat](https://www.monstercat.com/) for providing an amazing music platform.
+## Acknowledgments
+
+MCPlayer would like to express gratitude to the following individuals and entities:
+
+- **OpenAI (GPT-3):**
+  Coded and readme'd with help of OpenAI's ChatGPT.
+
+- **Google:**
+  The development and distribution of MCPlayer are possible thanks to the robust technologies and services provided by Google.
+
+- **Dart and Flutter:**
+  MCPlayer is built using Dart programming language and the Flutter framework, both developed and maintained by Google.
+
+- **DarkPlayer (Designer):**
+  Special thanks to [DarkPlayer](https://github.com/DarkPlayerr) for the outstanding design work on MCPlayer.
+
+- **Monstercat:**
+  MCPlayer acknowledges and appreciates the support of the Monstercat community. Special thanks to [Monstercat](https://www.monstercat.com/) for providing an amazing music platform.
+
+- **Armed Forced of Ukraine:**
+Without [our heroes](https://www.mil.gov.ua/en/), nothing would be possible!
 
 For a detailed list of features and updates, please refer to the [Changelog](https://github.com/Puzzak/MCPlayer/blob/main/changelog.md).
+
 
 App made by [Puzzak](https://puzzak.page) in [Ukraine](https://war.ukraine.ua/support-ukraine/). Consider [donating](https://send.monobank.ua/jar/5Lxxiy7qM7) if you liked the app!
 ![MCPlayer review meme](https://github.com/Puzzak/MCPlayer/blob/main/app_logo.png?raw=true)
