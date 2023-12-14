@@ -82,8 +82,6 @@ MCPlayer is released under the terms of the Unlicense. See the [license](https:/
 
 ## Acknowledgments
 
-## Acknowledgments
-
 MCPlayer would like to express gratitude to the following individuals and entities:
 
 - **OpenAI (GPT-3):**
