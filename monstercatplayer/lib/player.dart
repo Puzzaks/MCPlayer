@@ -17,27 +17,42 @@ class musicPlayer with ChangeNotifier {
   Map nowPlaying = {};
   StreamSubscription<Duration?>? positionSubscription;
   StreamSubscription<Duration?>? bufferSubscription;
+  List<AudioSource> internalQueue = [];
+  LoopMode loopmode = LoopMode.off;
+  bool shuffle = false;
 
   Map TrackInfo = {};
   Map get trackInfo => TrackInfo;
-
   Future<void> play(Map trackInfo) async {
-    queueData["Title"] = "Your queue";
-    final duration = await player.setUrl(
-        "https://player.monstercat.app/api/release/${trackInfo["Release"]["Id"]}/track-stream/${trackInfo["Id"]}"
-    );
-    isPlaying = true;
-    nowPlaying = trackInfo;
-    queueAdd(trackInfo);
-    resume();
-    notifyListeners(); // Notify listeners to update UI
+    // if(queue.length == 0){
+      playQueue([trackInfo]);
+      queueData["Title"] = "Single Track";
+      notifyListeners();
+    // }else{
+    //   queueData["Title"] = "Your queue";
+    //   queueAdd(trackInfo);
+    //   print("Current: ${player.currentIndex}");
+    //   player.seek(Duration.zero, index: queue.length);
+    //   print("New: ${player.currentIndex}");
+    //   notifyListeners();
+    //   nowPlaying = queue[(player.nextIndex as int)];
+    //   resume();
+    //   notifyListeners();
+    // }
+    // final duration = await player.setUrl(
+    //     "https://player.monstercat.app/api/release/${trackInfo["Release"]["Id"]}/track-stream/${trackInfo["Id"]}"
+    // );
+    // isPlaying = true;
+    // nowPlaying = trackInfo;
+    // queueAdd(trackInfo);
+    // resume();
+    // notifyListeners(); // Notify listeners to update UI
   }
 
   Future<void> playQueue(_queue) async {
     player.stop();
     queue = _queue;
-    List<AudioSource> internalQueue = [];
-    print(_queue);
+    internalQueue.clear();
     for(int s=0; s<_queue.length;s++){
         AudioSource aSource = AudioSource.uri(
             Uri.parse("https://player.monstercat.app/api/release/${_queue[s]["Release"]["Id"]}/track-stream/${_queue[s]["Id"]}"),
@@ -48,7 +63,9 @@ class musicPlayer with ChangeNotifier {
                 album: _queue[s]["Release"]["Title"],
                 duration: Duration(seconds: _queue[s]["Duration"]),
                 artist: _queue[s]["ArtistsTitle"],
-                genre: "${_queue[s]["GenrePrimary"]}/${_queue[s]["GenreSecondary"]}"
+                genre: "${_queue[s]["GenrePrimary"]}/${_queue[s]["GenreSecondary"]}",
+                displayTitle: _queue[s]["Title"],
+                // displayDescription: "Description"
 
             )
         );
@@ -65,10 +82,8 @@ class musicPlayer with ChangeNotifier {
     nowPlaying = queue[(player.currentIndex as int)];
     notifyListeners();
     player.playerStateStream.listen((playerState) async {
-      print(playerState.processingState);
       if (playerState.processingState == ProcessingState.completed) {
         await player.seekToNext();
-        print("Index: ${player.currentIndex}");
         nowPlaying = queue[(player.currentIndex as int)];
         notifyListeners();
       }
@@ -77,9 +92,47 @@ class musicPlayer with ChangeNotifier {
 
   Future<void> queueAdd(Map trackInfo) async {
     queue.add(trackInfo);
+    internalQueue.add(AudioSource.uri(
+        Uri.parse("https://player.monstercat.app/api/release/${trackInfo["Release"]["Id"]}/track-stream/${trackInfo["Id"]}"),
+        tag: MediaItem(
+          id: (queue.length).toString(),
+          title: trackInfo["Title"],
+          artUri: Uri.parse('https://cdx.monstercat.com/?width=1024&encoding=webp&url=https%3A%2F%2Fwww.monstercat.com%2Frelease%2F${trackInfo["Release"]["CatalogId"]}%2Fcover'),
+          album: trackInfo["Release"]["Title"],
+          duration: Duration(seconds: trackInfo["Duration"]),
+          artist: trackInfo["ArtistsTitle"],
+          genre: "${trackInfo["GenrePrimary"]}/${trackInfo["GenreSecondary"]}",
+          displayTitle: trackInfo["Title"],
+          // displayDescription: "Description"
+        )
+    ));
+    await player.setAudioSource(
+        ConcatenatingAudioSource(
+            children: internalQueue
+        )
+    );
     notifyListeners();
   }
-
+  void switchShuffleMode() {
+    player.setShuffleModeEnabled(!shuffle);
+    shuffle = player.shuffleModeEnabled;
+    notifyListeners();
+  }
+  void switchLoopMode(){
+    switch (player.loopMode){
+      case LoopMode.off:
+        player.setLoopMode(LoopMode.all);
+        break;
+      case LoopMode.all:
+        player.setLoopMode(LoopMode.one);
+        break;
+      case LoopMode.one:
+        player.setLoopMode(LoopMode.off);
+        break;
+    }
+    loopmode = player.loopMode;
+    notifyListeners();
+  }
   void pause() {
     player.pause();
     isPlaying = false;
@@ -87,20 +140,38 @@ class musicPlayer with ChangeNotifier {
     notifyListeners(); // Notify listeners to update UI
   }
   void playNext() {
+    pause();
     player.seekToNext();
-    nowPlaying = queue[(player.currentIndex as int)];
+    nowPlaying = queue[(player.nextIndex as int)];
+    resume();
     notifyListeners();
   }
   void playPrevious() {
     if(player.position > Duration(seconds: 5)){
       player.seek(Duration(seconds: 0));
+      resume();
+      nowPlaying = queue[(player.currentIndex as int)];
     }else {
+      nowPlaying = queue[(player.previousIndex as int)];
       player.seekToPrevious();
+      notifyListeners();
+      resume();
     }
-    nowPlaying = queue[(player.currentIndex as int)];
     notifyListeners();
   }
-
+  void seek(pos){
+    player.seek(Duration(seconds: pos.toInt()));
+    nowPlaying = queue[(player.currentIndex as int)];
+    notifyListeners();
+    positionSubscription?.cancel();
+    positionSubscription = player.positionStream.listen((_position) {
+      if (position != null) {
+        position = _position.inSeconds;
+        nowPlaying = queue[(player.currentIndex as int)];
+        notifyListeners();
+      }
+    });
+  }
   void resume() {
     positionSubscription?.cancel();
     bufferSubscription?.cancel();

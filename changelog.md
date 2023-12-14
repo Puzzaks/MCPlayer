@@ -1,3 +1,18 @@
+## Update 0.0.13 [13] (OBT)
+#### Player
+ - You can now enable & disable shuffle
+ - You can now switch between repeat modes
+ - You can now seek to the desired position inside of player
+#### Miscellaneous
+ - Removed stop button from the notification
+ - Fixed icon in the notification
+#### Fixes
+ - Fixed that system controls were not in sync with he app UI
+ - Switching between release and single track no longer breaks the app
+ - Skipping in both directions works now and correctly updates the UI
+#### Known Issues
+ - Xiaomi phones may render UI at a scale of 2 for some damn reason **bruh**
+
 ## Update 0.0.12 [12] (OBT)
 #### Player
  - Skipping songs is available:

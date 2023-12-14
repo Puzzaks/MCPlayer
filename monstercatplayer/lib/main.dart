@@ -1,5 +1,6 @@
 import 'dart:isolate';
 import 'dart:ui';
+import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:monstercatplayer/view.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -43,8 +44,8 @@ class MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
         androidNotificationChannelName: 'Audio playback',
         androidNotificationOngoing: false,
         notificationColor: Colors.teal,
-        androidNotificationIcon: 'mipmap/ic_launcher',
-      androidShowNotificationBadge: false
+        androidNotificationIcon: 'drawable/catlogo',
+      androidShowNotificationBadge: false,
     );
     tabController = TabController(length: 3, vsync: this);
     super.initState();
@@ -351,7 +352,7 @@ class MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
                             filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15), // Adjust blur intensity
                             child: Container(
                               color: MediaQuery.of(context).platformBrightness == Brightness.light
-                                  ? Colors.white.withOpacity(0.5)
+                                  ? Colors.white.withOpacity(0.25)
                                   : Colors.black.withOpacity(0.5), // Adjust opacity
                               // Your content goes here, e.g., text or other widgets
                             )),
@@ -403,7 +404,6 @@ class MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
                                                 fontFamily: "Comfortaa",
                                                 height: 1.5,
                                                 fontSize: 18,
-                                                color: Colors.grey
                                             )
                                         ),
                                         Text(
@@ -485,61 +485,95 @@ class MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
                             ],
                           ),
                         ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 25),
-                          child: Stack(
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.only(
-                                  top: 25
-                                ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      formatDuration(playerData.position),
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                        fontFamily: "Comfortaa",
-                                        fontSize: 16,
-                                      ),
+                        Stack(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(
+                                  left: 25,
+                                right: 25,
+                                top: 19
+                              ),
+                              child: Stack(
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                        top: 25
                                     ),
-                                    Text(
-                                      formatDuration(playerData.nowPlaying["Duration"]),
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                        fontFamily: "Comfortaa",
-                                        fontSize: 16,
-                                      ),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          formatDuration(playerData.position),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                            fontFamily: "Comfortaa",
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                        Text(
+                                          formatDuration(playerData.nowPlaying["Duration"]),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                            fontFamily: "Comfortaa",
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ],
+                                  ),
+                                  LinearProgressIndicator(
+                                    value: 100,
+                                    backgroundColor: Colors.grey.withAlpha(64),
+                                    color: Colors.transparent,
+                                    minHeight: 10,
+                                    borderRadius: BorderRadius.all(Radius.circular(5)),
+                                  ),
+                                  LinearProgressIndicator(
+                                    value: playerData.buffered / playerData.nowPlaying["Duration"],
+                                    backgroundColor: Colors.transparent,
+                                    color: Colors.grey.withAlpha(128),
+                                    minHeight: 10,
+                                    borderRadius: BorderRadius.all(Radius.circular(5)),
+                                  ),
+                                  // LinearProgressIndicator(
+                                  //   value: playerData.position / playerData.nowPlaying["Duration"],
+                                  //   backgroundColor: Colors.transparent,
+                                  //   color: Colors.white,
+                                  //   minHeight: 10,
+                                  //   borderRadius: BorderRadius.all(Radius.circular(5)),
+                                  // ),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal:1
+                              ),
+                              child: SliderTheme(
+                                data: SliderThemeData(
+                                  inactiveTrackColor: Colors.transparent,
+                                  overlayColor: Colors.transparent,
+                                  overlappingShapeStrokeColor: Colors.transparent,
+                                  activeTrackColor: Colors.white,
+                                  trackHeight: 8,
+                                  thumbColor: Colors.white,
+                                  thumbShape: RoundSliderThumbShape(enabledThumbRadius: 5),
+                                ),
+                                child: Slider(
+                                  value: playerData.position * 1.0,
+                                  max:playerData.nowPlaying["Duration"] * 1.0,
+                                  min:0,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      Provider.of<musicPlayer>(context, listen: false).seek(value);
+                                    });
+                                  },
                                 ),
                               ),
-                              LinearProgressIndicator(
-                                value: 100,
-                                backgroundColor: Colors.grey.withAlpha(64),
-                                color: Colors.transparent,
-                                minHeight: 10,
-                                borderRadius: BorderRadius.all(Radius.circular(5)),
-                              ),
-                              LinearProgressIndicator(
-                                value: playerData.buffered / playerData.nowPlaying["Duration"],
-                                backgroundColor: Colors.transparent,
-                                color: Colors.grey.withAlpha(128),
-                                minHeight: 10,
-                                borderRadius: BorderRadius.all(Radius.circular(5)),
-                              ),
-                              LinearProgressIndicator(
-                                value: playerData.position / playerData.nowPlaying["Duration"],
-                                backgroundColor: Colors.transparent,
-                                color: Colors.white,
-                                minHeight: 10,
-                                borderRadius: BorderRadius.all(Radius.circular(5)),
-                              ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 25),
@@ -548,19 +582,25 @@ class MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             ElevatedButton(
-                              onPressed: () {},
-                              child: Icon(
-                                Icons.repeat_rounded,
-                                size: 32,
-                                color: MediaQuery.of(context).platformBrightness == Brightness.dark
-                                    ? Colors.white
-                                    : Colors.black,
-                              ),
+                              onPressed: () {
+                                Provider.of<musicPlayer>(context, listen: false).switchLoopMode();
+                              },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.transparent,
                                 shadowColor: Colors.transparent,
                                 shape: CircleBorder(),
                                 padding: EdgeInsets.all(10),
+                              ),
+                              child: Icon(
+                                playerData.loopmode == LoopMode.one
+                                    ? Icons.repeat_one_rounded
+                                    : Icons.repeat_rounded,
+                                size: 32,
+                                color: playerData.loopmode == LoopMode.off
+                                    ? Colors.grey
+                                    : MediaQuery.of(context).platformBrightness == Brightness.dark
+                                    ? Colors.white
+                                    : Colors.black,
                               ),
                             ),
                             ElevatedButton(
@@ -620,13 +660,17 @@ class MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
                               ),
                             ),
                             ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Provider.of<musicPlayer>(context, listen: false).switchShuffleMode();
+                                },
                               child: Icon(
                                 Icons.shuffle_rounded,
                                 size: 32,
-                                color: MediaQuery.of(context).platformBrightness == Brightness.dark
-                                    ? Colors.white
-                                    : Colors.black,
+                                color: playerData.shuffle
+                                    ? MediaQuery.of(context).platformBrightness == Brightness.dark
+                                      ? Colors.white
+                                      : Colors.black
+                                    : Colors.grey,
                               ),
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.transparent,
@@ -932,61 +976,91 @@ class MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
                                           ],
                                         ),
                                       ),
-                                      Padding(
-                                        padding: EdgeInsets.symmetric(horizontal: 25),
-                                        child: Stack(
-                                          children: [
-                                            Padding(
-                                              padding: EdgeInsets.only(
-                                                  top: 25
-                                              ),
-                                              child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                children: [
-                                                  Text(
-                                                    formatDuration(playerData.position),
-                                                    maxLines: 1,
-                                                    overflow: TextOverflow.ellipsis,
-                                                    style: TextStyle(
-                                                      fontFamily: "Comfortaa",
-                                                      fontSize: 16,
-                                                    ),
-                                                  ),
-                                                  Text(
-                                                    formatDuration(playerData.nowPlaying["Duration"]),
-                                                    maxLines: 1,
-                                                    overflow: TextOverflow.ellipsis,
-                                                    style: TextStyle(
-                                                      fontFamily: "Comfortaa",
-                                                      fontSize: 16,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
+                                      Stack(
+                                        children: [
+                                          Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal:6
+                                          ),
+                                          child: SliderTheme(
+                                            data: SliderThemeData(
+                                              inactiveTrackColor: Colors.transparent,
+                                              overlayColor: Colors.transparent,
+                                              overlappingShapeStrokeColor: Colors.transparent,
+                                              activeTrackColor: Colors.white,
+                                              trackHeight: 8,
+                                              thumbColor: Colors.white,
+                                              thumbShape: RoundSliderThumbShape(enabledThumbRadius: 5),
                                             ),
-                                            LinearProgressIndicator(
-                                              value: 100,
-                                              backgroundColor: Colors.grey.withAlpha(64),
-                                              color: Colors.transparent,
-                                              minHeight: 10,
-                                              borderRadius: BorderRadius.all(Radius.circular(5)),
+                                            child: Slider(
+                                              value: playerData.position * 1.0,
+                                              max:playerData.nowPlaying["Duration"] * 1.0,
+                                              min:0,
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  Provider.of<musicPlayer>(context, listen: false).seek(value);
+                                                });
+                                              },
                                             ),
-                                            LinearProgressIndicator(
-                                              value: playerData.buffered / playerData.nowPlaying["Duration"],
-                                              backgroundColor: Colors.transparent,
-                                              color: Colors.grey.withAlpha(128),
-                                              minHeight: 10,
-                                              borderRadius: BorderRadius.all(Radius.circular(5)),
-                                            ),
-                                            LinearProgressIndicator(
-                                              value: playerData.position / playerData.nowPlaying["Duration"],
-                                              backgroundColor: Colors.transparent,
-                                              color: Colors.white,
-                                              minHeight: 10,
-                                              borderRadius: BorderRadius.all(Radius.circular(5)),
-                                            ),
-                                          ],
+                                          ),
                                         ),
+                                          Padding(
+                                            padding: EdgeInsets.only(left: 30, right:25, top:19),
+                                            child: Stack(
+                                              children: [
+                                                Padding(
+                                                  padding: EdgeInsets.only(
+                                                      top: 25
+                                                  ),
+                                                  child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                    children: [
+                                                      Text(
+                                                        formatDuration(playerData.position),
+                                                        maxLines: 1,
+                                                        overflow: TextOverflow.ellipsis,
+                                                        style: TextStyle(
+                                                          fontFamily: "Comfortaa",
+                                                          fontSize: 16,
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        formatDuration(playerData.nowPlaying["Duration"]),
+                                                        maxLines: 1,
+                                                        overflow: TextOverflow.ellipsis,
+                                                        style: TextStyle(
+                                                          fontFamily: "Comfortaa",
+                                                          fontSize: 16,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                LinearProgressIndicator(
+                                                  value: 100,
+                                                  backgroundColor: Colors.grey.withAlpha(64),
+                                                  color: Colors.transparent,
+                                                  minHeight: 10,
+                                                  borderRadius: BorderRadius.all(Radius.circular(5)),
+                                                ),
+                                                LinearProgressIndicator(
+                                                  value: playerData.buffered / playerData.nowPlaying["Duration"],
+                                                  backgroundColor: Colors.transparent,
+                                                  color: Colors.grey.withAlpha(128),
+                                                  minHeight: 10,
+                                                  borderRadius: BorderRadius.all(Radius.circular(5)),
+                                                ),
+                                                // LinearProgressIndicator(
+                                                //   value: playerData.position / playerData.nowPlaying["Duration"],
+                                                //   backgroundColor: Colors.transparent,
+                                                //   color: Colors.white,
+                                                //   minHeight: 10,
+                                                //   borderRadius: BorderRadius.all(Radius.circular(5)),
+                                                // ),
+                                              ],
+                                            ),
+                                          )
+                                        ],
                                       ),
                                       Padding(
                                         padding: EdgeInsets.symmetric(horizontal: 0),
@@ -995,23 +1069,37 @@ class MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
                                           crossAxisAlignment: CrossAxisAlignment.center,
                                           children: [
                                             ElevatedButton(
-                                              onPressed: () {},
-                                              child: Icon(
-                                                Icons.repeat_rounded,
-                                                size: 32,
-                                              ),
+                                              onPressed: () {
+                                                Provider.of<musicPlayer>(context, listen: false).switchLoopMode();
+                                              },
                                               style: ElevatedButton.styleFrom(
                                                 backgroundColor: Colors.transparent,
                                                 shadowColor: Colors.transparent,
                                                 shape: CircleBorder(),
                                                 padding: EdgeInsets.all(10),
                                               ),
+                                              child: Icon(
+                                                playerData.loopmode == LoopMode.one
+                                                    ? Icons.repeat_one_rounded
+                                                    : Icons.repeat_rounded,
+                                                size: 32,
+                                                color: playerData.loopmode == LoopMode.off
+                                                    ? Colors.grey
+                                                    : MediaQuery.of(context).platformBrightness == Brightness.dark
+                                                    ? Colors.white
+                                                    : Colors.black,
+                                              ),
                                             ),
                                             ElevatedButton(
-                                              onPressed: () {},
+                                              onPressed: () {
+                                                Provider.of<musicPlayer>(context, listen: false).playPrevious();
+                                              },
                                               child: Icon(
                                                 Icons.skip_previous_rounded,
                                                 size: 42,
+                                                color: MediaQuery.of(context).platformBrightness == Brightness.dark
+                                                    ? Colors.white
+                                                    : Colors.black,
                                               ),
                                               style: ElevatedButton.styleFrom(
                                                 backgroundColor: Colors.transparent,
@@ -1038,10 +1126,15 @@ class MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
                                               ),
                                             ),
                                             ElevatedButton(
-                                              onPressed: () {},
+                                              onPressed: () {
+                                                Provider.of<musicPlayer>(context, listen: false).playNext();
+                                              },
                                               child: Icon(
                                                 Icons.skip_next_rounded,
                                                 size: 42,
+                                                color: MediaQuery.of(context).platformBrightness == Brightness.dark
+                                                    ? Colors.white
+                                                    : Colors.black,
                                               ),
                                               style: ElevatedButton.styleFrom(
                                                 backgroundColor: Colors.transparent,
@@ -1051,10 +1144,17 @@ class MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
                                               ),
                                             ),
                                             ElevatedButton(
-                                              onPressed: () {},
+                                              onPressed: () {
+                                                Provider.of<musicPlayer>(context, listen: false).switchShuffleMode();
+                                              },
                                               child: Icon(
                                                 Icons.shuffle_rounded,
                                                 size: 32,
+                                                color: playerData.shuffle
+                                                    ? MediaQuery.of(context).platformBrightness == Brightness.dark
+                                                    ? Colors.white
+                                                    : Colors.black
+                                                    : Colors.grey,
                                               ),
                                               style: ElevatedButton.styleFrom(
                                                 backgroundColor: Colors.transparent,
