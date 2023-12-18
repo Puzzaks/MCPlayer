@@ -437,7 +437,7 @@ class settingsPageState extends State<settingsPage> {
                           ),
                           FutureBuilder(
                               future: checkReviewsStatus(),
-                              builder: (BuildContext context, AsyncSnapshot reviewAval){
+                              builder: (BuildContext context, AsyncSnapshot reviewAval) {
                                 if (reviewAval.hasData) {
                                   return ElevatedButton(
                                     style: ElevatedButton.styleFrom(
@@ -451,13 +451,12 @@ class settingsPageState extends State<settingsPage> {
                                     ),
                                     onPressed: () async {
                                       review.openStoreListing();
-                                      },
+                                    },
                                     child: mcJumpSettingsButton(icon: Icons.star_outline_rounded, title: "Review MCPlayer", subtitle: "Leave the review on Play Store"),
                                   );
                                 }
                                 return Container();
-                              }
-                          ),
+                              }),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.transparent,
@@ -2461,8 +2460,7 @@ class aboutSettingsPageState extends State<aboutSettingsPage> {
                             onTap: () {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(
-                                    builder: (context) => changelogPage()),
+                                MaterialPageRoute(builder: (context) => changelogPage()),
                               );
                             },
                           ),
@@ -2731,7 +2729,7 @@ class packagesSettingsPageState extends State<packagesSettingsPage> {
                               itemBuilder: (context, index) {
                                 if (packagesList.data.keys.toList()[index] != "flutter") {
                                   return Padding(
-                                    padding: const EdgeInsets.symmetric(vertical:5, horizontal: 10),
+                                    padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                                     child: GestureDetector(
                                       onTap: () {
                                         launchUrl(Uri.parse("https://pub.dev/packages/${packagesList.data.keys.toList()[index]}/versions/${packagesList.data[packagesList.data.keys.toList()[index]].replaceAll('^', '')}"),
@@ -2896,176 +2894,112 @@ class creatorsSettingsPageState extends State<creatorsSettingsPage> {
                             ],
                           ),
                         ),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Card(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  child: Padding(
-                                    padding: EdgeInsets.all(15),
-                                    child: Row(
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.only(right: 15),
-                                          child: ClipRRect(
-                                            borderRadius: BorderRadius.circular(59.0),
-                                            child: Image.asset(
-                                              "assets/puzzak_av.jpg",
-                                              height: 78,
-                                            ),
-                                          ),
-                                        ),
-                                        Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              "Puzzak",
-                                              style: const TextStyle(fontSize: 24, fontFamily: "Comfortaa", fontWeight: FontWeight.bold),
-                                            ),
-                                            Text(
-                                              "Developer",
-                                              style: const TextStyle(fontSize: 18, height: 1.25, fontFamily: "Comfortaa", color: Colors.grey),
-                                            ),
-                                            Row(
-                                              children: [
-                                                Padding(
-                                                  padding: EdgeInsets.only(right: 5, top: 5),
-                                                  child: GestureDetector(
-                                                    onTap: () {
-                                                      launchUrl(Uri.parse("https://puzzak.page"), mode: LaunchMode.externalApplication);
-                                                    },
-                                                    child: Icon(Icons.link),
-                                                  ),
-                                                ),
-                                                Padding(
-                                                  padding: EdgeInsets.only(right: 5, top: 5),
-                                                  child: GestureDetector(
-                                                    onTap: () {
-                                                      launchUrl(Uri.parse("https://t.me/puzzaks"), mode: LaunchMode.externalApplication);
-                                                    },
-                                                    child: Icon(Icons.telegram_rounded),
-                                                  ),
-                                                ),
-                                                Padding(
-                                                  padding: EdgeInsets.only(right: 5, top: 5),
-                                                  child: GestureDetector(
-                                                    onTap: () {
-                                                      launchUrl(Uri.parse("https://github.com/Puzzak"), mode: LaunchMode.externalApplication);
-                                                    },
-                                                    child: Image.asset(
-                                                      "assets/icons/github-alt.png",
-                                                      height: 24,
+                        FutureBuilder(
+                            future: rootBundle.loadString('assets/data/authors.json'),
+                            builder: (BuildContext context, AsyncSnapshot authorsRaw) {
+                              if (authorsRaw.hasData) {
+                                Map authors = jsonDecode(authorsRaw.data);
+                                return Column(
+                                    children: authors["Authors"]
+                                        .map((option) {
+                                          return Row(
+                                            children: [
+                                              Expanded(
+                                                child: Card(
+                                                    shape: RoundedRectangleBorder(
+                                                      borderRadius: BorderRadius.circular(20),
                                                     ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        )
-                                      ],
-                                    ),
-                                  )),
-                            ),
-                          ],
-                        ), // Puzzak
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Card(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  child: Padding(
-                                    padding: EdgeInsets.all(15),
-                                    child: Row(
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.only(right: 15),
-                                          child: ClipRRect(
-                                            borderRadius: BorderRadius.circular(59.0),
-                                            child: Image.asset(
-                                              "assets/darkplayer_av.png",
-                                              height: 78,
-                                            ),
-                                          ),
-                                        ),
-                                        Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              "DarkPlayer",
-                                              style: const TextStyle(fontSize: 24, fontFamily: "Comfortaa", fontWeight: FontWeight.bold),
-                                            ),
-                                            Text(
-                                              "Lead Designer",
-                                              style: const TextStyle(fontSize: 18, height: 1.25, fontFamily: "Comfortaa", color: Colors.grey),
-                                            ),
-                                            Row(
-                                              children: [
-                                                Padding(
-                                                  padding: EdgeInsets.only(right: 5, top: 5),
-                                                  child: GestureDetector(
-                                                    onTap: () {
-                                                      launchUrl(Uri.parse("https://twitter.com/dvrkplayer"), mode: LaunchMode.externalApplication);
-                                                    },
-                                                    child: Image.asset(
-                                                      "assets/icons/twitter-alt.png",
-                                                      height: 24,
-                                                    ),
-                                                  ),
-                                                ),
-                                                Padding(
-                                                  padding: EdgeInsets.only(right: 5, top: 5),
-                                                  child: GestureDetector(
-                                                    onTap: () {
-                                                      launchUrl(Uri.parse("https://t.me/dvrkplayer"), mode: LaunchMode.externalApplication);
-                                                    },
-                                                    child: Icon(Icons.telegram_rounded),
-                                                  ),
-                                                ),
-                                                Padding(
-                                                  padding: EdgeInsets.only(right: 5, top: 5),
-                                                  child: GestureDetector(
-                                                    onTap: () {
-                                                      launchUrl(Uri.parse("https://github.com/DarkPlayerr"), mode: LaunchMode.externalApplication);
-                                                    },
-                                                    child: Image.asset(
-                                                      "assets/icons/github-alt.png",
-                                                      height: 24,
-                                                    ),
-                                                  ),
-                                                ),
-                                                Padding(
-                                                  padding: EdgeInsets.only(right: 5, top: 5),
-                                                  child: GestureDetector(
-                                                    onTap: () {
-                                                      launchUrl(Uri.parse("https://www.figma.com/@dvrkplayer"), mode: LaunchMode.externalApplication);
-                                                    },
-                                                    child: Image.asset(
-                                                      "assets/icons/brand-figma.png",
-                                                      height: 24,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ), // Buttons
-                                          ],
-                                        )
-                                      ],
-                                    ),
-                                  )),
-                            ),
-                          ],
-                        ), // DarkPlayer
+                                                    child: Padding(
+                                                      padding: EdgeInsets.all(15),
+                                                      child: Column(
+                                                        children: [
+                                                          Row(
+                                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                                            mainAxisAlignment: MainAxisAlignment.start,
+                                                            children: [
+                                                              Padding(
+                                                                padding: EdgeInsets.only(right: 15),
+                                                                child: ClipRRect(
+                                                                  borderRadius: BorderRadius.circular(59.0),
+                                                                  child: Image.asset(
+                                                                    option["Avatar"],
+                                                                    height: 50,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              Column(
+                                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                                children: [
+                                                                  Text(
+                                                                    option["Name"],
+                                                                    style: const TextStyle(fontSize: 24,height: 1, fontFamily: "Comfortaa", fontWeight: FontWeight.bold),
+                                                                  ),
+                                                                  Text(
+                                                                    "${option["Rank"]} ${option["Role"]}",
+                                                                    style: const TextStyle(fontSize: 18, height: 1.25, fontFamily: "Comfortaa", color: Colors.grey),
+                                                                  ), // Buttons
+                                                                ],
+                                                              )
+                                                            ],
+                                                          ),
+                                                          SizedBox(height: 10,),
+                                                          SingleChildScrollView(
+                                                            scrollDirection: Axis.horizontal,
+                                                            child: Padding(
+                                                              padding: const EdgeInsets.only(),
+                                                              child: Wrap(
+                                                                spacing: 10.0, // Adjust the spacing between chips as needed
+                                                                runSpacing: -7.5, // Adjust the run spacing as needed
+                                                                children: option["Links"]
+                                                                    .map((option) {
+                                                                  return GestureDetector(
+                                                                    onTap: () {
+                                                                      launchUrl(Uri.parse(option["Link"]), mode: LaunchMode.externalApplication);
+                                                                    },
+                                                                    child: Chip(
+                                                                      shadowColor: Colors.transparent,
+                                                                      // avatar: Icon(
+                                                                      //     Icons.alternate_email_rounded,
+                                                                      //     color: MediaQuery.of(context).platformBrightness == Brightness.dark ? Colors.white : Colors.black
+                                                                      // ),
+                                                                      label: Text(
+                                                                        option["Title"],
+                                                                        style: const TextStyle(
+                                                                          fontFamily: 'Comfortaa',
+                                                                          fontSize: 14,
+                                                                          fontWeight: FontWeight.bold,
+                                                                        ),
+                                                                      ),
+                                                                      backgroundColor: MediaQuery.of(context).platformBrightness == Brightness.dark ? const Color(0xFF040707) : Colors.transparent,
+                                                                      elevation: 5.0,
+                                                                      shape: RoundedRectangleBorder(
+                                                                        side: const BorderSide(
+                                                                          color: Colors.teal, // Border color
+                                                                          width: 2.0, // Border width
+                                                                        ),
+                                                                        borderRadius: BorderRadius.circular(16.0),
+                                                                      ),
+                                                                    ),
+                                                                  );
+                                                                })
+                                                                    .toList()
+                                                                    .cast<Widget>(),
+                                                              ),
+                                                            ),
+                                                          )
+                                                        ],
+                                                      ),
+                                                    )),
+                                              ),
+                                            ],
+                                          );
+                                        })
+                                        .toList()
+                                        .cast<Widget>());
+                              }
+                              return Text("Loading");
+                            }), //AIO
                       ],
                     )),
               );

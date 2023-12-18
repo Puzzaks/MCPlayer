@@ -44,7 +44,8 @@ class MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
         androidNotificationChannelName: 'Audio playback',
         androidNotificationOngoing: false,
         notificationColor: Colors.teal,
-        androidNotificationIcon: 'drawable/catlogo',
+        androidNotificationIcon: 'drawable/ic_icon',
+
       androidShowNotificationBadge: false,
     );
     tabController = TabController(length: 3, vsync: this);

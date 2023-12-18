@@ -1,3 +1,11 @@
+## Update 0.0.14 [14] (OBT)
+#### Miscellaneous
+ - Optimised [Creators] page in Settings
+#### Fixes
+ - Fixed issue that notification icon resolution caused app to crash
+#### Known Issues
+ - Sometimes notification icon renders as blank square \****sigh***\*
+
 ## Update 0.0.13 [13] (OBT)
 #### Player
  - You can now enable & disable shuffle

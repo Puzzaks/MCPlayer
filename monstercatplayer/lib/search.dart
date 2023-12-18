@@ -72,6 +72,7 @@ class searchPageState extends State<searchPage> {
   }
 
   Future addMusic(int pos) async {
+    print(_isLoading);
     if (!_isLoading) {
       setState(() {
         _isLoading = true;

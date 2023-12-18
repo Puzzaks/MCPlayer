@@ -281,9 +281,19 @@ class libraryPageState extends State<libraryPage> {
   void initState() {
     getUser().then((value) {
       myLibraryId = value["User"]["MyLibrary"];
-      getString("albumArtPreviewRes").then((value) {
-        appSettings["albumArtPreviewRes"] = value;
-        super.initState();
+      checkKey("albumArtPreviewRes").then((value){
+        if(value) {
+          getString("albumArtPreviewRes").then((value) {
+            if(value == Null){
+              appSettings["albumArtPreviewRes"] = "256";
+            }else {
+              appSettings["albumArtPreviewRes"] = value;
+            }
+            super.initState();
+          });
+        }else{
+          super.initState();
+        }
       });
     });
   }
