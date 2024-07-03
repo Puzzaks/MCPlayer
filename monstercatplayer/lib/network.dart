@@ -430,6 +430,7 @@ Future<String> sendSignup(Map input) async {
   });
   final response = await http.post(Uri.https(endpoint, method),
       headers: headers, body: payload);
+  print(response.body);
   if (response.statusCode == 204) {
     String cookie = "";
     String session = "";

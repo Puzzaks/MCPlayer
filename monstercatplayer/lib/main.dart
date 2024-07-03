@@ -181,7 +181,7 @@ class MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
               }
               return Container(
                 color: backgroundColor,
-                height: playerOpened ? scaffoldHeight: playerData.queue.length > 0 ? 130 : 60,
+                height: playerOpened ? scaffoldHeight: playerData.queue.length > 0 ? 140 : 60,
                 child: !playerOpened ? GestureDetector(
                   onTap:(){
                     setState(() {

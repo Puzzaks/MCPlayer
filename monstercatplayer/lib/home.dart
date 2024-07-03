@@ -941,7 +941,7 @@ class ScrollablePageState extends State<homePage> {
                               onTap: () {
                                 review.openStoreListing();
                               },
-                              child: const mcNotificationCard(title: "Got feedback?", subtitle: "Please, tap this card and share our thoughts", icon: Icons.arrow_forward_rounded),
+                              child: const mcNotificationCard(title: "Got feedback?", subtitle: "Please, tap this card and share your thoughts", icon: Icons.arrow_forward_rounded),
                             ),
                             const SizedBox(
                               height: 15,
@@ -1949,7 +1949,7 @@ class finishSetupPageState extends State<finishSetupPage> {
         body: SafeArea(
             child: Padding(
                 padding: const EdgeInsets.all(15),
-                child: Container(
+                child: SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -2176,7 +2176,7 @@ class finishSetupPageState extends State<finishSetupPage> {
                                           height: 10,
                                         ),
                                         Text(
-                                          "Click here to read our privacy policy",
+                                          "Tap here to read our privacy policy",
                                           style: TextStyle(
                                             fontSize: 14,
                                             fontFamily: "Comfortaa",
@@ -2258,7 +2258,48 @@ class finishSetupPageState extends State<finishSetupPage> {
                                           height: 10,
                                         ),
                                         Text(
-                                          "Since 0.0.8, MCPlayer can open links from monstercat web player. To allow it, open Android settings for this app, tap on \"Open by default\", and select all available options in \"Add link\".",
+                                          "Since v.0.0.8, MCPlayer can open links from monstercat web player. To allow it, open Android settings for this app, tap on \"Open by default\", and select all available options in \"Add link\".",
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            fontFamily: "Comfortaa",
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  )),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: GestureDetector(
+                              onTap: null,
+                              child: Card(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  child: const Padding(
+                                    padding: EdgeInsets.all(15),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              "Registration is no more",
+                                              style: TextStyle(fontSize: 20, fontFamily: "Comfortaa", fontWeight: FontWeight.bold),
+                                            ),
+                                            Icon(Icons.info_outline_rounded)
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        Text(
+                                          "In v.0.0.15, we've had to remove registration from the app. This is due to Monstercat adding Captcha to the registration flow. You can only register from their website and we will guide you to there if you'll need new account!",
                                           style: TextStyle(
                                             fontSize: 14,
                                             fontFamily: "Comfortaa",

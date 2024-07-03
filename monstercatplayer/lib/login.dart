@@ -2702,114 +2702,156 @@ class signInPageState extends State<signInPage> {
                                           const SizedBox(
                                             height: 15,
                                           ),
-                                          Row(
-                                            children: [
-                                              Expanded(
-                                                child: Padding(
-                                                  padding: const EdgeInsets.only(),
-                                                  child: TextField(
-                                                    controller: emailController,
-                                                    textInputAction: TextInputAction.next,
-                                                    keyboardType: TextInputType.emailAddress,
+                                          Padding(
+                                            padding: const EdgeInsets.only(top: 5, bottom: 5),
+                                            child: RichText(
+                                              text: TextSpan(
+                                                text: 'In recent update, Monstercat added Captcha into the account creation process, thus making registrating through here impossible. Before that you could register through the app, but in ',
+                                                style: TextStyle(
+                                                  color: MediaQuery.of(context).platformBrightness == Brightness.dark ? Colors.white : Colors.black,
+                                                  fontFamily: 'Comfortaa',
+                                                ),
+                                                children: <TextSpan>[
+                                                  TextSpan(
+                                                    text: 'MCPlayer v.0.0.15',
                                                     style: const TextStyle(
-                                                      fontFamily: 'Comfortaa',
+                                                      decoration: TextDecoration.underline,
+                                                      color: Colors.teal,
                                                     ),
-                                                    decoration: InputDecoration(
-                                                      contentPadding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 0),
-                                                      errorBorder: const UnderlineInputBorder(
-                                                        borderSide: BorderSide(
-                                                          color: Colors.red,
-                                                          width: 2.0,
-                                                        ),
-                                                      ),
-                                                      focusedErrorBorder: const UnderlineInputBorder(
-                                                        borderSide: BorderSide(
-                                                          color: Colors.red,
-                                                          width: 2.0,
-                                                        ),
-                                                      ),
-                                                      focusedBorder: UnderlineInputBorder(
-                                                        borderSide: BorderSide(
-                                                          color: validateEmail(emailController.text) ? Colors.teal : Colors.red, // Set the focused border color
-                                                          width: 2.0,
-                                                        ),
-                                                      ),
-                                                      border: UnderlineInputBorder(
-                                                        borderSide: BorderSide(
-                                                          color: validateEmail(emailController.text) ? Colors.teal : Colors.red,
-                                                          width: 2.0,
-                                                        ),
-                                                      ),
-                                                      enabledBorder: UnderlineInputBorder(
-                                                        borderSide: BorderSide(
-                                                          color: validateEmail(emailController.text) ? Colors.teal : Colors.red,
-                                                          width: 2.0,
-                                                        ),
-                                                      ),
-                                                      labelText: 'Email',
-                                                      labelStyle: const TextStyle(color: Colors.grey),
+                                                    recognizer: TapGestureRecognizer()
+                                                      ..onTap = () {
+                                                        launchUrl(Uri.parse('https://github.com/Puzzak/MCPlayer/blob/main/changelog.md'), mode: LaunchMode.externalApplication);
+                                                      },
+                                                  ),
+                                                  const TextSpan(
+                                                    text: ' we\'ve had to remove this functionality. As of now the only option is to register through the ',
+                                                  ),
+                                                  TextSpan(
+                                                    text: 'Monstercat website',
+                                                    style: const TextStyle(
+                                                      decoration: TextDecoration.underline,
+                                                      color: Colors.teal,
                                                     ),
-                                                    onChanged: (value) async {
-                                                      setState(() {
-                                                        errorMessage = "";
-                                                        email = value;
-                                                      });
-                                                    },
-                                                  ), // Email
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          Container(
-                                            height: 44,
-                                            width: double.infinity,
-                                            child: SingleChildScrollView(
-                                              scrollDirection: Axis.horizontal,
-                                              child: Padding(
-                                                padding: const EdgeInsets.only(),
-                                                child: Wrap(
-                                                  spacing: 10.0, // Adjust the spacing between chips as needed
-                                                  runSpacing: -7.5, // Adjust the run spacing as needed
-                                                  children: emailVariants
-                                                      .map((option) {
-                                                        return GestureDetector(
-                                                          onTap: () async {
-                                                            setState(() {
-                                                              email = "${emailController.text.split("@")[0]}@$option";
-                                                              emailController = TextEditingController(text: "${emailController.text.split("@")[0]}@$option");
-                                                            });
-                                                          },
-                                                          child: Chip(
-                                                            shadowColor: Colors.transparent,
-                                                            avatar: const Icon(
-                                                              Icons.alternate_email_rounded,
-                                                            ),
-                                                            label: Text(
-                                                              option,
-                                                              style: const TextStyle(
-                                                                fontFamily: 'Comfortaa',
-                                                                fontSize: 14,
-                                                                fontWeight: FontWeight.bold,
-                                                              ),
-                                                            ),
-                                                            backgroundColor: MediaQuery.of(context).platformBrightness == Brightness.dark ? const Color(0xFF040707) : Colors.transparent,
-                                                            elevation: 5.0,
-                                                            shape: RoundedRectangleBorder(
-                                                              side: const BorderSide(
-                                                                color: Colors.teal, // Border color
-                                                                width: 2.0, // Border width
-                                                              ),
-                                                              borderRadius: BorderRadius.circular(16.0),
-                                                            ),
-                                                          ),
-                                                        );
-                                                      })
-                                                      .toList()
-                                                      .cast<Widget>(),
-                                                ),
+                                                    recognizer: TapGestureRecognizer()
+                                                      ..onTap = () {
+                                                        launchUrl(Uri.parse('https://monstercat.com/sign-up'), mode: LaunchMode.externalApplication);
+                                                      },
+                                                  ),
+                                                  const TextSpan(
+                                                    text: ' and return to login in the app. Sorry for inconvenience and thanks for sticking with us!',
+                                                  ),
+                                                ],
                                               ),
                                             ),
                                           ),
+                                          // Row(
+                                          //   children: [
+                                          //     Expanded(
+                                          //       child: Padding(
+                                          //         padding: const EdgeInsets.only(),
+                                          //         child: TextField(
+                                          //           controller: emailController,
+                                          //           textInputAction: TextInputAction.next,
+                                          //           keyboardType: TextInputType.emailAddress,
+                                          //           style: const TextStyle(
+                                          //             fontFamily: 'Comfortaa',
+                                          //           ),
+                                          //           decoration: InputDecoration(
+                                          //             contentPadding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 0),
+                                          //             errorBorder: const UnderlineInputBorder(
+                                          //               borderSide: BorderSide(
+                                          //                 color: Colors.red,
+                                          //                 width: 2.0,
+                                          //               ),
+                                          //             ),
+                                          //             focusedErrorBorder: const UnderlineInputBorder(
+                                          //               borderSide: BorderSide(
+                                          //                 color: Colors.red,
+                                          //                 width: 2.0,
+                                          //               ),
+                                          //             ),
+                                          //             focusedBorder: UnderlineInputBorder(
+                                          //               borderSide: BorderSide(
+                                          //                 color: validateEmail(emailController.text) ? Colors.teal : Colors.red, // Set the focused border color
+                                          //                 width: 2.0,
+                                          //               ),
+                                          //             ),
+                                          //             border: UnderlineInputBorder(
+                                          //               borderSide: BorderSide(
+                                          //                 color: validateEmail(emailController.text) ? Colors.teal : Colors.red,
+                                          //                 width: 2.0,
+                                          //               ),
+                                          //             ),
+                                          //             enabledBorder: UnderlineInputBorder(
+                                          //               borderSide: BorderSide(
+                                          //                 color: validateEmail(emailController.text) ? Colors.teal : Colors.red,
+                                          //                 width: 2.0,
+                                          //               ),
+                                          //             ),
+                                          //             labelText: 'Email',
+                                          //             labelStyle: const TextStyle(color: Colors.grey),
+                                          //           ),
+                                          //           onChanged: (value) async {
+                                          //             setState(() {
+                                          //               errorMessage = "";
+                                          //               email = value;
+                                          //             });
+                                          //           },
+                                          //         ), // Email
+                                          //       ),
+                                          //     ),
+                                          //   ],
+                                          // ),
+                                          // Container(
+                                          //   height: 44,
+                                          //   width: double.infinity,
+                                          //   child: SingleChildScrollView(
+                                          //     scrollDirection: Axis.horizontal,
+                                          //     child: Padding(
+                                          //       padding: const EdgeInsets.only(),
+                                          //       child: Wrap(
+                                          //         spacing: 10.0, // Adjust the spacing between chips as needed
+                                          //         runSpacing: -7.5, // Adjust the run spacing as needed
+                                          //         children: emailVariants
+                                          //             .map((option) {
+                                          //               return GestureDetector(
+                                          //                 onTap: () async {
+                                          //                   setState(() {
+                                          //                     email = "${emailController.text.split("@")[0]}@$option";
+                                          //                     emailController = TextEditingController(text: "${emailController.text.split("@")[0]}@$option");
+                                          //                   });
+                                          //                 },
+                                          //                 child: Chip(
+                                          //                   shadowColor: Colors.transparent,
+                                          //                   avatar: const Icon(
+                                          //                     Icons.alternate_email_rounded,
+                                          //                   ),
+                                          //                   label: Text(
+                                          //                     option,
+                                          //                     style: const TextStyle(
+                                          //                       fontFamily: 'Comfortaa',
+                                          //                       fontSize: 14,
+                                          //                       fontWeight: FontWeight.bold,
+                                          //                     ),
+                                          //                   ),
+                                          //                   backgroundColor: MediaQuery.of(context).platformBrightness == Brightness.dark ? const Color(0xFF040707) : Colors.transparent,
+                                          //                   elevation: 5.0,
+                                          //                   shape: RoundedRectangleBorder(
+                                          //                     side: const BorderSide(
+                                          //                       color: Colors.teal, // Border color
+                                          //                       width: 2.0, // Border width
+                                          //                     ),
+                                          //                     borderRadius: BorderRadius.circular(16.0),
+                                          //                   ),
+                                          //                 ),
+                                          //               );
+                                          //             })
+                                          //             .toList()
+                                          //             .cast<Widget>(),
+                                          //       ),
+                                          //     ),
+                                          //   ),
+                                          // ),
                                           Row(
                                             children: [
                                               Expanded(
@@ -2821,37 +2863,21 @@ class signInPageState extends State<signInPage> {
                                                   child: ElevatedButton(
                                                     style: ElevatedButton.styleFrom(
                                                       shadowColor: Colors.transparent,
-                                                      backgroundColor: validateEmail(emailController.text) ? Colors.teal : Colors.transparent,
+                                                      backgroundColor: Colors.teal,
                                                       shape: RoundedRectangleBorder(
                                                         borderRadius: BorderRadius.circular(20.0),
                                                         side: const BorderSide(color: Colors.transparent, width: 2),
                                                       ),
                                                     ),
-                                                    onPressed: validateEmail(emailController.text)
-                                                        ? () async {
-                                                            setState(() {
-                                                              generalUserSettings["Email"] = email;
-                                                              stagePassword = true;
-                                                            });
-                                                          }
-                                                        : () async {
-                                                            Fluttertoast.showToast(
-                                                              msg: 'Wrong email format',
-                                                              toastLength: Toast.LENGTH_SHORT,
-                                                              gravity: ToastGravity.BOTTOM,
-                                                            );
+                                                    onPressed: () {
+                                                            launchUrl(Uri.parse('https://www.monstercat.com/sign-up'), mode: LaunchMode.externalApplication);
                                                           },
-                                                    child: isSending
-                                                        ? const LinearProgressIndicator(
-                                                            color: Colors.white,
-                                                            backgroundColor: Colors.transparent,
-                                                          )
-                                                        : Text(
-                                                            "Continue",
+                                                    child: const Text(
+                                                            "Go to registration",
                                                             style: TextStyle(
                                                               fontFamily: "Comfortaa",
                                                               fontWeight: FontWeight.bold,
-                                                              color: validateEmail(emailController.text) ? Colors.white : Colors.grey,
+                                                              color: Colors.white,
                                                             ),
                                                           ),
                                                   ),
