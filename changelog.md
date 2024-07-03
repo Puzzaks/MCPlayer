@@ -1,6 +1,6 @@
 ## Update 0.0.15 [15] (OBT)
 #### Registration
- - Removed registration through the app, as Monstercat introduced Captha into the login flow :(
+ - Removed registration through the app, as Monstercat introduced Captcha into the login flow :(
 #### Fixes
  - Fixed some spelling errors and typos
 
