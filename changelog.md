@@ -1,3 +1,9 @@
+## Update 0.0.15 [15] (OBT)
+#### Registration
+ - Removed registration through the app, as Monstercat introduced Captcha into the login flow :(
+#### Fixes
+ - Fixed some spelling errors and typos
+
 ## Update 0.0.14 [14] (OBT)
 #### Miscellaneous
  - Optimised [Creators] page in Settings
