@@ -72,7 +72,7 @@ MCPlayer is an unofficial Monstercat player designed to enhance your music liste
 
 - **GitHub Issues:** Open a thread on [GitHub Issues](https://github.com/Puzzak/MCPlayer/issues) to report bug or request feature.
 - **Play Store:** Provide feedback and review the app on the [Play Store page](https://play.google.com/store/apps/details?id=page.puzzak.mcplayer).
-- **Email:** Reach out to the developer, via email: [puzzaks@gmail.com](mailto:puzzaks@gmail.com).
+- **Email:** Reach out to the developer, via email: [puzzak@puzzak.page](mailto:puzzak@puzzak.page).
 
 ## License
 
