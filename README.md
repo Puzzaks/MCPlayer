@@ -49,7 +49,7 @@ MCPlayer is an unofficial Monstercat player designed to enhance your music liste
 ### Account and Library Management
 
 - **Account Features:**
-  - Register a new account within the app.
+  - ~~Register a new account within the app.~~ Removed in v0.0.15 after Monstercat added Captcha to the registration flow. See [changelog](changelog.md) for more info 
   - Sign in with 2FA support.
   - View and update account information.
   - Change email address and password.
