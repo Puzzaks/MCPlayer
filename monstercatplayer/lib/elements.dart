@@ -1,6 +1,7 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:monstercatplayer/player.dart';
@@ -468,10 +469,20 @@ class mcTrackOptions extends StatelessWidget {
               ),
               ElevatedButton(
                 onPressed: (){
-                  Fluttertoast.showToast(
-                    msg: 'Not implemented yet',
-                    toastLength: Toast.LENGTH_SHORT,
-                    gravity: ToastGravity.BOTTOM,
+                  // print("https://player.monstercat.app/api/release/${data["Release"]["Id"]}/track-stream/${data["Id"]}");
+                  FileDownloader.downloadFile(
+                    url: "https://player.monstercat.app/api/release/${data["Release"]["Id"]}/track-stream/${data["Id"]}",
+                    name: "${data["ArtistsTitle"]} - ${data["Title"]}.mp3",
+                    notificationType: NotificationType.all,
+                    downloadDestination: DownloadDestinations.publicDownloads,
+                    subPath: "MCPlayer/${data["ArtistsTitle"]}/${data["Release"]["Title"]}",
+                    onDownloadCompleted: (path){
+                      Fluttertoast.showToast(
+                        msg: 'Saved to downloads!',
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.BOTTOM,
+                      );
+                    }
                   );
                 },
                 onLongPress: (){

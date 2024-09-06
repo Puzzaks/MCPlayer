@@ -4,13 +4,9 @@ import 'memory.dart';
 
 Future getUserPlaylists() async {
   var token = "";
-  await getString("session").then((value) async {
-    token = value;
-  });
   final headers = {
     'Content-Type': 'application/json;',
     'charset': 'utf-8;',
-    'Cookie': 'cid=$token'
   };
   final params = {
     'fields': "name,tracks",
@@ -29,13 +25,9 @@ Future getUserPlaylists() async {
 
 Future getPlaylist(String playlist) async {
   var token = "";
-  await getString("session").then((value) async {
-    token = value;
-  });
   final headers = {
     'Content-Type': 'application/json;',
     'charset': 'utf-8;',
-    'Cookie': 'cid=$token'
   };
   final params = {
     // 'limit': "4"
@@ -54,13 +46,9 @@ Future getPlaylist(String playlist) async {
 Future getMood(String mood) async {
   print("MoodLoading: $mood");
   var token = "";
-  await getString("session").then((value) async {
-    token = value;
-  });
   final headers = {
     'Content-Type': 'application/json;',
     'charset': 'utf-8;',
-    'Cookie': 'cid=$token'
   };
   final params = {
     // 'limit': "4"
@@ -88,14 +76,9 @@ Future getChangelog() async {
 }
 
 Future getRelease(String release) async {
-  var token = "";
-  await getString("session").then((value) async {
-    token = value;
-  });
   final headers = {
     'Content-Type': 'application/json;',
     'charset': 'utf-8;',
-    'Cookie': 'cid=$token'
   };
   final params = {
     // 'limit': "4"
@@ -104,6 +87,7 @@ Future getRelease(String release) async {
   final method = "api/catalog/release/$release";
   final response = await http.get(Uri.https(endpoint, method, ), // + params when not empty
     headers: headers,);
+  print(response.statusCode);
   if (response.statusCode == 200) {
     return jsonDecode(response.body);
   } else {
@@ -113,13 +97,9 @@ Future getRelease(String release) async {
 
 Future getPlaylistInfo(String playlist) async {
   var token = "";
-  await getString("session").then((value) async {
-    token = value;
-  });
   final headers = {
     'Content-Type': 'application/json;',
     'charset': 'utf-8;',
-    'Cookie': 'cid=$token'
   };
   final params = {
     // 'limit': "4"
@@ -137,21 +117,18 @@ Future getPlaylistInfo(String playlist) async {
 
 Future getMoodInfo(String mood) async {
   var token = "";
-  await getString("session").then((value) async {
-    token = value;
-  });
   final headers = {
     'Content-Type': 'application/json;',
     'charset': 'utf-8;',
-    'Cookie': 'cid=$token'
   };
   final params = {
     // 'limit': "4"
   };
   const endpoint = "player.monstercat.app";
-  final method = "api/mood/${mood.toLowerCase()}";
+  final method = "api/mood/${mood.toString().toLowerCase()}";
   final response = await http.get(Uri.https(endpoint, method, ), // + params when not empty
     headers: headers,);
+  print(response.body);
   if (response.statusCode == 200) {
     return jsonDecode(response.body);
   } else {
@@ -161,13 +138,9 @@ Future getMoodInfo(String mood) async {
 
 Future getPlaylistAlbumArt(String playlist) async {
   var token = "";
-  await getString("session").then((value) async {
-    token = value;
-  });
   final headers = {
     'Content-Type': 'application/json;',
     'charset': 'utf-8;',
-    'Cookie': 'cid=$token'
   };
   final params = {
     'limit': "4"
@@ -185,13 +158,10 @@ Future getPlaylistAlbumArt(String playlist) async {
 
 Future getUser() async {
   var token = "";
-  await getString("session").then((value) async {
-    token = value;
-  });
+
   final headers = {
     'Content-Type': 'application/json;',
     'charset': 'utf-8;',
-    'Cookie': 'cid=$token'
   };
   const endpoint = "player.monstercat.app";
   const method = "api/me";
@@ -206,13 +176,10 @@ Future getUser() async {
 
 Future setUser(data) async {
   var token = "";
-  await getString("session").then((value) async {
-    token = value;
-  });
+
   final headers = {
     'Content-Type': 'application/json',
     'charset': 'utf-8',
-    'Cookie': 'cid=$token'
   };
   const endpoint = "player.monstercat.app";
   const method = "api/me";
@@ -226,13 +193,10 @@ Future setUser(data) async {
 
 Future sendCreatePlaylist(String name, String description, bool publicity) async {
   var token = "";
-  await getString("session").then((value) async {
-    token = value;
-  });
+
   final headers = {
     'Content-Type': 'application/json',
     'charset': 'utf-8',
-    'Cookie': 'cid=$token'
   };
   const endpoint = "player.monstercat.app";
   const method = "api/playlist";
@@ -247,13 +211,10 @@ Future sendCreatePlaylist(String name, String description, bool publicity) async
 
 Future sendEditPlaylist(String playlistID, playlistData) async {
   var token = "";
-  await getString("session").then((value) async {
-    token = value;
-  });
+
   final headers = {
     'Content-Type': 'application/json',
     'charset': 'utf-8',
-    'Cookie': 'cid=$token'
   };
   const endpoint = "player.monstercat.app";
   final method = "api/playlist/$playlistID";
@@ -268,16 +229,13 @@ Future sendEditPlaylist(String playlistID, playlistData) async {
 
 Future sendAddToPlaylist(String playlistID, songData) async {
   var token = "";
-  await getString("session").then((value) async {
-    token = value;
-  });
+
   final parameters = {
     "type": "add"
   };
   final headers = {
     'Content-Type': 'application/json',
     'charset': 'utf-8',
-    'Cookie': 'cid=$token'
   };
   const endpoint = "player.monstercat.app";
   final method = "api/playlist/$playlistID/modify-items";
@@ -305,13 +263,10 @@ Future sendAddToPlaylist(String playlistID, songData) async {
 
 Future sendDeletePlaylist(String playlistID) async {
   var token = "";
-  await getString("session").then((value) async {
-    token = value;
-  });
+
   final headers = {
     'Content-Type': 'application/json',
     'charset': 'utf-8',
-    'Cookie': 'cid=$token'
   };
   const endpoint = "player.monstercat.app";
   final method = "api/playlist/$playlistID/delete";
@@ -325,13 +280,10 @@ Future sendDeletePlaylist(String playlistID) async {
 
 Future setEmail(email) async {
   var token = "";
-  await getString("session").then((value) async {
-    token = value;
-  });
+
   final headers = {
     'Content-Type': 'application/json',
     'charset': 'utf-8',
-    'Cookie': 'cid=$token'
   };
   const endpoint = "player.monstercat.app";
   const method = "api/me/email";
@@ -346,13 +298,10 @@ Future setEmail(email) async {
 Future setPassword(String newPassword, String oldPassword) async {
   var token = "";
   var status = "Error";
-  await getString("session").then((value) async {
-    token = value;
-  });
+
   final headers = {
     'Content-Type': 'application/json',
     'charset': 'utf-8',
-    'Cookie': 'cid=$token',
     'Accept': 'application/json'
   };
   const endpoint = "www.monstercat.com";
@@ -539,13 +488,10 @@ Future<String> sendLogout() async {
   const endpoint = "player.monstercat.app";
   const method = "api/sign-out";
   String token = "";
-  await getString("session").then((value) async {
-    token = value;
-  });
+
   final headers = {
     'Content-Type': 'application/json',
     'charset': 'utf-8',
-    'Cookie': 'cid=$token',
     'Accept': 'application/json'
   };
   final response = await http.post(Uri.https(endpoint, method),
@@ -561,13 +507,10 @@ Future<String> enable2FA() async {
   const endpoint = "www.monstercat.com";
   const method = "api/me/two-factor/enable-email";
   String token = "";
-  await getString("session").then((value) async {
-    token = value;
-  });
+
   final headers = {
     'Content-Type': 'application/json',
     'charset': 'utf-8',
-    'Cookie': 'cid=$token',
     'Accept': 'application/json'
   };
   final response = await http.post(Uri.https(endpoint, method),
@@ -583,13 +526,10 @@ Future<String> disable2FA() async {
   const endpoint = "www.monstercat.com";
   const method = "api/me/two-factor/disable-email";
   String token = "";
-  await getString("session").then((value) async {
-    token = value;
-  });
+
   final headers = {
     'Content-Type': 'application/json',
     'charset': 'utf-8',
-    'Cookie': 'cid=$token',
     'Accept': 'application/json'
   };
   final response = await http.post(Uri.https(endpoint, method),

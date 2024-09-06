@@ -64,26 +64,7 @@ class settingsPageState extends State<settingsPage> {
     checkReviewsStatus().then((value) {
       reviewsAvailable = value;
     });
-    getUser().then((value) {
-      generalUserSettings["FirstName"] = value["User"]["FirstName"];
-      generalUserSettings["LastName"] = value["User"]["LastName"];
-      generalUserSettings["Birthday"] = value["User"]["Birthday"];
-      generalUserSettings["GoogleMapsPlaceId"] = value["User"]["GoogleMapsPlaceId"];
-      userData["Id"] = value["User"]["Id"];
-      userData["Email"] = value["User"]["Email"];
-      userData["CityName"] = value["User"]["PlaceNameFull"];
-      userData["HasGold"] = value["User"]["HasGold"];
-      userData["CreatedAt"] = value["User"]["CreatedAt"];
-      if (value["User"]["Attributes"]["goldPerks"] == null) {
-        userData["HadGold"] = false;
-      } else {
-        userData["HadGold"] = value["User"]["Attributes"]["goldPerks"];
-      }
-      userData["GivenDownloadAccess"] = value["User"]["GivenDownloadAccess"];
-      _loadData().then((value) {
-        super.initState();
-      });
-    });
+    super.initState();
   }
 
   Future<bool> checkReviewsStatus() async {
@@ -91,20 +72,6 @@ class settingsPageState extends State<settingsPage> {
       return value;
     });
     return false;
-  }
-
-  Future<bool> _loadData() async {
-    setState(() {
-      dataLoaded = true;
-      fnameController = TextEditingController(text: generalUserSettings["FirstName"]);
-      snameController = TextEditingController(text: generalUserSettings["LastName"]);
-      locationController = TextEditingController(text: userData["CityName"]);
-      emailController = TextEditingController(text: userData["Email"]);
-      dateController = TextEditingController(
-        text: DateFormat('dd.MM.yyyy').format(DateTime.parse(generalUserSettings["Birthday"]!)),
-      );
-    });
-    return true;
   }
 
   @override
@@ -121,6 +88,19 @@ class settingsPageState extends State<settingsPage> {
         systemNavigationBarColor: backgroundColor,
       ),
     );
+    Future<int> getPackagesCount() async {
+      Map dependencies = jsonDecode(jsonEncode(loadYaml(await rootBundle.loadString("pubspec.yaml"))["dependencies"]));
+      return dependencies.length - 1;
+    }
+
+    Future<Map> getAppData() async {
+      final info = await PackageInfo.fromPlatform();
+      final output = {
+        "version": info.version,
+        "build": info.buildNumber,
+      };
+      return output;
+    }
     return MaterialApp(
       theme: ThemeData(
         iconTheme: const IconThemeData(color: Colors.teal),
@@ -131,375 +111,362 @@ class settingsPageState extends State<settingsPage> {
       home: Scaffold(
         // resizeToAvoidBottomInset: false,
         body: SafeArea(
-            child: dataLoaded
-                ? Padding(
-                    padding: EdgeInsets.all(5),
-                    child: SingleChildScrollView(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+            child: Padding(
+              padding: EdgeInsets.all(5),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.transparent,
+                        shadowColor: Colors.transparent,
+                        padding: EdgeInsets.all(10),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                          side: const BorderSide(color: Colors.transparent, width: 1),
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Row(
                         children: [
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.transparent,
-                              shadowColor: Colors.transparent,
-                              padding: EdgeInsets.all(10),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15.0),
-                                side: const BorderSide(color: Colors.transparent, width: 1),
-                              ),
-                            ),
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            child: Row(
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.only(right: 10),
-                                  child: Icon(
-                                    Icons.arrow_back_rounded,
-                                    color: textColor,
-                                    size: 32,
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(left: 10),
-                                  child: Text(
-                                    "Settings",
-                                    style: TextStyle(
-                                      color: textColor,
-                                      fontSize: 32,
-                                      height: 1,
-                                      fontFamily: "Comfortaa",
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          const Text(
-                            "  ACCOUNT INFORMATION",
-                            style: TextStyle(
-                              height: 2,
-                              fontSize: 14,
-                              fontFamily: "Comfortaa",
-                              color: Colors.teal,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
                           Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 5),
-                            child: GestureDetector(
-                              child: Card(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  child: Padding(
-                                    padding: EdgeInsets.all(15),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              "Your ID",
-                                              style: const TextStyle(fontSize: 20, fontFamily: "Comfortaa", fontWeight: FontWeight.bold),
-                                            ),
-                                            GestureDetector(
-                                              onTap: () {
-                                                Clipboard.setData(ClipboardData(text: userData["Id"]));
-                                              },
-                                              child: Text(
-                                                "Copy",
-                                                style: const TextStyle(fontSize: 14, fontFamily: "Comfortaa", color: Colors.teal, fontWeight: FontWeight.bold),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          height: 10,
-                                        ),
-                                        idShown
-                                            ? Text(
-                                                userData["Id"],
-                                                style: const TextStyle(
-                                                  fontSize: 14,
-                                                  fontFamily: "Comfortaa",
-                                                ),
-                                              )
-                                            : Text(
-                                                "Tap to reveal Monstercat ID",
-                                                style: const TextStyle(
-                                                  fontSize: 14,
-                                                  fontFamily: "Comfortaa",
-                                                ),
-                                              ),
-                                      ],
-                                    ),
-                                  )),
-                              onTap: () {
-                                setState(() {
-                                  idShown = !idShown;
-                                });
-                              },
+                            padding: EdgeInsets.only(right: 10),
+                            child: Icon(
+                              Icons.arrow_back_rounded,
+                              color: textColor,
+                              size: 32,
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 5),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Card(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(20),
-                                      ),
-                                      child: Padding(
-                                        padding: EdgeInsets.all(15),
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              "Gold",
-                                              style: const TextStyle(fontSize: 20, fontFamily: "Comfortaa", fontWeight: FontWeight.bold),
-                                            ),
-                                            SizedBox(
-                                              height: 10,
-                                            ),
-                                            Text(
-                                              userData["HasGold"] ? "Subscribed" : "Not subscribed",
-                                              style: const TextStyle(
-                                                fontSize: 14,
-                                                fontFamily: "Comfortaa",
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      )),
-                                ),
-                                Expanded(
-                                  child: Card(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(20),
-                                      ),
-                                      child: Padding(
-                                        padding: EdgeInsets.all(15),
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              "Gold Perks",
-                                              style: const TextStyle(fontSize: 20, fontFamily: "Comfortaa", fontWeight: FontWeight.bold),
-                                            ),
-                                            SizedBox(
-                                              height: 10,
-                                            ),
-                                            Text(
-                                              userData["HadGold"] ? "Active" : "None",
-                                              style: const TextStyle(
-                                                fontSize: 14,
-                                                fontFamily: "Comfortaa",
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      )),
-                                )
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Row(
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 7.5),
-                                child: Icon(
-                                  Icons.info_outline_rounded,
-                                  color: Colors.grey,
-                                ),
-                              ),
-                              SizedBox(
-                                width: 12.5,
-                              ),
-                              Text(
-                                "Account created: ${DateFormat('dd.MM.yyyy').format(DateTime.parse(userData["CreatedAt"]))}",
-                                style: const TextStyle(fontFamily: "Comfortaa", color: Colors.grey, height: 1.25),
-                              ),
-                            ],
-                          ),
-                          const Text(
-                            "  ACCOUNT SETTINGS",
-                            style: TextStyle(
-                              height: 2.5,
-                              fontSize: 14,
-                              fontFamily: "Comfortaa",
-                              color: Colors.teal,
-                            ),
-                          ),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.transparent,
-                              shadowColor: Colors.transparent,
-                              padding: EdgeInsets.all(10),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15.0),
-                                side: const BorderSide(color: Colors.transparent, width: 1),
+                            padding: EdgeInsets.only(left: 10),
+                            child: Text(
+                              "Settings",
+                              style: TextStyle(
+                                color: textColor,
+                                fontSize: 32,
+                                height: 1,
+                                fontFamily: "Comfortaa",
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
-                            onPressed: () async {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => generalSettingsPage(
-                                          dateController: dateController,
-                                          fnameController: fnameController,
-                                          generalUserSettings: generalUserSettings,
-                                          locationController: locationController,
-                                          userData: userData,
-                                          snameController: snameController,
-                                        )),
-                              );
-                            },
-                            child: const mcJumpSettingsButton(icon: Icons.person_outline_rounded, title: "User Information", subtitle: "Enter your name, birthday or location"),
-                          ),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.transparent,
-                              shadowColor: Colors.transparent,
-                              padding: EdgeInsets.all(10),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15.0),
-                                side: const BorderSide(color: Colors.transparent, width: 1),
-                              ),
-                            ),
-                            onPressed: () async {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => userSettingsPage(
-                                          userData: userData,
-                                          nPasswordController: nPasswordController,
-                                          oPasswordController: oPasswordController,
-                                          emailController: emailController,
-                                        )),
-                              );
-                            },
-                            child: mcJumpSettingsButton(icon: Icons.lock_person_outlined, title: "Account and Security", subtitle: "Change your email, password and 2FA"),
-                          ),
-                          const Text(
-                            "APP SETTINGS",
-                            style: TextStyle(
-                              height: 2.5,
-                              fontSize: 14,
-                              fontFamily: "Comfortaa",
-                              color: Colors.teal,
-                            ),
-                          ),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.transparent,
-                              shadowColor: Colors.transparent,
-                              padding: EdgeInsets.all(10),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15.0),
-                                side: const BorderSide(color: Colors.transparent, width: 1),
-                              ),
-                            ),
-                            onPressed: () async {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => playerSettingsPage()),
-                              );
-                            },
-                            child: mcJumpSettingsButton(icon: Icons.tune_rounded, title: "Player settings", subtitle: "Tweak your experience"),
-                          ),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.transparent,
-                              shadowColor: Colors.transparent,
-                              padding: EdgeInsets.all(10),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15.0),
-                                side: const BorderSide(color: Colors.transparent, width: 1),
-                              ),
-                            ),
-                            onPressed: () async {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => aboutSettingsPage()),
-                              );
-                            },
-                            child: mcJumpSettingsButton(icon: Icons.info_outline_rounded, title: "About MCPlayer", subtitle: "Thanks, credentials and more info"),
-                          ),
-                          FutureBuilder(
-                              future: checkReviewsStatus(),
-                              builder: (BuildContext context, AsyncSnapshot reviewAval) {
-                                if (reviewAval.hasData) {
-                                  return ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.transparent,
-                                      shadowColor: Colors.transparent,
-                                      padding: EdgeInsets.all(10),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(15.0),
-                                        side: const BorderSide(color: Colors.transparent, width: 1),
-                                      ),
-                                    ),
-                                    onPressed: () async {
-                                      review.openStoreListing();
-                                    },
-                                    child: mcJumpSettingsButton(icon: Icons.star_outline_rounded, title: "Review MCPlayer", subtitle: "Leave the review on Play Store"),
-                                  );
-                                }
-                                return Container();
-                              }),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.transparent,
-                              shadowColor: Colors.transparent,
-                              padding: EdgeInsets.all(10),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15.0),
-                                side: const BorderSide(color: Colors.transparent, width: 1),
-                              ),
-                            ),
-                            onPressed: () async {
-                              setState(() {
-                                isLoggingOut = true;
-                              });
-                              await sendLogout().then((value) async {
-                                if (value == "true") {
-                                  await clearKey("session").then((value) async {
-                                    await clearKey("signed in").then((value) async {
-                                      setState(() {
-                                        isLoggingOut = false;
-                                        Restart.restartApp();
-                                      });
-                                    });
-                                  });
-                                } else {
-                                  Fluttertoast.showToast(
-                                    msg: 'Issue while logging out, try clearing app data',
-                                    toastLength: Toast.LENGTH_SHORT,
-                                    gravity: ToastGravity.BOTTOM,
-                                  );
-                                  setState(() {
-                                    isLoggingOut = false;
-                                  });
-                                }
-                              });
-                            },
-                            child: mcJumpSettingsButton(icon: isLoggingOut ? Icons.delete_sweep_outlined : Icons.logout_rounded, title: "Log out", subtitle: isLoggingOut ? "Logging out..." : "Log out and restart app"),
                           ),
                         ],
                       ),
                     ),
-                  )
-                : Container()),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () {
+                              Fluttertoast.showToast(
+                                msg: 'Stop tapping everywhere!',
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.BOTTOM,
+                              );
+                              launchUrl(Uri.parse("https://youtube.com/watch?v=dQw4w9WgXcQ"), mode: LaunchMode.externalApplication);
+                            },
+                            child: Card(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsets.all(15),
+                                  child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.all(15),
+                                        child: MediaQuery.of(context).platformBrightness == Brightness.light
+                                            ? ColorFiltered(
+                                          colorFilter: ColorFilter.matrix([
+                                            -1, 0, 0, 0, 255, // Red channel
+                                            0, -1, 0, 0, 255, // Green channel
+                                            0, 0, -1, 0, 255, // Blue channel
+                                            0, 0, 0, 1, 0, // Alpha channel
+                                          ]),
+                                          child: Image.asset(
+                                            "assets/app_logo.png",
+                                            height: 64,
+                                          ),
+                                        )
+                                            : Image.asset(
+                                          "assets/app_logo.png",
+                                          height: 64,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Text(
+                                        "MCPlayer",
+                                        style: const TextStyle(fontSize: 32, fontFamily: "Comfortaa", fontWeight: FontWeight.bold),
+                                      ),
+                                    ],
+                                  ),
+                                )),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: GestureDetector(
+                            child: Card(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsets.all(15),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "MCPlayer",
+                                        style: const TextStyle(fontSize: 20, fontFamily: "Comfortaa", fontWeight: FontWeight.bold),
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      FutureBuilder(
+                                        future: getAppData(),
+                                        builder: (BuildContext context, AsyncSnapshot appData) {
+                                          if (appData.hasData) {
+                                            return Text(
+                                              "Version ${appData.data["version"]} [${appData.data["build"]}]",
+                                              style: const TextStyle(
+                                                fontSize: 14,
+                                                fontFamily: "Comfortaa",
+                                              ),
+                                            );
+                                          } else {
+                                            return LinearProgressIndicator(
+                                              backgroundColor: Colors.transparent,
+                                              color: Colors.teal,
+                                            );
+                                          }
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                )),
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => changelogPage()),
+                              );
+                            },
+                          ),
+                        ),
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => packagesSettingsPage()),
+                              );
+                            },
+                            child: Card(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsets.all(15),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            "Packages",
+                                            style: const TextStyle(fontSize: 20, fontFamily: "Comfortaa", fontWeight: FontWeight.bold),
+                                          ),
+                                          Icon(
+                                            Icons.info_outline_rounded,
+                                            color: Colors.teal,
+                                          )
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      FutureBuilder(
+                                        future: getPackagesCount(),
+                                        builder: (BuildContext context, AsyncSnapshot packages) {
+                                          if (packages.hasData) {
+                                            return Text(
+                                              "${packages.data.toString()} installed",
+                                              style: const TextStyle(
+                                                fontSize: 14,
+                                                fontFamily: "Comfortaa",
+                                              ),
+                                            );
+                                          } else {
+                                            return LinearProgressIndicator(
+                                              backgroundColor: Colors.transparent,
+                                              color: Colors.teal,
+                                            );
+                                          }
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                )),
+                          ),
+                        )
+                      ],
+                    ),
+                    const Text(
+                      "  ABOUT MCPLAYER",
+                      style: TextStyle(
+                        height: 3,
+                        fontSize: 14,
+                        fontFamily: "Comfortaa",
+                        color: Colors.teal,
+                      ),
+                    ),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.transparent,
+                        shadowColor: Colors.transparent,
+                        padding: EdgeInsets.all(10),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                          side: const BorderSide(color: Colors.transparent, width: 1),
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => creatorsSettingsPage()),
+                        );
+                      },
+                      child: mcJumpSettingsButton(icon: Icons.people_outlined, title: "Creators", subtitle: "Learn who's behind MCPlayer"),
+                    ), // Creators
+                    ElevatedButton(
+                      onPressed: () async {
+                        launchUrl(
+                            Uri(
+                              scheme: 'mailto',
+                              path: 'puzzak@puzzak.page',
+                              queryParameters: {
+                                'subject': 'MCPlayer_Feedback',
+                              },
+                            ),
+                            mode: LaunchMode.externalApplication);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.transparent,
+                        shadowColor: Colors.transparent,
+                        padding: EdgeInsets.all(10),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                          side: const BorderSide(color: Colors.transparent, width: 1),
+                        ),
+                      ),
+                      child: mcJumpSettingsButton(icon: Icons.email_outlined, title: "Send feedback", subtitle: "Report bugs and tell your thoughts"),
+                    ), // Feedback
+                    ElevatedButton(
+                      onPressed: () async {
+                        launchUrl(Uri.parse("https://stories.puzzak.page/privacy_policy.html"), mode: LaunchMode.externalApplication);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.transparent,
+                        shadowColor: Colors.transparent,
+                        padding: EdgeInsets.all(10),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                          side: const BorderSide(color: Colors.transparent, width: 1),
+                        ),
+                      ),
+                      child: mcJumpSettingsButton(icon: Icons.privacy_tip_outlined, title: "Privacy policy", subtitle: "We take privacy seriously, read how"),
+                    ), // Privacy
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => packagesSettingsPage()),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.transparent,
+                        shadowColor: Colors.transparent,
+                        padding: EdgeInsets.all(10),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                          side: const BorderSide(color: Colors.transparent, width: 1),
+                        ),
+                      ),
+                      child: mcJumpSettingsButton(icon: Icons.list_rounded, title: "Used packages", subtitle: "Dart & Flutter modules used in app"),
+                    ), // Packages
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => changelogPage()),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.transparent,
+                        shadowColor: Colors.transparent,
+                        padding: EdgeInsets.all(10),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                          side: const BorderSide(color: Colors.transparent, width: 1),
+                        ),
+                      ),
+                      child: mcJumpSettingsButton(icon: Icons.change_circle_outlined, title: "Changelog", subtitle: "List of changes for this app"),
+                    ), // Changelog
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => finishSetupPage()),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.transparent,
+                        shadowColor: Colors.transparent,
+                        padding: EdgeInsets.all(10),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                          side: const BorderSide(color: Colors.transparent, width: 1),
+                        ),
+                      ),
+                      child: mcJumpSettingsButton(icon: Icons.info_outline_rounded, title: "Important information", subtitle: "Please read this before using the app"),
+                    ), // Important
+                    FutureBuilder(
+                        future: checkReviewsStatus(),
+                        builder: (BuildContext context, AsyncSnapshot reviewAval) {
+                          if (reviewAval.hasData) {
+                            return ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.transparent,
+                                shadowColor: Colors.transparent,
+                                padding: EdgeInsets.all(10),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15.0),
+                                  side: const BorderSide(color: Colors.transparent, width: 1),
+                                ),
+                              ),
+                              onPressed: () async {
+                                review.openStoreListing();
+                              },
+                              child: mcJumpSettingsButton(icon: Icons.star_outline_rounded, title: "Review MCPlayer", subtitle: "Leave the review on Play Store"),
+                            );
+                          }
+                          return Container();
+                        }),  // Review
+                  ],
+                ),
+              ),
+            )
+        ),
       ),
     );
   }

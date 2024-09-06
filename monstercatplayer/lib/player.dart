@@ -8,7 +8,7 @@ import 'package:just_audio_background/just_audio_background.dart';
 class musicPlayer with ChangeNotifier {
   bool isPlaying = false;
   bool isQueue = false;
-
+  Map downloads = {};
   int position = 0;
   int buffered = 0;
   List queue = [];

@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_file_downloader/flutter_file_downloader.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:monstercatplayer/library.dart';
 import 'package:monstercatplayer/network.dart';
@@ -40,9 +44,6 @@ class playistViewState extends State<playistView> {
     //   appSettings["albumArtPreviewRes"] = value;
     // });
     playlist = widget.playlist;
-    getString("UID").then((value){
-      userID = value;
-    });
     super.initState();
   }
 
@@ -76,6 +77,7 @@ class playistViewState extends State<playistView> {
               systemNavigationBarColor: backgroundColor,
             ),
           );
+          List downloadList = [];
           return OrientationBuilder(
               builder: (BuildContext context, Orientation orientation) {
                 if (orientation == Orientation.landscape) {
@@ -1099,6 +1101,12 @@ class playistViewState extends State<playistView> {
                                                             int musLength = 0;
                                                             for (int s = 0; s < playlist.data["Data"].length; s++) {
                                                               musLength = musLength + playlist.data["Data"][s]["Duration"] as int;
+                                                              Map downloader = {
+                                                                "url":"https://player.monstercat.app/api/release/${playlist.data["Data"][s]["Release"]["Id"]}/track-stream/${playlist.data["Data"][s]["Id"]}",
+                                                                "dir": playlistInfo.data["Playlist"]["Title"],
+                                                                "name": "${playlist.data["Data"][s]["ArtistsTitle"]} - ${playlist.data["Data"][s]["Title"]}.mp3"
+                                                              };
+                                                              downloadList.add(downloader);
                                                             }
                                                             String formatDuration(int seconds) {
                                                               String hoursString = (seconds ~/ 3600).toString().padLeft(2, '0');
@@ -1106,7 +1114,6 @@ class playistViewState extends State<playistView> {
                                                               String secondsString = (seconds % 60).toString().padLeft(2, '0');
                                                               return '$hoursString:$minutesString:$secondsString';
                                                             }
-
                                                             return Row(
                                                               crossAxisAlignment: CrossAxisAlignment.center,
                                                               children: [
@@ -1133,13 +1140,7 @@ class playistViewState extends State<playistView> {
                                                       height: 5,
                                                     ),
                                                     Text(
-                                                      playlistInfo.data["Playlist"]["IsPublic"]
-                                                          ? playlistInfo.data["Playlist"]["UserId"] == userID
-                                                          ? "Your public playlist"
-                                                          : "Public playlist"
-                                                          : playlistInfo.data["Playlist"]["UserId"] == userID
-                                                          ? "Your private playlist"
-                                                          : "Private playlist",
+                                                      "Public playlist",
                                                       overflow: TextOverflow.ellipsis,
                                                       maxLines: 1,
                                                       style: const TextStyle(fontSize: 20, fontFamily: 'Comfortaa', height: 1, color: Colors.grey),
@@ -1192,7 +1193,25 @@ class playistViewState extends State<playistView> {
                                                       width:38,
                                                       height:38,
                                                       child: ElevatedButton(
-                                                        onPressed: () {},
+                                                        onPressed: () {
+                                                          for (int s = 0; s < downloadList.length; s++) {
+                                                            FileDownloader.downloadFile(
+                                                                url: downloadList[s]["url"],
+                                                                name: downloadList[s]["name"],
+                                                                notificationType: NotificationType.completionOnly,
+                                                                downloadDestination: DownloadDestinations.publicDownloads,
+                                                                subPath: "MCPlayer/${playlistInfo.data["Playlist"]["Title"]}",
+                                                                onDownloadCompleted: (path){
+                                                                  Fluttertoast.showToast(
+                                                                    msg: '${downloadList[s]["name"]} is downloaded',
+                                                                    toastLength: Toast.LENGTH_SHORT,
+                                                                    gravity: ToastGravity.BOTTOM,
+                                                                  );
+                                                                }
+                                                            );
+                                                          }
+
+                                                        },
                                                         child: Icon(
                                                           Icons.download_rounded,
                                                           color: isDarkTheme
@@ -1512,12 +1531,9 @@ class moodViewState extends State<moodView> {
 
   @override
   void initState() {
-    getString("albumArtPreviewRes").then((value) {
-      appSettings["albumArtPreviewRes"] = value;
-    });
     moodString = widget.mood;
     getString("UID").then((value){
-      userID = value;
+      userID = "0";
     });
     super.initState();
   }
@@ -1566,8 +1582,8 @@ class moodViewState extends State<moodView> {
                                 future: getMoodInfo(moodString),
                                 builder: (BuildContext context, AsyncSnapshot moodInfo) {
                                   if (moodInfo.hasData) {
+                                    print(moodInfo.data);
                                     if (moodInfo.data != "False") {
-                                      print(moodInfo.data);
                                       return Stack(
                                         alignment: Alignment.topCenter,
                                         children: [
@@ -2173,7 +2189,7 @@ class albumView extends StatefulWidget {
 class albumViewState extends State<albumView> {
   bool isDarkTheme = false;
   bool infoExpanded = false;
-
+  List downloadList = [];
   String userID = "";
   String release = "";
 
@@ -2189,13 +2205,7 @@ class albumViewState extends State<albumView> {
 
   @override
   void initState() {
-    // getString("albumArtPreviewRes").then((value) {
-    //   appSettings["albumArtPreviewRes"] = value;
-    // });
     release = widget.release;
-    getString("UID").then((value){
-      userID = value;
-    });
     super.initState();
   }
 
@@ -2234,6 +2244,7 @@ class albumViewState extends State<albumView> {
                 child: FutureBuilder(
                     future: getRelease(release),
                     builder: (BuildContext context, AsyncSnapshot release) {
+                      print(release.data);
                       if (release.hasData) {
                         if (release.data != "False") {
                           Map musList = {};
@@ -2244,6 +2255,12 @@ class albumViewState extends State<albumView> {
                           int musLength = 0;
                           for (int s = 0; s < release.data["Tracks"].length; s++) {
                             musLength = musLength + release.data["Tracks"][s]["Duration"] as int;
+                            Map downloader = {
+                              "url":"https://player.monstercat.app/api/release/${release.data["Tracks"][s]["Release"]["Id"]}/track-stream/${release.data["Tracks"][s]["Id"]}",
+                              "dir": release.data["Release"]["Title"],
+                              "name": "${release.data["Tracks"][s]["ArtistsTitle"]} - ${release.data["Tracks"][s]["Title"]}.mp3"
+                            };
+                            downloadList.add(downloader);
                           }
                           String formatDuration(int seconds) {
                             String hoursString = (seconds ~/ 3600).toString().padLeft(2, '0');
@@ -2394,7 +2411,24 @@ class albumViewState extends State<albumView> {
                                             width:38,
                                             height:38,
                                             child: ElevatedButton(
-                                              onPressed: () {},
+                                              onPressed: () {
+                                                for (int s = 0; s < downloadList.length; s++) {
+                                                  FileDownloader.downloadFile(
+                                                      url: downloadList[s]["url"],
+                                                      name: downloadList[s]["name"],
+                                                      notificationType: NotificationType.completionOnly,
+                                                      downloadDestination: DownloadDestinations.publicDownloads,
+                                                      subPath: "MCPlayer/${release.data["Release"]["Title"]}",
+                                                      onDownloadCompleted: (path){
+                                                        Fluttertoast.showToast(
+                                                          msg: '${downloadList[s]["name"]} is downloaded',
+                                                          toastLength: Toast.LENGTH_SHORT,
+                                                          gravity: ToastGravity.BOTTOM,
+                                                        );
+                                                      }
+                                                  );
+                                                }
+                                              },
                                               child: Icon(
                                                 Icons.download_rounded,
                                                 color: isDarkTheme
@@ -2505,8 +2539,6 @@ class albumViewState extends State<albumView> {
                                   ),
                                 ),
                               )
-
-
                             ],
                           );
                         } else {

@@ -10,7 +10,6 @@ import 'package:monstercatplayer/memory.dart';
 import 'package:monstercatplayer/settings.dart';
 import 'package:monstercatplayer/view.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:system_theme/system_theme.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'elements.dart';
 import 'search.dart';
@@ -30,7 +29,7 @@ class ScrollablePageState extends State<homePage> {
   Map<String, String> userInfo = {};
   Map<String, String> appSettings = {};
   Map appInfo = {};
-  List<String> greetings = ["Hello", "Howdy", "Yo", "Hi"];
+  List<String> greetings = ["MCPlayer"];
   @override
   void initState() {
     super.initState();
@@ -100,92 +99,48 @@ class ScrollablePageState extends State<homePage> {
                             const SizedBox(
                               height: 15,
                             ),
-                            FutureBuilder(
-                                future: getUser(),
-                                builder: (BuildContext context, AsyncSnapshot userData) {
-                                  if (userData.hasData) {
-                                    return Padding(
-                                      padding: const EdgeInsets.only(top: 30, bottom: 10),
-                                      child: Row(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Container(
-                                            width: scaffoldWidth - 134,
-                                            child: Text(
-                                              "${greetings[Random().nextInt(greetings.length)]}, ${userData.data["User"]["FirstName"]}!",
-                                              overflow: TextOverflow.visible,
-                                              maxLines: 3,
-                                              style: const TextStyle(
-                                                fontSize: 32,
-                                                height: 1.25,
-                                                fontWeight: FontWeight.bold,
-                                                fontFamily: 'Comfortaa',
-                                              ),
-                                            ),
-                                          ),
-                                          Row(
-                                            children: [
-                                              GestureDetector(
-                                                onTap: () {
-                                                  Navigator.push(
-                                                    topContext,
-                                                    MaterialPageRoute(fullscreenDialog: true, builder: (ultraTopContext) => const settingsPage()),
-                                                  );
-                                                },
-                                                child: const Padding(
-                                                  padding: EdgeInsets.symmetric(horizontal: 15),
-                                                  child: Icon(
-                                                    Icons.settings_outlined,
-                                                    size: 32,
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          )
-                                        ],
+                            Padding(
+                              padding: const EdgeInsets.only(top: 30, bottom: 10),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Container(
+                                    width: scaffoldWidth - 134,
+                                    child: Text(
+                                      greetings[Random().nextInt(greetings.length)],
+                                      overflow: TextOverflow.visible,
+                                      maxLines: 3,
+                                      style: const TextStyle(
+                                        fontSize: 32,
+                                        height: 1.25,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: 'Comfortaa',
                                       ),
-                                    );
-                                  }
-                                  return Padding(
-                                    padding: const EdgeInsets.only(top: 30, bottom: 10),
-                                    child: Row(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Container(
-                                          width: scaffoldWidth - 143,
-                                          child: const Text(
-                                            "Hello, User!",
-                                            overflow: TextOverflow.visible,
-                                            maxLines: 3,
-                                            style: TextStyle(
-                                              fontSize: 32,
-                                              height: 1.25,
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: 'Flow',
-                                            ),
-                                          ),
-                                        ),
-                                        GestureDetector(
-                                          onTap: () {
-                                            Navigator.push(
-                                              topContext,
-                                              MaterialPageRoute(fullscreenDialog: true, builder: (ultraTopContext) => const settingsPage()),
-                                            );
-                                          },
-                                          child: const Padding(
-                                            padding: EdgeInsets.symmetric(horizontal: 15),
-                                            child: Icon(
-                                              Icons.settings_outlined,
-                                              size: 32,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
                                     ),
-                                  );
-                                }), // Hello and controls
+                                  ),
+                                  Row(
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () {
+                                          Navigator.push(
+                                            topContext,
+                                            MaterialPageRoute(fullscreenDialog: true, builder: (ultraTopContext) => const settingsPage()),
+                                          );
+                                        },
+                                        child: const Padding(
+                                          padding: EdgeInsets.symmetric(horizontal: 15),
+                                          child: Icon(
+                                            Icons.settings_outlined,
+                                            size: 32,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ), // Hello and controls
                             FutureBuilder(
                                 future: getAppData(),
                                 builder: (BuildContext context, AsyncSnapshot appData) {
@@ -239,7 +194,7 @@ class ScrollablePageState extends State<homePage> {
                                                   );
                                                 });
                                               },
-                                              child: const mcNotificationCard(title: "Finish setup", subtitle: "Tips on using Monstercat at 110% efficiency", icon: Icons.arrow_forward),
+                                              child: const mcNotificationCard(title: "Important information!", subtitle: "Please, read these notices in order to be aware of the current state of the app", icon: Icons.arrow_forward),
                                             ),
                                           ),
                                         ],
@@ -956,92 +911,48 @@ class ScrollablePageState extends State<homePage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          FutureBuilder(
-                              future: getUser(),
-                              builder: (BuildContext context, AsyncSnapshot userData) {
-                                if (userData.hasData) {
-                                  return Padding(
-                                    padding: const EdgeInsets.only(top: 30, bottom: 10),
-                                    child: Row(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Container(
-                                          width: scaffoldWidth - 134,
-                                          child: Text(
-                                            "${greetings[Random().nextInt(greetings.length)]}, ${userData.data["User"]["FirstName"]}!",
-                                            overflow: TextOverflow.visible,
-                                            maxLines: 3,
-                                            style: const TextStyle(
-                                              fontSize: 32,
-                                              height: 1.25,
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: 'Comfortaa',
-                                            ),
-                                          ),
-                                        ),
-                                        Row(
-                                          children: [
-                                            GestureDetector(
-                                              onTap: () {
-                                                Navigator.push(
-                                                  topContext,
-                                                  MaterialPageRoute(fullscreenDialog: true, builder: (ultraTopContext) => const settingsPage()),
-                                                );
-                                              },
-                                              child: const Padding(
-                                                padding: EdgeInsets.symmetric(horizontal: 15),
-                                                child: Icon(
-                                                  Icons.settings_outlined,
-                                                  size: 32,
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        )
-                                      ],
+                          Padding(
+                            padding: const EdgeInsets.only(top: 30, bottom: 10),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  width: scaffoldWidth - 134,
+                                  child: Text(
+                                    greetings[Random().nextInt(greetings.length)],
+                                    overflow: TextOverflow.visible,
+                                    maxLines: 3,
+                                    style: const TextStyle(
+                                      fontSize: 32,
+                                      height: 1.25,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'Comfortaa',
                                     ),
-                                  );
-                                }
-                                return Padding(
-                                  padding: const EdgeInsets.only(top: 30, bottom: 10),
-                                  child: Row(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Container(
-                                        width: scaffoldWidth - 143,
-                                        child: const Text(
-                                          "Hello, User!",
-                                          overflow: TextOverflow.visible,
-                                          maxLines: 3,
-                                          style: TextStyle(
-                                            fontSize: 32,
-                                            height: 1.25,
-                                            fontWeight: FontWeight.bold,
-                                            fontFamily: 'Flow',
-                                          ),
-                                        ),
-                                      ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          Navigator.push(
-                                            topContext,
-                                            MaterialPageRoute(fullscreenDialog: true, builder: (ultraTopContext) => const settingsPage()),
-                                          );
-                                        },
-                                        child: const Padding(
-                                          padding: EdgeInsets.symmetric(horizontal: 15),
-                                          child: Icon(
-                                            Icons.settings_outlined,
-                                            size: 32,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
                                   ),
-                                );
-                              }), // Hello and controls
+                                ),
+                                Row(
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                          topContext,
+                                          MaterialPageRoute(fullscreenDialog: true, builder: (ultraTopContext) => const settingsPage()),
+                                        );
+                                      },
+                                      child: const Padding(
+                                        padding: EdgeInsets.symmetric(horizontal: 15),
+                                        child: Icon(
+                                          Icons.settings_outlined,
+                                          size: 32,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                          ), // Hello and controls
                           FutureBuilder(
                               future: getAppData(),
                               builder: (BuildContext context, AsyncSnapshot appData) {
@@ -1953,283 +1864,6 @@ class finishSetupPageState extends State<finishSetupPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // const Text(
-                      //   "ACTIONS",
-                      //   style: TextStyle(
-                      //     fontSize: 14,
-                      //     height: 3,
-                      //     fontFamily: "Comfortaa",
-                      //     color: Colors.teal,
-                      //   ),
-                      // ),
-                      // Row(
-                      //   children: [
-                      //     Expanded(
-                      //       child: GestureDetector(
-                      //         onTap: tips2FASending
-                      //             ? null
-                      //             : tipsEnabled2FA
-                      //                 ? () {
-                      //                     setState(() {
-                      //                       tips2FASending = true;
-                      //                     });
-                      //                     disable2FA().then((value) {
-                      //                       setState(() {
-                      //                         tips2FASending = false;
-                      //                       });
-                      //                       if (value == "true") {
-                      //                         setState(() {
-                      //                           tipsEnabled2FA = false;
-                      //                         });
-                      //                       } else {
-                      //                         print(value);
-                      //                       }
-                      //                     });
-                      //                   }
-                      //                 : () {
-                      //                     setState(() {
-                      //                       tips2FASending = true;
-                      //                     });
-                      //                     enable2FA().then((value) {
-                      //                       setState(() {
-                      //                         tips2FASending = false;
-                      //                       });
-                      //                       if (value == "true") {
-                      //                         setState(() {
-                      //                           tipsEnabled2FA = true;
-                      //                         });
-                      //                       } else {
-                      //                         print(value);
-                      //                       }
-                      //                     });
-                      //                   },
-                      //         child: Card(
-                      //             shape: RoundedRectangleBorder(
-                      //               borderRadius: BorderRadius.circular(20),
-                      //             ),
-                      //             child: Padding(
-                      //               padding: const EdgeInsets.all(15),
-                      //               child: Column(
-                      //                 crossAxisAlignment: CrossAxisAlignment.start,
-                      //                 children: [
-                      //                   Row(
-                      //                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //                     crossAxisAlignment: CrossAxisAlignment.end,
-                      //                     children: [
-                      //                       const Text(
-                      //                         "Email 2FA",
-                      //                         style: TextStyle(fontSize: 20, fontFamily: "Comfortaa", fontWeight: FontWeight.bold),
-                      //                       ),
-                      //                       tipsEnabled2FA
-                      //                           ? const Icon(Icons.security_outlined, color: Colors.teal)
-                      //                           : const Icon(
-                      //                               Icons.gpp_bad_outlined,
-                      //                               color: Colors.red,
-                      //                             )
-                      //                     ],
-                      //                   ),
-                      //                   const SizedBox(
-                      //                     height: 10,
-                      //                   ),
-                      //                   tips2FASending
-                      //                       ? const Padding(
-                      //                           padding: EdgeInsets.symmetric(vertical: 6),
-                      //                           child: LinearProgressIndicator(
-                      //                             backgroundColor: Colors.transparent,
-                      //                             color: Colors.teal,
-                      //                           ),
-                      //                         )
-                      //                       : Text(
-                      //                           tipsEnabled2FA ? "Tap to disable" : "Tap to enable",
-                      //                           style: const TextStyle(
-                      //                             fontSize: 14,
-                      //                             fontFamily: "Comfortaa",
-                      //                           ),
-                      //                         ),
-                      //                 ],
-                      //               ),
-                      //             )),
-                      //       ),
-                      //     ),
-                      //     Expanded(
-                      //       child: GestureDetector(
-                      //         onTap: tipsReviewAvailable
-                      //             ? () {
-                      //                 review.openStoreListing();
-                      //               }
-                      //             : null,
-                      //         child: Card(
-                      //             shape: RoundedRectangleBorder(
-                      //               borderRadius: BorderRadius.circular(20),
-                      //             ),
-                      //             child: Padding(
-                      //               padding: const EdgeInsets.all(15),
-                      //               child: Column(
-                      //                 crossAxisAlignment: CrossAxisAlignment.start,
-                      //                 children: [
-                      //                   Row(
-                      //                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //                     children: [
-                      //                       const Text(
-                      //                         "Review",
-                      //                         style: TextStyle(fontSize: 20, fontFamily: "Comfortaa", fontWeight: FontWeight.bold),
-                      //                       ),
-                      //                       tipsReviewAvailable
-                      //                           ? tipsLeftReview
-                      //                               ? const Icon(
-                      //                                   Icons.star_outline_rounded,
-                      //                                   color: Colors.teal,
-                      //                                 )
-                      //                               : const Icon(
-                      //                                   Icons.star_outline_rounded,
-                      //                                 )
-                      //                           : const Icon(
-                      //                               Icons.not_interested_rounded,
-                      //                             )
-                      //                     ],
-                      //                   ),
-                      //                   const SizedBox(
-                      //                     height: 10,
-                      //                   ),
-                      //                   Text(
-                      //                     tipsLeftReview
-                      //                         ? "Done"
-                      //                         : tipsReviewAvailable
-                      //                             ? "Open PlayStore"
-                      //                             : "Unavailable",
-                      //                     style: const TextStyle(
-                      //                       fontSize: 14,
-                      //                       fontFamily: "Comfortaa",
-                      //                     ),
-                      //                   ),
-                      //                 ],
-                      //               ),
-                      //             )),
-                      //       ),
-                      //     )
-                      //   ],
-                      // ),
-                      Row(
-                        children: [
-                          Expanded(
-                              child: Card(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  child: const Padding(
-                                    padding: EdgeInsets.all(15),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              "Continue setup",
-                                              style: TextStyle(fontSize: 20, fontFamily: "Comfortaa", fontWeight: FontWeight.bold),
-                                            ),
-                                            Icon(Icons.tune_outlined)
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          height: 10,
-                                        ),
-                                        Text(
-                                          "You can customize this app to your liking and change your account settings in Settings anytime.",
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            fontFamily: "Comfortaa",
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ))),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: GestureDetector(
-                              onTap: () {
-                                launchUrl(Uri.parse('https://stories.puzzak.page/privacy_policy.html'), mode: LaunchMode.externalApplication);
-                              },
-                              child: Card(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  child: const Padding(
-                                    padding: EdgeInsets.all(15),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              "Privacy policy",
-                                              style: TextStyle(fontSize: 20, fontFamily: "Comfortaa", fontWeight: FontWeight.bold),
-                                            ),
-                                            Icon(Icons.privacy_tip_outlined)
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          height: 10,
-                                        ),
-                                        Text(
-                                          "Tap here to read our privacy policy",
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            fontFamily: "Comfortaa",
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  )),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: GestureDetector(
-                              onTap: null,
-                              child: Card(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  child: const Padding(
-                                    padding: EdgeInsets.all(15),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              "2FA",
-                                              style: TextStyle(fontSize: 20, fontFamily: "Comfortaa", fontWeight: FontWeight.bold),
-                                            ),
-                                            Icon(Icons.phonelink_lock_rounded)
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          height: 10,
-                                        ),
-                                        Text(
-                                          "Always enable 2FA if you can. Monstercat allows you to do so and you can login in this app with 2FA. There is no such thing as \"too much security\".",
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            fontFamily: "Comfortaa",
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  )),
-                            ),
-                          ),
-                        ],
-                      ),
                       Row(
                         children: [
                           Expanded(
@@ -2300,6 +1934,47 @@ class finishSetupPageState extends State<finishSetupPage> {
                                         ),
                                         Text(
                                           "In v.0.0.15, we've had to remove registration from the app. This is due to Monstercat adding Captcha to the registration flow. You can only register from their website and we will guide you to there if you'll need new account!",
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            fontFamily: "Comfortaa",
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  )),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: GestureDetector(
+                              onTap: null,
+                              child: Card(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  child: const Padding(
+                                    padding: EdgeInsets.all(15),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              "Authorisation is no more",
+                                              style: TextStyle(fontSize: 20, fontFamily: "Comfortaa", fontWeight: FontWeight.bold),
+                                            ),
+                                            Icon(Icons.info_outline_rounded)
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        Text(
+                                          "In v.0.0.16, we've had to remove authrorisation too. Same reason as for registration removal. You can still listen to music, but you can't log in and use your playlists or change your account settings. Unfortunately, from now on this app enables piracy. Please, create your own account, purchase Gold and only then use this app. We can no longer validate if user has Gold access.",
                                           style: TextStyle(
                                             fontSize: 14,
                                             fontFamily: "Comfortaa",

@@ -4,75 +4,51 @@
 
 MCPlayer is an unofficial Monstercat player designed to enhance your music listening experience with Monstercat on Android devices. It uses the Monstercat API to provide access to the whole Monstercat music library.
 
-## Features
+[![PlayStore](assets/PlayStoreButton.png)](https://play.google.com/store/apps/details?id=page.puzzak.mcplayer)[![GitHub](assets/GHButton.png)](https://github.com/Puzzaks/Fractal-Viewer/releases)
+### Features
+ - ~~Authorisation and registration~~
+ - ~~Account controls~~
+ - Optimised home page
+ - Powerful search
+ - System integration
+ - Wide-screen support
+ - Design
 
-### Player Controls
+### ~~Authorisation and registration~~
 
-- **Shuffle and Repeat:**
-  - Enable or disable shuffle for a personalized listening experience.
-  - Seamlessly switch between repeat modes.
+Before v0.0.15 users were able to register and login through the app. In 2024, Monstercat added Captcha firstly to login and then to registration flows, so in v0.0.15 we've had to remove registration from the app and in v0.0.16 registration and everything user-related was gone. See [changelog](changelog.md) for more info.
 
-- **Position Control:**
-  - Seek to any desired position within the track.
+### ~~Account controls~~
 
-### Adnroid Integration
+Before these changes, users were able to change email, password and other account information via the app. Playlist creation and usage was also possible, you could use your library in it's fullest. Now you can't access your playlists.
 
-- **Background Playback:**
-  - Player seamlessly integrates into the system for background music playback.
+Following features were removed:
+  - ~~Register a new account within the app.~~
+  - ~~Sign in with 2FA support~~.
+  - ~~View and update account information~~.
+  - ~~Change email address and password.~~
+  - ~~Create, edit, share, and delete playlists.~~
+  - ~~View detailed album information and songs list.~~
+  - ~~Share playlists and releases.~~
 
-- **Headphones and Voice Commands:**
-  - Control music using headphones and voice commands, enhancing your hands-free experience.
+### Optimised home page
 
-### Song Navigation
+In-app home page is just like the original from the [official player](https://player.monstercat.app), just better optimised for mobile devices and with cool design.
 
-- **Song Skipping:**
-  - Navigate through songs effortlessly:
-    - Skip to the next song.
-    - Go back to the previous song.
-    - Go back to the beginning of the song (after 5 seconds).
-    - Works especially well when playing entire releases.
+### Powerful search
+You can search through whole Monstercat library using original filters and genre selectors, just much easier. In tablet view you can use two-pane UI to preview your search and search easier.
 
-### Tablet and Screen Adaptivity
+### System Integration
 
-- **Tablet Support:**
-  - Enjoy a dedicated player screen and miniplayer for tablets.
+The player is integrated into system just like any normal player would, so voice commands and external controls are supported, it utilizes default system player in control panel. You can also enable link handling in system settings for the app to make it open albums and playlists in the app.
 
-- **Wider Screen Adaptivity:**
-  - Limited adaptivity for wider screens, optimizing various views and interactions.
+### Wide-screen support
 
-### Link Handling
+No matter what device you are using this app on, tablets and Chromebooks have dedicated full-screen UI for convenience.
 
-- **URL Handling:**
-  - Open Monstercat Player URLs directly in the app.
-  - Share links with other MCPlayer users.
+### Design
 
-### Account and Library Management
-
-- **Account Features:**
-  - ~~Register a new account within the app.~~ Removed in v0.0.15 after Monstercat added Captcha to the registration flow. See [changelog](changelog.md) for more info 
-  - Sign in with 2FA support.
-  - View and update account information.
-  - Change email address and password.
-
-- **Library Management:**
-  - Create, edit, share, and delete playlists.
-  - View detailed album information and songs list.
-  - Share playlists and releases.
-
-
-## Installation
-
-- **Play Store (Preferred):**
-  Prefer downoading the app on the [Google Play](https://play.google.com/store/apps/details?id=page.puzzak.mcplayer) for updates and support.
-
-- **GitHub:**
-  Visit [GitHub releases](https://github.com/Puzzak/MCPlayer/releases) to download the APK or [explore the source code](https://github.com/Puzzak/MCPlayer/tree/main/monstercatplayer).
-
-## Support and Feedback
-
-- **GitHub Issues:** Open a thread on [GitHub Issues](https://github.com/Puzzak/MCPlayer/issues) to report bug or request feature.
-- **Play Store:** Provide feedback and review the app on the [Play Store page](https://play.google.com/store/apps/details?id=page.puzzak.mcplayer).
-- **Email:** Reach out to the developer, via email: [puzzak@puzzak.page](mailto:puzzak@puzzak.page).
+  Special thanks to [DarkPlayer](https://github.com/DarkPlayerr) for the outstanding design work on MCPlayer. Without him, this app would be the default MD3 player with no soul. Go follow him and let him know if you like the design!
 
 ## License
 
@@ -80,30 +56,8 @@ MCPlayer is released under the terms of the Unlicense. See the [license](https:/
 
 >This is free and unencumbered software released into the public domain. Anyone is free to copy, modify, publish, use, compile, sell, or distribute this software, either in source code form or as a compiled binary, for any purpose, commercial or non-commercial, and by any means.
 
-## Acknowledgments
-
-MCPlayer would like to express gratitude to the following individuals and entities:
-
-- **OpenAI (GPT-3):**
-  Coded and readme'd with help of OpenAI's ChatGPT.
-
-- **Google:**
-  The development and distribution of MCPlayer are possible thanks to the robust technologies and services provided by Google.
-
-- **Dart and Flutter:**
-  MCPlayer is built using Dart programming language and the Flutter framework, both developed and maintained by Google.
-
-- **DarkPlayer (Designer):**
-  Special thanks to [DarkPlayer](https://github.com/DarkPlayerr) for the outstanding design work on MCPlayer.
-
-- **Monstercat:**
-  MCPlayer acknowledges and appreciates the support of the Monstercat community. Special thanks to [Monstercat](https://www.monstercat.com/) for providing an amazing music platform.
-
-- **Armed Forced of Ukraine:**
-Without [our heroes](https://www.mil.gov.ua/en/), nothing would be possible!
-
 For a detailed list of features and updates, please refer to the [Changelog](https://github.com/Puzzak/MCPlayer/blob/main/changelog.md).
 
 
-App made by [Puzzak](https://puzzak.page) in [Ukraine](https://war.ukraine.ua/support-ukraine/). Consider [donating](https://send.monobank.ua/jar/5Lxxiy7qM7) if you liked the app!
+App made by [Puzzak](https://puzzak.page) in [Ukraine](https://war.ukraine.ua/support-ukraine/).
 ![MCPlayer review meme](https://github.com/Puzzak/MCPlayer/blob/main/app_logo.png?raw=true)
