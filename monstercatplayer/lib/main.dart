@@ -129,7 +129,7 @@ class MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
         ),
         scaffoldBackgroundColor: Color(0xFF040707),
         bottomNavigationBarTheme: BottomNavigationBarThemeData().copyWith(backgroundColor: Colors.transparent),
-        tabBarTheme: TabBarTheme().copyWith(labelColor: Colors.yellow)
+        tabBarTheme: TabBarTheme().copyWith(labelColor: Colors.transparent)
       ), // standard dark theme
       themeMode: ThemeMode.system,
       debugShowCheckedModeBanner: false,
@@ -143,7 +143,7 @@ class MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
                 : Brightness.dark;
             SystemChrome.setEnabledSystemUIMode(
                 SystemUiMode.manual, overlays: [
-              SystemUiOverlay.top,
+              SystemUiOverlay.top, SystemUiOverlay.bottom
             ]);
             SystemChrome.setSystemUIOverlayStyle(
               const SystemUiOverlayStyle(
@@ -190,7 +190,7 @@ class MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
                                   children: [
                                     Row(
                                       children: [
-                                        ClipRRect(
+                                        playerData.nowPlaying!.containsKey("Release")?ClipRRect(
                                           borderRadius: BorderRadius.circular(10.0),
                                           child: CachedNetworkImage(
                                             imageUrl: 'https://cdx.monstercat.com/?width=256&encoding=webp&url=https%3A%2F%2Fwww.monstercat.com%2Frelease%2F${playerData.nowPlaying!["Release"]["CatalogId"]}%2Fcover',
@@ -202,7 +202,7 @@ class MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
                                             ),
                                             errorWidget: (context, url, error) => const Icon(Icons.error),
                                           ),
-                                        ),
+                                        ):Container(),
                                         SizedBox(
                                           width: 10,
                                         ),
@@ -212,7 +212,7 @@ class MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                playerData.nowPlaying!["Title"],
+                                                playerData.nowPlaying!["Title"] is String? playerData.nowPlaying!["Title"]: "Loading...",
                                                 maxLines: 1,
                                                 overflow: TextOverflow.ellipsis,
                                                 style: TextStyle(
@@ -222,7 +222,7 @@ class MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
                                                 ),
                                               ),
                                               Text(
-                                                playerData.nowPlaying!["ArtistsTitle"],
+                                                playerData.nowPlaying!["ArtistsTitle"] is String? playerData.nowPlaying!["ArtistsTitle"]: "Loading...",
                                                 maxLines: 1,
                                                 overflow: TextOverflow.ellipsis,
                                                 style: TextStyle(
@@ -270,13 +270,13 @@ class MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
                             playerData.queue.length > 0 ? Stack(
                               children: [
                                 LinearProgressIndicator(
-                                  value: playerData.buffered / playerData.nowPlaying["Duration"],
+                                  value: playerData.buffered / (playerData.nowPlaying.containsKey("Duration") ? playerData.nowPlaying["Duration"]: 1.0),
                                   backgroundColor: Colors.transparent,
                                   color: Colors.grey,
                                   minHeight: 2,
                                 ),
                                 LinearProgressIndicator(
-                                  value: playerData.position / playerData.nowPlaying["Duration"],
+                                  value: playerData.position / (playerData.nowPlaying.containsKey("Duration") ? playerData.nowPlaying["Duration"]: 1.0),
                                   backgroundColor: Colors.transparent,
                                   color: Colors.teal,
                                   minHeight: 2,
@@ -744,109 +744,112 @@ class MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
                                         playerOpened = true;
                                       });
                                     },
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        playerData.queue.length > 0 ? Padding(
-                                            padding: EdgeInsets.all(10),
-                                            child: Column(
-                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                              crossAxisAlignment: CrossAxisAlignment.center,
-                                              children: [
-                                                ClipRRect(
-                                                  borderRadius: BorderRadius.circular(10.0),
-                                                  child: CachedNetworkImage(
-                                                    imageUrl: 'https://cdx.monstercat.com/?width=1024&encoding=webp&url=https%3A%2F%2Fwww.monstercat.com%2Frelease%2F${playerData.nowPlaying!["Release"]["CatalogId"]}%2Fcover',
-                                                    width: 200, // Set the desired width
-                                                    height: 200, // Set the desired height
-                                                    placeholder: (context, url) => const CircularProgressIndicator(
-                                                      color: Colors.teal,
-                                                      backgroundColor: Colors.transparent,
+                                    child: Container(
+                                      color: Colors.transparent,
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          playerData.queue.length > 0 ? Padding(
+                                              padding: EdgeInsets.all(10),
+                                              child: Column(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                children: [
+                                                  playerData.nowPlaying!.containsKey("Release")? ClipRRect(
+                                                    borderRadius: BorderRadius.circular(10.0),
+                                                    child: CachedNetworkImage(
+                                                      imageUrl: 'https://cdx.monstercat.com/?width=1024&encoding=webp&url=https%3A%2F%2Fwww.monstercat.com%2Frelease%2F${playerData.nowPlaying!["Release"]["CatalogId"]}%2Fcover',
+                                                      width: 200, // Set the desired width
+                                                      height: 200, // Set the desired height
+                                                      placeholder: (context, url) => const CircularProgressIndicator(
+                                                        color: Colors.teal,
+                                                        backgroundColor: Colors.transparent,
+                                                      ),
+                                                      errorWidget: (context, url, error) => const Icon(Icons.error),
                                                     ),
-                                                    errorWidget: (context, url, error) => const Icon(Icons.error),
-                                                  ),
-                                                ),
-                                                Row(
-                                                  children: [
-                                                    Container(
-                                                      width: 235,
-                                                      child: Column(
-                                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                                        children: [
-                                                          Text(
-                                                            playerData.nowPlaying!["Title"],
-                                                            maxLines: 1,
-                                                            overflow: TextOverflow.ellipsis,
-                                                            style: TextStyle(
-                                                              fontFamily: "Comfortaa",
-                                                              fontSize: 24,
-                                                              fontWeight: FontWeight.bold,
-                                                            ),
-                                                          ),
-                                                          Text(
-                                                            playerData.nowPlaying!["ArtistsTitle"],
-                                                            maxLines: 1,
-                                                            overflow: TextOverflow.ellipsis,
-                                                            style: TextStyle(
+                                                  ):Container(),
+                                                  Row(
+                                                    children: [
+                                                      Container(
+                                                        width: 235,
+                                                        child: Column(
+                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                          children: [
+                                                            Text(
+                                                              playerData.nowPlaying!["Title"] is String? playerData.nowPlaying!["Title"]: "Loading...",
+                                                              maxLines: 1,
+                                                              overflow: TextOverflow.ellipsis,
+                                                              style: TextStyle(
                                                                 fontFamily: "Comfortaa",
-                                                                fontSize: 18,
-                                                                color: Colors.grey
+                                                                fontSize: 24,
+                                                                fontWeight: FontWeight.bold,
+                                                              ),
                                                             ),
-                                                          )
-                                                        ],
-                                                      ),
-                                                    ),
-                                                    Padding(
-                                                      padding: EdgeInsets.all(0),
-                                                      child: ElevatedButton(
-                                                        onPressed: (){
-                                                          playerData.isPlaying
-                                                              ? Provider.of<musicPlayer>(context, listen: false).pause()
-                                                              : Provider.of<musicPlayer>(context, listen: false).resume();
-                                                        },
-                                                        onLongPress: (){
-                                                          Fluttertoast.showToast(
-                                                            msg: 'Tap to play',
-                                                            toastLength: Toast.LENGTH_SHORT,
-                                                            gravity: ToastGravity.BOTTOM,
-                                                          );
-                                                        },
-                                                        child: Icon(
-                                                          playerData.isPlaying?Icons.pause:Icons.play_arrow_rounded,
-                                                          color: Colors.teal,
-                                                          size: 32,
-                                                        ),
-                                                        style: ElevatedButton.styleFrom(
-                                                          backgroundColor: Colors.transparent,
-                                                          shadowColor: Colors.transparent,
-                                                          shape: CircleBorder(),
-                                                          padding: EdgeInsets.all(6),
+                                                            Text(
+                                                              playerData.nowPlaying!["ArtistsTitle"] is String? playerData.nowPlaying!["ArtistsTitle"]: "Loading...",
+                                                              maxLines: 1,
+                                                              overflow: TextOverflow.ellipsis,
+                                                              style: TextStyle(
+                                                                  fontFamily: "Comfortaa",
+                                                                  fontSize: 18,
+                                                                  color: Colors.grey
+                                                              ),
+                                                            )
+                                                          ],
                                                         ),
                                                       ),
-                                                    )
-                                                  ],
-                                                ),
-                                              ],
-                                            )
-                                        ) : Container(),
-                                        playerData.queue.length > 0 ? Stack(
-                                          children: [
-                                            LinearProgressIndicator(
-                                              value: playerData.buffered / playerData.nowPlaying["Duration"],
-                                              backgroundColor: Colors.transparent,
-                                              color: Colors.grey,
-                                              minHeight: 2,
-                                            ),
-                                            LinearProgressIndicator(
-                                              value: playerData.position / playerData.nowPlaying["Duration"],
-                                              backgroundColor: Colors.transparent,
-                                              color: Colors.teal,
-                                              minHeight: 2,
-                                            ),
-                                          ],
-                                        ) : Container(),
-                                      ],
+                                                      Padding(
+                                                        padding: EdgeInsets.all(0),
+                                                        child: ElevatedButton(
+                                                          onPressed: (){
+                                                            playerData.isPlaying
+                                                                ? Provider.of<musicPlayer>(context, listen: false).pause()
+                                                                : Provider.of<musicPlayer>(context, listen: false).resume();
+                                                          },
+                                                          onLongPress: (){
+                                                            Fluttertoast.showToast(
+                                                              msg: 'Tap to play',
+                                                              toastLength: Toast.LENGTH_SHORT,
+                                                              gravity: ToastGravity.BOTTOM,
+                                                            );
+                                                          },
+                                                          child: Icon(
+                                                            playerData.isPlaying?Icons.pause:Icons.play_arrow_rounded,
+                                                            color: Colors.teal,
+                                                            size: 32,
+                                                          ),
+                                                          style: ElevatedButton.styleFrom(
+                                                            backgroundColor: Colors.transparent,
+                                                            shadowColor: Colors.transparent,
+                                                            shape: CircleBorder(),
+                                                            padding: EdgeInsets.all(6),
+                                                          ),
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
+                                                ],
+                                              )
+                                          ) : Container(),
+                                          playerData.queue.length > 0 ? Stack(
+                                            children: [
+                                              LinearProgressIndicator(
+                                                value: playerData.buffered / (playerData.nowPlaying.containsKey("Duration") ? playerData.nowPlaying["Duration"]: 1.0),
+                                                backgroundColor: Colors.transparent,
+                                                color: Colors.grey,
+                                                minHeight: 2,
+                                              ),
+                                              LinearProgressIndicator(
+                                                value: playerData.position / (playerData.nowPlaying.containsKey("Duration") ? playerData.nowPlaying["Duration"]: 1.0),
+                                                backgroundColor: Colors.transparent,
+                                                color: Colors.teal,
+                                                minHeight: 2,
+                                              ),
+                                            ],
+                                          ) : Container(),
+                                        ],
+                                      ),
                                     ),
                                   ) : Stack(
                                     children: [
@@ -938,15 +941,49 @@ class MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
                                                     ),
                                                   )
                                               ),
-                                              Padding(
-                                                padding: EdgeInsets.only(right: 25, top:30),
-                                                child: GestureDetector(
-                                                  onTap:(){},
-                                                  child: Icon(
-                                                    Icons.more_vert_rounded,
-                                                    size: 32,
+                                              Stack(
+                                                children: [
+                                                  Padding(
+                                                    padding: EdgeInsets.only(right: 1, top:27,left:0),
+                                                    child: CircularProgressIndicator(
+                                                      value: playerData.downloads.containsKey(playerData.nowPlaying["Id"])?playerData.downloads[playerData.nowPlaying["Id"]]:0,
+                                                      backgroundColor: Colors.transparent,
+                                                      strokeCap: StrokeCap.round,
+                                                      color: Colors.teal,
+                                                    ),
                                                   ),
-                                                ),
+                                                  Padding(
+                                                    padding: EdgeInsets.only(right: 24, top:30,left:2),
+                                                    child: GestureDetector(
+                                                      onTap:(){
+                                                        FileDownloader.setLogEnabled(false);
+                                                        FileDownloader.downloadFile(
+                                                            url: "https://player.monstercat.app/api/release/${playerData.nowPlaying["Release"]["Id"]}/track-stream/${playerData.nowPlaying["Id"]}",
+                                                            name: "${playerData.nowPlaying["ArtistsTitle"]} - ${playerData.nowPlaying["Title"]}.mp3",
+                                                            notificationType: NotificationType.all,
+                                                            downloadDestination: DownloadDestinations.publicDownloads,
+                                                            subPath: "MCPlayer/${playerData.nowPlaying["ArtistsTitle"]}/${playerData.nowPlaying["Release"]["Title"]}",
+                                                            onProgress: (fileName, progress) {
+                                                              setState(() {
+                                                                playerData.downloads[playerData.nowPlaying["Id"]] = progress/100;
+                                                              });
+                                                            },
+                                                            onDownloadCompleted: (path){
+                                                              Fluttertoast.showToast(
+                                                                msg: 'Saved to downloads!',
+                                                                toastLength: Toast.LENGTH_SHORT,
+                                                                gravity: ToastGravity.BOTTOM,
+                                                              );
+                                                            }
+                                                        );
+                                                      },
+                                                      child: Icon(
+                                                        Icons.download_rounded,
+                                                        size: 32,
+                                                      ),
+                                                    ),
+                                                  )
+                                                ],
                                               ),
                                             ],
                                           ), // controls + nowplaying
@@ -989,7 +1026,7 @@ class MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
                                                   maxLines: 1,
                                                   overflow: TextOverflow.ellipsis,
                                                   style: TextStyle(
-                                                      height: 1.5,
+                                                      height: 1,
                                                       fontFamily: "Comfortaa",
                                                       fontSize: 20,
                                                       color: Colors.grey
@@ -1032,7 +1069,7 @@ class MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
                                                   children: [
                                                     Padding(
                                                       padding: EdgeInsets.only(
-                                                          top: 25
+                                                          top: 18
                                                       ),
                                                       child: Row(
                                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
