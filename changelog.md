@@ -1,4 +1,10 @@
 ## Update 0.0.16 [16] (OBT)
+#### Fixes
+ - Fixed bug with download UI in landscape
+ - Fixed misalignment issue in landscape
+ - Fixed disappearance of system navbar
+
+## Update 0.0.16 [16] (OBT)
 #### Accounts removal
  - Monstercat added Captcha to the login flow. From now on we cannot log users in or use any personalized data (such as playlists). With that said:
 #### Removed features
