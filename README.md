@@ -4,7 +4,9 @@
 
 MCPlayer is an unofficial Monstercat player designed to enhance your music listening experience with Monstercat on Android devices. It uses the Monstercat API to provide access to the whole Monstercat music library.
 
-[![PlayStore](assets/PlayStoreButton.png)](https://play.google.com/store/apps/details?id=page.puzzak.mcplayer)[![GitHub](assets/GHButton.png)](https://github.com/Puzzaks/Fractal-Viewer/releases)
+> Please note that with addition of Captcha to the login process on the side of Monstercat, we can no longer validate users and check for Gold subscription. App is now account-less, which means that every user has access to the whole library. Please, sign up on the [official website](https://monsercat.com) and get Gold subscription before using the app. For Monstercat representatives: we are sorry, this is the only way. If you want us to take the app down, we'll have to comply and we'll do so eagerly. Please let us know at support@puzzak.page.
+
+[![PlayStore](assets/PlayStoreButton.png)](https://play.google.com/store/apps/details?id=page.puzzak.mcplayer)[![GitHub](assets/GHButton.png)](https://github.com/Puzzaks/mcplayer/releases)
 ### Features
  - ~~Authorisation and registration~~
  - ~~Account controls~~

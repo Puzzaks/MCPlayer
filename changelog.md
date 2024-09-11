@@ -1,3 +1,15 @@
+## Update 0.0.16 [16] (OBT)
+#### Accounts removal
+ - Monstercat added Captcha to the login flow. From now on we cannot log users in or use any personalized data (such as playlists). With that said:
+#### Removed features
+ - Library
+ - Login
+ - Account settings
+ - Playlist creation and editing
+ - Saving songs to playlists / library
+#### Downloads
+ - Now you can download songs, playlists and releases. They are saved in `MCPlayer` folder of Downloads on your device.
+
 ## Update 0.0.15 [15] (OBT)
 #### Registration
  - Removed registration through the app, as Monstercat introduced Captcha into the login flow :(
