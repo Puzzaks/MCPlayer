@@ -1,4 +1,4 @@
-## Update 0.0.16 [16] (OBT)
+## Update 0.0.17 [17] (OBT)
 #### Fixes
  - Fixed bug with download UI in landscape
  - Fixed misalignment issue in landscape
